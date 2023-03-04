@@ -1,0 +1,1649 @@
+title: Schulstrasse Home
+kiosk_mode:
+  user_settings:
+    - users:
+        - tablet
+      hide_sidebar: true
+      kiosk: true
+sidebar:
+  digitalClock: true
+  date: true
+  width:
+    mobile: 0
+    tablet: 25
+    desktop: 25
+  sidebarMenu:
+    - action: navigate
+      navigation_path: /dashboard-tablet/home
+      name: Home
+      active: true
+      icon: mdi:home
+    - action: navigate
+      navigation_path: /dashboard-tablet/heizungen
+      name: Heizungen
+      active: true
+      icon: mdi:thermometer-low
+    - action: navigate
+      navigation_path: /dashboard-tablet/lampen
+      name: Lampen
+      active: true
+      icon: mdi:lamp-outline
+    - action: navigate
+      navigation_path: /dashboard-tablet/calendar-mika
+      name: Kalender Mika
+      active: true
+      icon: mdi:calendar
+    - action: navigate
+      navigation_path: /dashboard-tablet/calendar-eva
+      name: Kalender Eva
+      active: true
+      icon: mdi:calendar
+    - action: navigate
+      navigation_path: /dashboard-tablet/calendar-family
+      name: Kalender Famille
+      active: true
+      icon: mdi:calendar
+    - action: navigate
+      navigation_path: /dashboard-tablet/wetter
+      name: Wetter
+      active: true
+      icon: mdi:weather-partly-cloudy
+  bottomCard:
+    type: weather-forecast
+    cardOptions:
+      name: Schulstr.
+      show_forecast: true
+      entity: weather.forecast_home
+    cardStyle: |
+      :host {
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+      }
+      ha-card {
+        width: 100%;
+        border: none;
+        background: transparent;
+        overflow: hidden !important;
+        box-shadow: none !important;
+        ha-card-border-radius: 0px;
+        font-size: '5px';
+      }
+views:
+  - theme: ios-dark-mode
+    title: Overview
+    path: home
+    icon: mdi:home
+    type: sidebar
+    badges: []
+    cards:
+      - type: horizontal-stack
+        cards:
+          - type: custom:mushroom-chips-card
+            card_mod:
+              style: |
+                ha-card {
+                  --chip-box-shadow: none;
+                  --chip-border-radius: 0px;
+                }
+            chips:
+              - type: template
+                icon: >-
+                  {% if is_state('input_select.spulmaschine_status', 'Fertig')
+                  %}
+                   mdi:dishwasher-alert
+                  {% elif is_state('input_select.spulmaschine_status',
+                  'Trocknung') %}
+                    mdi:dishwasher
+                  {% elif is_state('input_select.spulmaschine_status', 'Wäscht')
+                  %}
+                    mdi:dishwasher
+                  {% else %}
+                    mdi:dishwasher-off
+                  {% endif %}
+                icon_color: >-
+                  {% if is_state('input_select.spulmaschine_status', 'Fertig')
+                  %}
+                   blue
+                  {% elif is_state('input_select.spulmaschine_status', 'Wäscht')
+                  %}
+                    orange
+                  {% elif is_state('input_select.spulmaschine_status',
+                  'Trocknung') %}
+                    orange
+                  {% else %}
+                    grey
+                  {% endif %}
+                content: Spülmaschine
+              - type: template
+                icon: >-
+                  {% if is_state('input_select.waschmaschine_status', 'Fertig')
+                  %}
+                   mdi:washing-machine-alert
+                  {% elif is_state('input_select.waschmaschine_status',
+                  'Wäscht') %}
+                    mdi:washing-machine
+                  {% else %}
+                    mdi:washing-machine-off
+                  {% endif %}
+                icon_color: >-
+                  {% if is_state('input_select.waschmaschine_status', 'Fertig')
+                  %}
+                   blue
+                  {% elif is_state('input_select.waschmaschine_status',
+                  'Wäscht') %}
+                    orange
+                  {% else %}
+                    grey
+                  {% endif %}
+                content: Waschmaschine
+              - type: template
+                icon: >-
+                  {% if is_state('binary_sensor.bz_fensterkontakt_state', 'on')
+                  %}
+                   mdi:window-open-variant
+                  {% else %}
+                    mdi:window-closed-variant
+                  {% endif %}
+                icon_color: >-
+                  {% if is_state('binary_sensor.bz_fensterkontakt_state', 'on')
+                  %}
+                    blue
+                  {% else %}
+                    grey
+                  {% endif %}
+                content: Bad
+              - type: template
+                icon: >-
+                  {% if is_state('binary_sensor.wz_fensterkontakt_state', 'on')
+                  %}
+                   mdi:window-open-variant
+                  {% else %}
+                    mdi:window-closed-variant
+                  {% endif %}
+                icon_color: >-
+                  {% if is_state('binary_sensor.wz_fensterkontakt_state', 'on')
+                  %}
+                    blue
+                  {% else %}
+                    grey
+                  {% endif %}
+                content: Wohnzimmer
+              - type: template
+                icon: mdi:lightbulb-group
+                icon_color: |-
+                  {% if is_state('light.wohnung', 'on') %}
+                    orange
+                  {% else %}
+                    grey
+                  {% endif %}
+                content: >-
+                  {% set count = namespace(value=0) %} {% for entity_id in
+                  state_attr('light.all_light_entities','entity_id') %}
+                    {% if (states(entity_id) == 'on') %}
+                      {% set count.value = count.value + 1 %}
+                    {% endif %}
+                  {% endfor %} {{ count.value }} Lichter an
+                tap_action:
+                  action: call-service
+                  service: browser_mod.popup
+                  data:
+                    title: Lights On
+                    content:
+                      type: entity-filter
+                      entities:
+                        - light.badezimmer
+                        - light.wohnzimmer
+                        - light.ecklampe
+                        - light.flur
+                      state_filter:
+                        - 'on'
+      - type: horizontal-stack
+        cards:
+          - type: horizontal-stack
+            cards:
+              - type: custom:button-card
+                name: Mika
+                show_icon: false
+                show_name: false
+                tap_action:
+                  action: navigate
+                  navigation_path: /dashboard-tablet/calendar-mika
+                entity: sensor.calendar_mika
+                custom_fields:
+                  person: >-
+                    [[[ return `<img src="/local/community/profile_mika3.jpg"/>`
+                    ]]]
+                  calendar: |
+                    [[[ let calSnippet = ''; let j = 0
+                    for (let i = 0; i < entity.state; i++) {
+                      if (i > 2+j) {};
+                      if (i <= 2+j) {
+                      let year = entity.attributes.data[i].year;
+                      if (year < 2023) {j++; continue;}
+                      let start_month = entity.attributes.data[i].startMonth;
+                      let start_day = entity.attributes.data[i].startDay;
+                      let start_time = entity.attributes.data[i].startTime;
+                      let end_month = entity.attributes.data[i].endMonth;
+                      let end_day = entity.attributes.data[i].endDay;
+                      let end_time = entity.attributes.data[i].endTime;
+                      let time = start_time;
+                      let wholeDay = entity.attributes.data[i].wholeDay;
+                      if (end_day != null && start_day !== end_day) {time = "Mehrtägig, bis " + end_day + " " + end_month};
+                      if (wholeDay === true) {time = "Ganztägig"};
+                      let event = entity.attributes.data[i].summary;
+                      let location = entity.attributes.data[i].location;
+                      if (location === "" || location === undefined) {location = "-"}
+
+                    calSnippet += 
+                      `<table><tr>
+                          <td class="date month">${start_month}</td><td class="event"><div class="event-title">${event}</div></td>
+                        </tr>
+                        <tr>
+                          <td class="date day">${start_day}</td><td class="event"><span class="location"><ha-icon class="icon" icon="mdi:map-marker"></ha-icon>${location}</span><span class="time"><ha-icon class="icon" icon="mdi:clock-outline"></ha-icon>${time}</span></td>
+                        </tr></table>`
+                        }
+                    }
+                      
+                    return calSnippet; ]]]
+                styles:
+                  card:
+                    - border: solid
+                    - border-width: 1px
+                    - border-color: black
+                    - border-radius: 0px
+                  grid:
+                    - grid-template-areas: '"person" "calendar"'
+                    - grid-template-columns: 1fr
+                    - grid-template-rows: 1fr min-content
+                  person:
+                    - align-self: middle
+                style: |
+                  img {
+                    border-radius: 50%;
+                    width: 64px;
+                    margin-bottom: 1em;
+                    margin-top: 0.2em;
+                  }
+                  .icon {
+                    margin-right: 5%;
+                    text-align: center;
+                    float: left;
+                    width: 12px;
+                  }
+                  table {
+                    margin-left: 8px;
+                    box-sizing: border-box;
+                    border-spacing: 0;
+                    margin-bottom: 1.0em;
+                    width: 100%;
+                    color: blue;
+                  }
+                  td {
+                    white-space: -o-pre-wrap; 
+                    word-wrap: break-word;
+                    white-space: pre-wrap; 
+                    white-space: -moz-pre-wrap; 
+                    white-space: -pre-wrap; 
+                    color: white;
+                  }
+                  .date {
+                    border-right: 1px solid var(--primary-color);
+                    width: 20%;
+                    text-align: center;
+                    color: var(--primary-text-color);
+                  }
+                  .event, .task {
+                    padding-left: 8px;
+                    width: 80%;
+                    font-family: Roboto,Noto,sans-serif;
+                    color: var(--primary-text-color);
+                  }
+                  .month {
+                    padding-right: 4px;
+                    text-transform: uppercase;
+                    vertical-align: bottom;
+                    font-family: Roboto,Noto,sans-serif;
+                    color: var(--primary-text-color);
+                  }
+                  .day {
+                    font-size: 1.0em;
+                    vertical-align: top;
+                    font-family: Roboto,Noto,sans-serif;
+                    color: var(--primary-text-color);
+                  }
+                  .event-title {
+                    margin-top: 0;
+                    margin-right: 6px;
+                    font-family: Roboto,Noto,sans-serif;
+                    font-size: 0.8em;
+                    font-weight: 400;
+                    text-align: left;
+                    vertical-align: top;
+                    word-wrap: break-word;
+                    overflow-wrap: break-word;
+                    color: var(--primary-text-color);
+                  }
+                  .time, .location {
+                    padding-right: 10px;
+                    display: block;
+                    text-align: left;
+                    font-size: 0.6em;
+                    padding-top: 5px;
+                  }
+                  .time {
+                    padding-bottom: 1em;
+                  }
+              - type: custom:button-card
+                name: Eva
+                show_icon: false
+                show_name: false
+                tap_action:
+                  action: navigate
+                  navigation_path: /dashboard-tablet/calendar-eva
+                entity: sensor.calendar_eva
+                custom_fields:
+                  person: >-
+                    [[[ return `<img src="/local/community/profile_eva.jpg"/>`
+                    ]]]
+                  calendar: |
+                    [[[ let calSnippet = ''; let j = 0
+                    for (let i = 0; i < entity.state; i++) {
+                      if (i > 2+j) {};
+                      if (i <= 2+j) {
+                      let year = entity.attributes.data[i].year;
+                      if (year < 2023) {j++; continue;}
+                      let start_month = entity.attributes.data[i].startMonth;
+                      let start_day = entity.attributes.data[i].startDay;
+                      let start_time = entity.attributes.data[i].startTime;
+                      let end_month = entity.attributes.data[i].endMonth;
+                      let end_day = entity.attributes.data[i].endDay;
+                      let end_time = entity.attributes.data[i].endTime;
+                      let time = start_time;
+                      let wholeDay = entity.attributes.data[i].wholeDay;
+                      if (end_day != null && start_day !== end_day) {time = "Mehrtägig, bis " + end_day + " " + end_month};
+                      if (wholeDay === true) {time = "Ganztägig"};
+                      let event = entity.attributes.data[i].summary;
+                      let location = entity.attributes.data[i].location;
+                      if (location === "" || location === undefined) {location = "-"}
+
+                    calSnippet += 
+                      `<table><tr>
+                          <td class="date month">${start_month}</td><td class="event"><div class="event-title">${event}</div></td>
+                        </tr>
+                        <tr>
+                          <td class="date day">${start_day}</td><td class="event"><span class="location"><ha-icon class="icon" icon="mdi:map-marker"></ha-icon>${location}</span><span class="time"><ha-icon class="icon" icon="mdi:clock-outline"></ha-icon>${time}</span></td>
+                        </tr></table>`
+                        }
+                    }
+                      
+                    return calSnippet; ]]]
+                styles:
+                  card:
+                    - border: solid
+                    - border-width: 1px
+                    - border-color: black
+                    - border-radius: 0px
+                  grid:
+                    - grid-template-areas: '"person" "calendar"'
+                    - grid-template-columns: 1fr
+                    - grid-template-rows: 1fr min-content
+                  person:
+                    - align-self: middle
+                style: |
+                  img {
+                    border-radius: 50%;
+                    width: 64px;
+                    margin-bottom: 1em;
+                    margin-top: 0.2em;
+                  }
+                  .icon {
+                    margin-right: 5%;
+                    text-align: center;
+                    float: left;
+                    width: 12px;
+                  }
+                  table {
+                    margin-left: 8px;
+                    box-sizing: border-box;
+                    border-spacing: 0;
+                    margin-bottom: 1.0em;
+                    width: 100%;
+                    color: blue;
+                  }
+                  td {
+                    white-space: -o-pre-wrap; 
+                    word-wrap: break-word;
+                    white-space: pre-wrap; 
+                    white-space: -moz-pre-wrap; 
+                    white-space: -pre-wrap; 
+                    color: white;
+                  }
+                  .date {
+                    border-right: 1px solid var(--primary-color);
+                    width: 20%;
+                    text-align: center;
+                    color: var(--primary-text-color);
+                  }
+                  .event, .task {
+                    padding-left: 8px;
+                    width: 80%;
+                    font-family: Roboto,Noto,sans-serif;
+                    color: var(--primary-text-color);
+                  }
+                  .month {
+                    padding-right: 4px;
+                    text-transform: uppercase;
+                    vertical-align: bottom;
+                    font-family: Roboto,Noto,sans-serif;
+                    color: var(--primary-text-color);
+                  }
+                  .day {
+                    font-size: 1.0em;
+                    vertical-align: top;
+                    font-family: Roboto,Noto,sans-serif;
+                    color: var(--primary-text-color);
+                  }
+                  .event-title {
+                    margin-top: 0;
+                    margin-right: 6px;
+                    font-family: Roboto,Noto,sans-serif;
+                    font-size: 0.8em;
+                    font-weight: 400;
+                    text-align: left;
+                    vertical-align: top;
+                    word-wrap: break-word;
+                    overflow-wrap: break-word;
+                    color: var(--primary-text-color);
+                  }
+                  .time, .location {
+                    padding-right: 10px;
+                    display: block;
+                    text-align: left;
+                    font-size: 0.6em;
+                    padding-top: 5px;
+                  }
+                  .time {
+                    padding-bottom: 1em;
+                  }
+              - type: custom:button-card
+                name: Family
+                show_icon: false
+                show_name: false
+                tap_action:
+                  action: navigate
+                  navigation_path: /dashboard-tablet/calendar-family
+                entity: sensor.calendar_family
+                custom_fields:
+                  person: >-
+                    [[[ return `<img
+                    src="/local/community/profile_galaxy.jpg"/>` ]]]
+                  calendar: |
+                    [[[ let calSnippet = ''; let j = 0
+                    for (let i = 0; i < entity.state; i++) {
+                      if (i > 2+j) {};
+                      if (i <= 2+j) {
+                      let year = entity.attributes.data[i].year;
+                      if (year < 2023) {j++; continue;}
+                      let start_month = entity.attributes.data[i].startMonth;
+                      let start_day = entity.attributes.data[i].startDay;
+                      let start_time = entity.attributes.data[i].startTime;
+                      let end_month = entity.attributes.data[i].endMonth;
+                      let end_day = entity.attributes.data[i].endDay;
+                      let end_time = entity.attributes.data[i].endTime;
+                      let time = start_time;
+                      let wholeDay = entity.attributes.data[i].wholeDay;
+                      if (end_day != null && start_day !== end_day) {time = "Mehrtägig, bis " + end_day + " " + end_month};
+                      if (wholeDay === true) {time = "Ganztägig"};
+                      let event = entity.attributes.data[i].summary;
+                      let location = entity.attributes.data[i].location;
+                      if (location === "" || location === undefined) {location = "-"}
+
+                    calSnippet += 
+                      `<table><tr>
+                          <td class="date month">${start_month}</td><td class="event"><div class="event-title">${event}</div></td>
+                        </tr>
+                        <tr>
+                          <td class="date day">${start_day}</td><td class="event"><span class="location"><ha-icon class="icon" icon="mdi:map-marker"></ha-icon>${location}</span><span class="time"><ha-icon class="icon" icon="mdi:clock-outline"></ha-icon>${time}</span></td>
+                        </tr></table>`
+                        }
+                    }
+                      
+                    return calSnippet; ]]]
+                styles:
+                  card:
+                    - border: solid
+                    - border-width: 1px
+                    - border-color: black
+                    - border-radius: 0px
+                  grid:
+                    - grid-template-areas: '"person" "calendar"'
+                    - grid-template-columns: 1fr
+                    - grid-template-rows: 1fr min-content
+                  person:
+                    - align-self: middle
+                style: |
+                  img {
+                    border-radius: 50%;
+                    width: 64px;
+                    margin-bottom: 1em;
+                    margin-top: 0.2em;
+                  }
+                  .icon {
+                    margin-right: 5%;
+                    text-align: center;
+                    float: left;
+                    width: 12px;
+                  }
+                  table {
+                    margin-left: 8px;
+                    box-sizing: border-box;
+                    border-spacing: 0;
+                    margin-bottom: 1.0em;
+                    width: 100%;
+                    color: blue;
+                  }
+                  td {
+                    white-space: -o-pre-wrap; 
+                    word-wrap: break-word;
+                    white-space: pre-wrap; 
+                    white-space: -moz-pre-wrap; 
+                    white-space: -pre-wrap; 
+                    color: white;
+                  }
+                  .date {
+                    border-right: 1px solid var(--primary-color);
+                    width: 20%;
+                    text-align: center;
+                    color: var(--primary-text-color);
+                  }
+                  .event, .task {
+                    padding-left: 8px;
+                    width: 80%;
+                    font-family: Roboto,Noto,sans-serif;
+                    color: var(--primary-text-color);
+                  }
+                  .month {
+                    padding-right: 4px;
+                    text-transform: uppercase;
+                    vertical-align: bottom;
+                    font-family: Roboto,Noto,sans-serif;
+                    color: var(--primary-text-color);
+                  }
+                  .day {
+                    font-size: 1.0em;
+                    vertical-align: top;
+                    font-family: Roboto,Noto,sans-serif;
+                    color: var(--primary-text-color);
+                  }
+                  .event-title {
+                    margin-top: 0;
+                    margin-right: 6px;
+                    font-family: Roboto,Noto,sans-serif;
+                    font-size: 0.8em;
+                    font-weight: 400;
+                    text-align: left;
+                    vertical-align: top;
+                    word-wrap: break-word;
+                    overflow-wrap: break-word;
+                    color: var(--primary-text-color);
+                  }
+                  .time, .location {
+                    padding-right: 10px;
+                    display: block;
+                    text-align: left;
+                    font-size: 0.6em;
+                    padding-top: 5px;
+                  }
+                  .time {
+                    padding-bottom: 1em;
+                  }
+          - type: vertical-stack
+            cards:
+              - type: media-control
+                entity: media_player.spotify_hell255
+                card_mod:
+                  style: |
+                    ha-card {
+                      --primary-color: var(--card-background-color);
+                      background: none;
+                      box-shadow: none;
+                    }
+              - type: custom:spotify-card
+                default_device: Mikaels Echo Küche
+                always_play_random_song: true
+                display_style: grid
+                name: null
+                grid_covers_per_row: 5
+                country_code: DE
+                hide_top_header: true
+                hide_currently_playing: true
+                hide_playback_controls: true
+      - type: custom:auto-entities
+        show_empty: false
+        card:
+          type: custom:mushroom-chips-card
+          card_mod: null
+          style: |
+            ha-card {
+              --chip-box-shadow: none;
+              --chip-border-radius: 0px;
+            }
+        card_param: chips
+        sort:
+          method: state
+          reverse: true
+          numeric: true
+        filter:
+          include:
+            - domain: sensor
+              entity_id: '*power*'
+              state: '>5'
+              options:
+                type: entity
+          exclude:
+            - entity_id: sensor.steckdose_kuhlschrank_power
+            - entity_id: sensor.steckdose_server_power
+  - theme: Backend-selected
+    title: Heizungen
+    path: heizungen
+    icon: mdi:radiator
+    type: panel
+    badges: []
+    cards:
+      - type: vertical-stack
+        cards:
+          - type: custom:simple-thermostat
+            entity: climate.bz_heizungsgruppe
+            layout:
+              mode:
+                names: true
+                icons: true
+                headings: false
+            control:
+              preset:
+                away: false
+                none: false
+                boost:
+                  name: Boost
+                week_program_1:
+                  name: Normal
+                week_program_2:
+                  name: Urlaub
+                week_program_3: false
+              hvac: true
+            header:
+              name: Badezimmer
+            sensors:
+              - entity: binary_sensor.bz_fensterkontakt_state
+                name: Window
+          - type: custom:simple-thermostat
+            entity: climate.wz_heizungsgruppe
+            layout:
+              mode:
+                names: true
+                icons: true
+                headings: false
+            control:
+              preset:
+                away: false
+                none: false
+                boost:
+                  name: Boost
+                week_program_1:
+                  name: Normal
+                week_program_2:
+                  name: Urlaub
+                week_program_3: false
+              hvac: true
+            sensors:
+              - entity: binary_sensor.wz_fensterkontakt_state
+                name: Window
+            header:
+              name: Wohnzimmer
+          - type: custom:simple-thermostat
+            entity: climate.k_heizungsgruppe
+            layout:
+              mode:
+                names: true
+                icons: true
+                headings: false
+            control:
+              preset:
+                away: false
+                none: false
+                boost:
+                  name: Boost
+                week_program_1:
+                  name: Normal
+                week_program_2:
+                  name: Urlaub
+                week_program_3: false
+              hvac: true
+            header:
+              name: Küche
+  - theme: ios-dark-mode
+    title: Lampen
+    path: lampen
+    icon: mdi:sofa
+    badges: []
+    type: custom:grid-layout
+    layout:
+      grid-template-columns: 1fr
+      grid-template-rows: 79px
+      grid-template-areas: |
+        "set1"
+      margin: 0px
+    cards:
+      - type: custom:layout-card
+        layout_type: custom:masonry-layout
+        layout:
+          width: 800
+          max_cols: 5
+          padding: 0px
+          margin: 30px 30px 0px 30px
+        view_layout:
+          grid-area: set1
+        cards:
+          - type: vertical-stack
+            cards:
+              - type: markdown
+                content: ' '
+                title: WOHNZIMMER
+                card_mod:
+                  style: |
+                    ha-card {
+                      background: none;
+                      margin-bottom: -5%;
+                    }
+              - type: horizontal-stack
+                cards:
+                  - type: custom:button-card
+                    name: Deckenlampe
+                    aspect_ratio: 1/1
+                    show_state: false
+                    tap_action:
+                      action: toggle
+                      haptic: light
+                    hold_action:
+                      action: more-info
+                      haptic: light
+                    entity: light.hue_wohnzimmerdecke
+                    icon: mdi:ceiling-light-multiple
+                    template:
+                      - base
+                      - base_light_layout
+                      - button_animation
+                      - circle
+                  - type: custom:button-card
+                    name: Eckenlampe
+                    aspect_ratio: 1/1
+                    show_state: false
+                    tap_action:
+                      action: toggle
+                      haptic: light
+                    hold_action:
+                      action: more-info
+                      haptic: light
+                    entity: light.ecklampe
+                    icon: mdi:led-strip-variant
+                    template:
+                      - base
+                      - base_light_layout
+                      - button_animation
+                      - circle
+                  - type: custom:button-card
+                    name: Luftreiniger
+                    aspect_ratio: 1/1
+                    show_state: false
+                    tap_action:
+                      action: toggle
+                      haptic: light
+                    hold_action:
+                      action: more-info
+                      haptic: light
+                    entity: switch.steckdose_luftreiniger
+                    icon: mdi:fan
+                    template:
+                      - base
+                      - base_light_layout
+                      - button_animation
+                      - circle
+                  - type: custom:button-card
+                    name: Konsolen
+                    aspect_ratio: 1/1
+                    show_state: false
+                    tap_action:
+                      action: toggle
+                      haptic: light
+                    hold_action:
+                      action: more-info
+                      haptic: light
+                    entity: switch.steckdose_spielekonsolen
+                    icon: mdi:nintendo-game-boy
+                    template:
+                      - base
+                      - base_standard_layout
+                      - button_animation
+                  - type: custom:button-card
+                    name: Nix
+                    aspect_ratio: 1/1
+                    show_state: false
+                    tap_action: none
+                    entity: light.flur_deckenlampe
+                    icon: mdi:lamp
+                    template:
+                      - base
+                      - base_standard_layout
+                      - button_animation
+              - type: markdown
+                content: ' '
+                title: KÜCHE
+                card_mod:
+                  style: |
+                    ha-card {
+                      background: none;
+                      margin-bottom: -5%;
+                    }
+              - type: horizontal-stack
+                cards:
+                  - type: custom:button-card
+                    name: Küchentisch
+                    aspect_ratio: 1/1
+                    show_state: false
+                    tap_action:
+                      action: toggle
+                      haptic: light
+                    hold_action:
+                      action: more-info
+                      haptic: light
+                    entity: light.hue_kuchentisch
+                    icon: mdi:ceiling-light-multiple-outline
+                    template:
+                      - base
+                      - base_light_layout
+                      - button_animation
+                      - circle
+                  - type: custom:button-card
+                    name: Deckenfluter Zeile
+                    aspect_ratio: 1/1
+                    show_state: false
+                    tap_action:
+                      action: toggle
+                      haptic: light
+                    hold_action:
+                      action: more-info
+                      haptic: light
+                    entity: light.kueche_deckenfluter_zeile
+                    icon: mdi:led-strip
+                    template:
+                      - base
+                      - base_light_layout
+                      - button_animation
+                      - circle
+                  - type: custom:button-card
+                    name: Deckenfluter Herd
+                    aspect_ratio: 1/1
+                    show_state: false
+                    tap_action:
+                      action: toggle
+                      haptic: light
+                    hold_action:
+                      action: more-info
+                      haptic: light
+                    entity: light.kueche_deckenfluter_herd
+                    icon: mdi:led-strip
+                    template:
+                      - base
+                      - base_light_layout
+                      - button_animation
+                      - circle
+                  - type: custom:button-card
+                    name: Küchenwand
+                    aspect_ratio: 1/1
+                    show_state: false
+                    tap_action:
+                      action: toggle
+                      haptic: light
+                    hold_action:
+                      action: more-info
+                      haptic: light
+                    entity: light.kueche_kuechenwand
+                    icon: mdi:string-lights
+                    template:
+                      - base
+                      - base_standard_layout
+                      - button_animation
+                      - circle
+                  - type: custom:button-card
+                    name: Nix
+                    aspect_ratio: 1/1
+                    show_state: false
+                    tap_action:
+                      action: toggle
+                      haptic: light
+                    hold_action:
+                      action: more-info
+                      haptic: light
+                    entity: light.hue_wohnzimmerdecke
+                    icon: mdi:ceiling-light-multiple
+                    template:
+                      - base
+                      - base_light_layout
+                      - button_animation
+                      - circle
+              - type: markdown
+                content: ' '
+                title: BAD, FLUR
+                card_mod:
+                  style: |
+                    ha-card {
+                      background: none;
+                      margin-bottom: -5%;
+                    }
+              - type: horizontal-stack
+                cards:
+                  - type: custom:button-card
+                    name: Flur
+                    aspect_ratio: 1/1
+                    show_state: false
+                    tap_action:
+                      action: toggle
+                      haptic: light
+                    hold_action:
+                      action: more-info
+                      haptic: light
+                    entity: light.flur_deckenlampe
+                    icon: mdi:ceiling-light
+                    template:
+                      - base
+                      - base_light_layout
+                      - button_animation
+                      - circle
+                  - type: custom:button-card
+                    name: Badezimmer
+                    aspect_ratio: 1/1
+                    show_state: false
+                    tap_action:
+                      action: toggle
+                      haptic: light
+                    hold_action:
+                      action: more-info
+                      haptic: light
+                    entity: light.badezimmer_surimu
+                    icon: mdi:lamp
+                    template:
+                      - base
+                      - base_light_layout
+                      - button_animation
+                      - circle
+                  - type: custom:button-card
+                    name: Nix
+                    aspect_ratio: 1/1
+                    show_state: false
+                    tap_action:
+                      action: toggle
+                      haptic: light
+                    hold_action:
+                      action: more-info
+                      haptic: light
+                    entity: light.kueche_deckenfluter_herd
+                    icon: mdi:led-strip
+                    template:
+                      - base
+                      - base_light_layout
+                      - button_animation
+                      - circle
+                  - type: custom:button-card
+                    name: POWER
+                    aspect_ratio: 1/1
+                    show_state: true
+                    entity: sensor.steckdose_server_power
+                    icon: mdi:string-lights
+                    template:
+                      - base
+                      - base_standard_layout
+                      - button_animation
+                      - circle
+                  - type: custom:button-card
+                    name: Nix
+                    aspect_ratio: 1/1
+                    show_state: false
+                    tap_action:
+                      action: toggle
+                      haptic: light
+                    hold_action:
+                      action: more-info
+                      haptic: light
+                    entity: light.hue_wohnzimmerdecke
+                    icon: mdi:ceiling-light-multiple
+                    template:
+                      - base
+                      - base_light_layout
+                      - button_animation
+                      - circle
+  - title: Calendar Mika
+    path: calendar-mika
+    type: panel
+    badges: []
+    cards:
+      - initial_view: dayGridMonth
+        type: calendar
+        entities:
+          - calendar.mika
+        title: Mika
+  - title: Calendar Eva
+    path: calendar-eva
+    type: panel
+    badges: []
+    cards:
+      - initial_view: dayGridMonth
+        type: calendar
+        entities:
+          - calendar.eva
+        title: Evamaria
+  - title: Calendar Family
+    path: calendar-family
+    type: panel
+    badges: []
+    cards:
+      - initial_view: dayGridMonth
+        type: calendar
+        entities:
+          - calendar.family
+        title: Familie
+  - theme: ios-dark-mode
+    title: Wetter
+    path: wetter
+    icon: mdi:weather-partly-cloudy
+    badges: []
+    cards:
+      - type: weather-forecast
+        entity: weather.forecast_home
+      - type: custom:weather-radar-card
+        map_style: Dark
+        zoom_level: 7
+        frame_delay: 1000
+        static_map: false
+        show_marker: false
+        show_scale: false
+        show_zoom: false
+        show_playback: false
+        show_range: false
+        square_map: false
+        show_recenter: false
+        extra_labels: false
+        data_source: RainViewer-DarkSky
+        frame_count: 10
+  - theme: Backend-selected
+    title: Test
+    path: test
+    badges: []
+    cards:
+      - type: custom:auto-entities
+        show_empty: false
+        card:
+          type: custom:mushroom-chips-card
+        card_param: chips
+        filter:
+          include:
+            - domain: light
+              state: 'on'
+              options:
+                type: entity
+                content_info: name
+                tap_action:
+                  action: toggle
+      - type: horizontal-stack
+        cards:
+          - type: horizontal-stack
+            cards:
+              - type: custom:button-card
+                entity: input_select.waschmaschine_status
+                icon: mdi:washing-machine
+                show_state: false
+                show_name: false
+                label: |
+                  [[[
+                   return states['input_select.waschmaschine_status'].state;
+                  ]]]
+                show_label: true
+                state:
+                  - value: Aus
+                    color: var(--disabled-text-color)
+                    icon: mdi:washing-machine-off
+                  - value: Wäscht
+                    color: var(--accent-color)
+                  - value: Fertig
+                    color: var(--primary-color)
+                    icon: mdi:washing-machine-alert
+                  - value: Leer
+                    color: var(--disabled-text-color)
+                    icon: mdi:washing-machine
+              - type: custom:button-card
+                entity: input_select.spulmaschine_status
+                icon: mdi:dishwasher
+                show_state: false
+                show_name: false
+                label: |
+                  [[[
+                   return states['input_select.spulmaschine_status'].state;
+                  ]]]
+                show_label: true
+                state:
+                  - value: Aus
+                    color: var(--disabled-text-color)
+                    icon: mdi:dishwasher-off
+                  - value: Wäscht
+                    color: var(--accent-color)
+                  - value: Trocknung
+                    color: var(--accent-color)
+                    icon: mdi:dishwasher
+                  - value: Fertig
+                    color: var(--primary-color)
+                    icon: mdi:dishwasher-alert
+      - type: custom:mushroom-climate-card
+        entity: climate.wz_heizungsgruppe
+        name: Wohnzimmer
+        icon: mdi:radiator
+        primary_info: name
+        show_temperature_control: true
+        hvac_modes:
+          - auto
+          - 'off'
+          - heat
+        tap_action:
+          action: none
+        hold_action:
+          action: none
+        double_tap_action:
+          action: none
+        secondary_info: state
+      - type: vertical-stack
+        cards:
+          - type: custom:mushroom-title-card
+            title: ''
+            subtitle: Sonos Multiroom Sound System
+          - type: custom:stack-in-card
+            cards:
+              - type: custom:mushroom-media-player-card
+                entity: media_player.spotify_hell255
+                icon: mdi:play
+                use_media_info: true
+                use_media_artwork: false
+                show_volume_level: false
+                media_controls:
+                  - play_pause_stop
+                  - previous
+                  - next
+                volume_controls:
+                  - volume_buttons
+                  - volume_set
+                fill_container: false
+                card_mod:
+                  style: |
+                    mushroom-shape-icon {
+                      display: flex;
+                      {% set media_type = state_attr(config.entity, 'media_content_type') %}
+                      {% if media_type == 'music' %}
+                        --card-mod-icon: mdi:music;
+                        animation: beat 1.3s ease-out infinite both;
+                      {% elif media_type == 'playlist' %}
+                        --card-mod-icon: mdi:music;
+                        animation: beat 1.3s ease-out infinite both;
+                      {% else %}
+                        --card-mod-icon: mdi:play;
+                      {% endif %}
+
+                      {{ 'animation: none;' if not is_state(config.entity, 'playing') }}
+
+                    }
+                    @keyframes beat {
+                      0%, 60% { --icon-symbol-size: 21px; }
+                      5%, 17%, 57% { --icon-symbol-size: 22px; }
+                      10%, 20%, 51% { --icon-symbol-size: 23px; }
+                      25%, 45% { --icon-symbol-size: 24px; }
+                      30%, 39% { --icon-symbol-size: 25px; }
+                      33% { --icon-symbol-size: 26px; }
+                    }
+                    ha-card {
+                      --ha-card-border-width: 0;
+                    }
+                    ha-card:before {
+                      transform: translate3d(0,0,0);
+                      -webkit-transform: translate3d(0,0,0);
+                      content: "";
+
+                      background: url('/local/images/multimedia/sonos.png') center no-repeat;
+                      {% if is_state(config.entity, 'playing') %}
+                        background: url( '{{ state_attr(config.entity, "entity_picture") }}') center no-repeat;
+                      {% endif %}
+
+                      background-size: contain;
+                      margin: 4px 4px 16px;
+                      filter: drop-shadow(4px 4px 6px rgba(0, 0, 0, 0.5));
+                      border-radius: var(--control-border-radius);
+
+                      {% set media_type = state_attr(config.entity, 'media_content_type') %}
+                      {% if media_type == 'tvshow' %}
+                        aspect-ratio: 16 / 9;
+                      {% elif media_type == 'movie' %}
+                        aspect-ratio: 2 / 3;
+                      {% else %}
+                        aspect-ratio: 1 / 1;
+                      {% endif %}
+                    }
+              - type: conditional
+                conditions:
+                  - entity: media_player.spotify_hell255
+                    state: playing
+                card:
+                  entity: media_player.spotify_hell255
+                  hide:
+                    icon: true
+                    name: true
+                    runtime: true
+                    source: true
+                    power: true
+                    state_label: true
+                    volume: true
+                    info: true
+                    progress: false
+                    controls: true
+                  more_info: false
+                  type: custom:mini-media-player
+                  toggle_power: false
+                  group: true
+                  card_mod:
+                    style:
+                      mmp-progress$: |
+                        paper-progress {
+                          {{ '--paper-progress-container-color: rgba(var(--rgb-indigo-color), 0.2) !important;' if is_state(config.entity, 'playing') }}
+                        }
+                      .: |
+                        ha-card {
+                          margin: 0px 12px 12px;
+                          --mmp-progress-height: 12px !important;
+                          height: var(--mmp-progress-height);
+                          --mmp-accent-color: rgb(var(--rgb-indigo-color));
+                          --mmp-border-radius: 12px !important;
+                          --ha-card-border-width: 0;
+                        }
+              - type: conditional
+                conditions:
+                  - entity: media_player.spotify_hell255
+                    state: playing
+                card:
+                  entity: media_player.spotify_hell255
+                  hide:
+                    icon: true
+                    name: true
+                    runtime: true
+                    source: true
+                    power: true
+                    state_label: true
+                    volume: true
+                    info: true
+                    progress: true
+                    controls: true
+                  speaker_group:
+                    platform: sonos
+                    show_group_count: true
+                    entities:
+                      - entity_id: media_player.spotify_hell255
+                        name: Sonos Esszimmer
+                      - entity_id: media_player.spotify_hell255
+                        name: Sonos Büro
+                      - entity_id: media_player.spotify_hell255
+                        name: Sonos Küche
+                      - entity_id: mmedia_player.spotify_hell255
+                        name: Sonos WC
+                      - entity_id: media_player.spotify_hell255
+                        name: Sonos Wohnzimmer
+                  more_info: false
+                  type: custom:mini-media-player
+                  toggle_power: false
+                  group: true
+                  card_mod:
+                    style: |
+                      ha-card {
+                      margin-left: 20px;
+                      margin-right: 20px;
+            card_mod:
+              style: |
+                ha-card:before {
+                  transform: translate3d(0,0,0);
+                  -webkit-transform: translate3d(0,0,0);
+                  content: "";
+                  position: absolute;
+                  height: 100%;
+                  width: 100%;
+
+                  background: url('/local/images/multimedia/sonos.png') center no-repeat;
+                  {% if is_state('media_player.sonos_esszimmer', 'playing') %}
+                    background: url( '{{ state_attr('media_player.sonos_esszimmer', "entity_picture") }}' ) center no-repeat;
+                  {% endif %}
+
+                  filter: blur(150px) saturate(200%);
+                  background-size: 100% 100%;
+                }
+                ha-card {
+                  transform: translate3d(0,0,0);
+                  -webkit-transform: translate3d(0,0,0);
+                }
+button_card_templates:
+  base:
+    variables:
+      circle_input: |
+        [[[ return Math.round(entity.attributes.brightness / 2.55); ]]]
+      state_on: >
+        [[[ return ['on', 'home', 'cool', 'fan_only', 'playing'].indexOf(entity
+        === undefined || entity.state) !== -1; ]]]
+      timeout: >
+        [[[ return entity === undefined || Date.now() -
+        Date.parse(entity.last_changed); ]]]
+    styles:
+      card:
+        - padding: 5%
+        - border-radius: 10px
+      name:
+        - text-align: left
+        - justify-self: start
+        - padding: 0px 10px
+        - font-weight: normal
+        - line-height: 15px
+        - bottom: 10%
+        - position: absolute
+      state:
+        - justify-self: start
+        - padding: 0px 10px
+  base_standard_layout:
+    styles:
+      icon:
+        - top: 3%
+        - left: 10%
+        - height: 50%
+        - width: 50%
+      grid:
+        - grid-template-areas: '"i ." "n n"'
+        - grid-template-columns: 1fr 1fr
+        - grid-template-rows: 3fr 1fr
+  base_light_layout:
+    styles:
+      icon:
+        - top: 3%
+        - left: 10%
+        - height: 50%
+        - width: 50%
+      grid:
+        - grid-template-areas: '"i circle" "n n"'
+        - grid-template-columns: 1fr 1fr
+        - grid-template-rows: 3fr 1fr
+      custom_fields:
+        circle:
+          - display: initial
+          - width: 60%
+          - letter-spacing: 0.03vw
+          - margin: '-75% 5% 0 0'
+          - justify-self: end
+          - opacity: 1
+  base_footer:
+    styles:
+      icon:
+        - height: 100%
+      grid:
+        - grid-template-areas: '"i n"'
+        - grid-template-columns: 1fr 2fr
+      name:
+        - justify-self: start
+  base_person:
+    styles:
+      card:
+        - padding: 5%
+        - font-size: 13px
+        - border-radius: 10px
+      name:
+        - left: 0
+        - bottom: 0
+        - pointer-events: none
+        - line-height: 1.1em
+        - background-color: rgba(0, 0, 0, 0.4)
+        - width: 100%
+        - transform: initial
+        - text-align: left
+        - justify-self: start
+        - padding: 5px 10px
+        - font-weight: bold
+        - position: absolute
+      state:
+        - left: 0
+        - bottom: 0
+        - pointer-events: none
+        - line-height: 1.1em
+        - background-color: rgba(0, 0, 0, 0.4)
+        - width: 100%
+        - transform: initial
+        - text-align: left
+        - justify-self: start
+        - padding: 2px 10px
+        - font-weight: bold
+        - position: absolute
+      grid:
+        - grid-template-areas: '". battery" "n n" "s proximity"'
+        - grid-template-columns: 1fr 1fr
+        - grid-template-rows: 1fr 1fr 1fr
+      custom_fields:
+        battery:
+          - right: 0
+          - top: 0
+          - letter-spacing: 0.03vw
+          - justify-self: end
+          - font-size: 0.95em
+          - background-color: rgba(0, 0, 0, 0)
+          - width: 100%
+          - position: absolute
+          - text-align: right
+          - text-shadow: 1px 1px 3px rgb(75,75,75)
+        proximity:
+          - right: 0
+          - bottom: 0
+          - pointer-events: none
+          - line-height: 1.1em
+          - transform: initial
+          - text-align: right
+          - justify-self: start
+          - padding: 2px 10px
+          - font-weight: bold
+          - position: absolute
+  button_animation:
+    tap_action:
+      animation_card: |
+        [[[
+          let time = 900;
+          this.shadowRoot.getElementById('card').style.animation =
+            `card_bounce ${time}ms cubic-bezier(0.22, 1, 0.36, 1)`,
+            window.setTimeout(() => {
+              this.shadowRoot.getElementById('card').style.animation = 'none'
+            }, time);
+        ]]]
+    extra_styles: |
+      @keyframes card_bounce {
+        0% {
+          transform: scale(1);
+         }
+        15% {
+          transform: scale(0.9);
+        }
+        25% {
+          transform: scale(1);
+        }
+        30% {
+           transform: scale(0.98);
+        }
+         100% {
+          transform: scale(1);
+        }
+      }
+  circle:
+    custom_fields:
+      circle: |
+        [[[
+          if (variables.state_on) {
+            let input = variables.circle_input ;
+            return `
+              <svg viewBox="0 0 36 36" class="circular-chart">
+              <path class="circle-bg"
+                d="M18 2.0845
+                a 15.9155 15.9155 0 0 1 0 31.831
+                a 15.9155 15.9155 0 0 1 0 -31.831"
+              />
+              <path class="circle" 
+                d="M18 2.0845 
+                a 15.9155 15.9155 0 0 1 0 31.831
+                a 15.9155 15.9155 0 0 1 0 -31.831" 
+              fill="none" 
+              stroke="#444";
+              stroke-width="1";
+              stroke-dasharray = "${input}, 100"
+              />
+              <text x="50%" y="50%" fill="#fff" font-size="10" text-anchor="middle" alignment-baseline="middle" dominant-baseline="middle">${input}<tspan font-size="10">%</tspan></text>
+              <style>
+              .circular-chart {
+                display: block;
+                margin: 10px auto;
+                max-width: 100%;
+                max-height: 200px;
+              }
+              .circle-bg {
+                fill: none;
+                stroke: rgba(255, 255, 255, 0.05);
+                stroke-width: 3.8;
+              }
+              .circle {
+                stroke: #fff;
+                fill: none;
+                stroke-width: 2.8;
+                stroke-linecap: round;
+                animation: progress 1s ease-out forwards;
+              }
+              @keyframes progress {
+                0% {
+                  stroke-dasharray: 0 100;
+                }
+              }
+              </svg>
+            `;
+          }
+        ]]]
+  battery:
+    custom_fields:
+      battery: |
+        [[[ 
+          var i = states[variables.battery_person].attributes.icon;
+          var b = states[variables.battery_person].state;
+          return `<ha-icon icon='${i}' style='width: 16px; vertical-align:2px'></ha-icon><text font-size="100">${b}%</text>`
+        ]]]
+  proximity:
+    custom_fields:
+      proximity: |
+        [[[
+          return `
+            ${states[variables.proximity_person].state} km`
+        ]]]
+  icon_hue:
+    styles:
+      custom_fields:
+        icon:
+          - width: 77%
+          - margin-left: '-14%'
+          - margin-top: 1%
+    custom_fields:
+      icon: |
+        [[[
+          let state = variables.state_on && variables.timeout < 2000 ? 'on' : null;
+          return `
+            <svg viewBox="0 0 50 50">
+              <style>
+                @keyframes on {
+                  0% {
+                    transform: scale(0.85);
+                  }
+                  20% {
+                    transform: scale(1.1);
+                  }
+                  40% {
+                    transform: scale(0.95);
+                  }
+                  60% {
+                    transform: scale(1.03);
+                  }
+                  80% {
+                    transform: scale(0.97);
+                  }
+                  100% {
+                    transform: scale(1);
+                  }
+                }
+                .on {
+                  animation: on 0.8s;
+                  transform-origin: center;
+                }
+              </style>
+              <path fill="#9da0a2" d="M27.4 47.3h-4.9s-.7.1-.7.8.4.9.7.9h4.9c.3 0 .7-.1.7-.9s-.7-.8-.7-.8zm3.3-2.9H19.3s-.8 0-.8.8.6.9.8.9h11.5c.2 0 .8-.1.8-.9-.1-.8-.9-.8-.9-.8zm0-3H19.3s-.8 0-.8.8.6.9.8.9h11.5c.2 0 .8-.1.8-.9-.1-.8-.9-.8-.9-.8zm0-2.9H19.3s-.8 0-.8.8.6.9.8.9h11.5c.2 0 .8-.1.8-.9s-.9-.8-.9-.8zm5.2-23.2c-3.3-5.3-7-5.6-10.9-5.6-3.8 0-8.4.4-10.9 5.6-.1.1-.1.3.1.7.4.8 3.3 7.2 3.2 18.8 0 1.1-.1 1.6 0 1.7 0 .1 0 .7 1.1.7h13c1 0 1-.5 1.1-.7v-1.7c-.1-11.6 2.8-18 3.2-18.8.1-.4.1-.5.1-.7"/>
+              <path class="${state}" fill="var(--light-color)" d="M14.1 15.3c3.4-.3 7-.4 10.9-.4 3.8 0 7.5.2 10.9.4.4-.4.7-.8.9-1.1C39 8.5 38.9 6.5 38.9 6c-.2-4.4-8.4-5-12.1-5h0-3.4c-3.7 0-12 .5-12.1 5 0 .5-.1 2.5 2.1 8.2 0 .3.3.8.7 1.1z"/>
+            </svg>
+          `;
+        ]]]
+  base_state:
+    variables:
+      circle_input: |
+        [[[ return Math.round(entity.attributes.brightness / 2.55); ]]]
+      state_on: >
+        [[[ return ['on', 'home', 'cool', 'fan_only', 'playing'].indexOf(entity
+        === undefined || entity.state) !== -1; ]]]
+      timeout: >
+        [[[ return entity === undefined || Date.now() -
+        Date.parse(entity.last_changed); ]]]
+    styles:
+      card:
+        - padding: 5%
+        - font-size: 13px
+        - border-radius: 10px
+      name:
+        - text-align: left
+        - justify-self: start
+        - padding: 0px 10px
+        - font-weight: bold
+        - line-height: 15px
+      state:
+        - justify-self: start
+        - padding: 0px 10px
+  base_light_layout_state:
+    styles:
+      icon:
+        - top: 15%
+        - left: 10%
+        - height: 40%
+      grid:
+        - grid-template-areas: '"i circle" "n n" "s s"'
+        - grid-template-columns: 1fr 1fr
+        - grid-template-rows: 3fr 1fr 1fr
+      custom_fields:
+        circle:
+          - display: initial
+          - width: 60%
+          - letter-spacing: 0.03vw
+          - margin: '-30% 5% 0 0'
+          - justify-self: end
+          - opacity: 1
+  base_standard_layout_state:
+    styles:
+      icon:
+        - top: 18%
+        - left: '-5%'
+        - height: 32%
+      grid:
+        - grid-template-areas: '"i" "n" "s"'
+        - grid-template-columns: auto
+        - grid-template-rows: 3fr 1fr 1fr
