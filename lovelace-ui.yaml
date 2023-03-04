@@ -34,10 +34,20 @@ sidebar:
       active: true
       icon: mdi:lightning-bolt-outline
     - action: navigate
-      navigation_path: /dashboard-tablet/wetter
-      name: Wetter
+      navigation_path: /dashboard-tablet/energie
+      name: Energie
       active: true
-      icon: mdi:weather-partly-cloudy
+      icon: mdi:chart-histogram
+    - action: navigate
+      navigation_path: /dashboard-tablet/lichter
+      name: Alle Lichter
+      active: true
+      icon: mdi:lamps-outline
+    - action: navigate
+      navigation_path: /dashboard-tablet/schalter
+      name: Alle Schalter
+      active: true
+      icon: mdi:power-plug-outline
   bottomCard:
     type: weather-forecast
     cardOptions:
@@ -235,9 +245,6 @@ views:
                     return calSnippet; ]]]
                 styles:
                   card:
-                    - border: solid
-                    - border-width: 1px
-                    - border-color: black
                     - border-radius: 10px
                   grid:
                     - grid-template-areas: '"person" "calendar"'
@@ -367,9 +374,6 @@ views:
                     return calSnippet; ]]]
                 styles:
                   card:
-                    - border: solid
-                    - border-width: 1px
-                    - border-color: black
                     - border-radius: 10px
                   grid:
                     - grid-template-areas: '"person" "calendar"'
@@ -499,9 +503,6 @@ views:
                     return calSnippet; ]]]
                 styles:
                   card:
-                    - border: solid
-                    - border-width: 1px
-                    - border-color: black
                     - border-radius: 10px
                   grid:
                     - grid-template-areas: '"person" "calendar"'
@@ -1057,12 +1058,13 @@ views:
                     hold_action:
                       action: more-info
                       haptic: light
-                    entity: light.hue_wohnzimmerdecke
+                    entity: light.wohnzimmerdecke
                     template:
                       - base
                       - base_light_layout
                       - button_animation
                       - circle
+                      - loader
                   - type: custom:button-card
                     name: Ecklampe
                     aspect_ratio: 1/1
@@ -1079,6 +1081,7 @@ views:
                       - base_light_layout
                       - button_animation
                       - circle
+                      - loader
                   - type: custom:button-card
                     entity: fan.xiaomi_smart_air_purifier_4_pro
                     icon: mdi:fan
@@ -1087,7 +1090,9 @@ views:
                     show_state: false
                     tap_action:
                       action: call-service
-                      service: script.toggle_xiaomi_fan
+                      service: automation.trigger
+                      service_data:
+                        entity_id: automation.luftreiniger_toggle
                       haptic: switch
                     hold_action:
                       action: more-info
@@ -1097,6 +1102,7 @@ views:
                       - base_fan_layout
                       - button_animation
                       - circle
+                      - loader
                   - type: custom:button-card
                     entity: switch.steckdose_spielekonsolen
                     icon: mdi:nintendo-game-boy
@@ -1114,6 +1120,7 @@ views:
                       - base_standard_layout
                       - base_switch_layout
                       - button_animation
+                      - loader
                   - type: custom:button-card
                     template:
                       - base_spacing_layout
@@ -1136,6 +1143,7 @@ views:
                       - base_standard_layout
                       - base_switch_layout
                       - button_animation
+                      - loader
               - type: markdown
                 content: ' '
                 title: KÜCHE
@@ -1152,23 +1160,30 @@ views:
                     aspect_ratio: 1/1
                     show_state: false
                     tap_action:
-                      action: toggle
+                      action: call-service
+                      service: automation.trigger
+                      service_data:
+                        entity_id: automation.kuchentisch_toggle
                       haptic: light
                     hold_action:
                       action: more-info
                       haptic: light
-                    entity: light.hue_kuchentisch
+                    entity: light.kuchentisch
                     template:
                       - base
                       - base_light_layout
                       - button_animation
                       - circle
+                      - loader
                   - type: custom:button-card
                     name: Deckenfluter
                     aspect_ratio: 1/1
                     show_state: false
                     tap_action:
-                      action: toggle
+                      action: call-service
+                      service: automation.trigger
+                      service_data:
+                        entity_id: automation.kuchendecke_toggle
                       haptic: light
                     hold_action:
                       action: more-info
@@ -1179,6 +1194,7 @@ views:
                       - base_light_layout
                       - button_animation
                       - circle
+                      - loader
                   - type: custom:button-card
                     name: Metro
                     aspect_ratio: 1/1
@@ -1195,6 +1211,7 @@ views:
                       - base_light_layout
                       - button_animation
                       - circle
+                      - loader
                   - type: custom:button-card
                     entity: light.kueche_kuechenwand
                     name: Küchenwand
@@ -1211,6 +1228,7 @@ views:
                       - base_standard_layout
                       - base_switch_layout
                       - button_animation
+                      - loader
                   - type: custom:button-card
                     template:
                       - base_spacing_layout
@@ -1230,6 +1248,7 @@ views:
                       - base_standard_layout
                       - base_switch_layout
                       - button_animation
+                      - loader
               - type: markdown
                 content: ' '
                 title: BAD, FLUR
@@ -1257,6 +1276,7 @@ views:
                       - base_light_layout
                       - button_animation
                       - circle
+                      - loader
                   - type: custom:button-card
                     name: Badezimmer
                     aspect_ratio: 1/1
@@ -1276,11 +1296,7 @@ views:
                       - base_light_layout
                       - button_animation
                       - circle
-                  - type: custom:button-card
-                    aspect_ratio: 1/1
-                    show_state: false
-                    template:
-                      - base_empty_layout
+                      - loader
                   - type: custom:button-card
                     name: Robi
                     aspect_ratio: 1/1
@@ -1290,24 +1306,41 @@ views:
                       - base
                       - base_standard_layout
                       - button_animation
+                      - loader
                   - type: custom:button-card
                     template:
                       - base_spacing_layout
                   - type: custom:button-card
-                    entity: switch.schalter_badezimmerdecke
-                    name: Schalter Bad
+                    name: Guten Morgen
                     aspect_ratio: 1/1
                     show_state: false
+                    icon: mdi:weather-sunny
+                    entity: light.all_light_entities
+                    template:
+                      - base
+                      - base_standard_layout
+                      - button_animation
                     tap_action:
-                      action: toggle
+                      action: call-service
+                      service: automation.trigger
+                      service_data:
+                        entity_id: automation.guten_morgen
                       haptic: switch
-                    hold_action:
-                      action: more-info
+                  - type: custom:button-card
+                    name: Gute Nacht
+                    icon: mdi:weather-night
+                    aspect_ratio: 1/1
+                    show_state: false
+                    entity: light.all_light_entities
+                    tap_action:
+                      action: call-service
+                      service: automation.trigger
+                      service_data:
+                        entity_id: automation.gute_nacht
                       haptic: switch
                     template:
                       - base
                       - base_standard_layout
-                      - base_switch_layout
                       - button_animation
   - theme: ios-dark-mode
     title: Stromverbrauch
@@ -1350,12 +1383,6 @@ views:
                     aspect_ratio: 1/1
                     show_state: false
                     tap_action:
-                      action: call-service
-                      service: automation.trigger
-                      service_data:
-                        entity_id: automation.wohnzimmerdeckenlampe_toggle
-                      haptic: light
-                    hold_action:
                       action: more-info
                       haptic: light
                     entity: sensor.schalter_wohnzimmerdecke_power
@@ -1374,10 +1401,6 @@ views:
                     aspect_ratio: 1/1
                     show_state: false
                     tap_action:
-                      action: call-service
-                      service: script.toggle_xiaomi_fan
-                      haptic: switch
-                    hold_action:
                       action: more-info
                       haptic: switch
                     template:
@@ -1392,7 +1415,7 @@ views:
                     name: Konsolen
                     aspect_ratio: 1/1
                     show_state: false
-                    hold_action:
+                    tap_action:
                       action: more-info
                       haptic: switch
                     template:
@@ -1408,9 +1431,9 @@ views:
                     name: Fernseher
                     aspect_ratio: 1/1
                     show_state: false
-                    hold_action:
+                    tap_action:
                       action: more-info
-                      haptic: switch
+                      haptic: light
                     template:
                       - base
                       - base_power_layout
@@ -1431,7 +1454,7 @@ views:
                     name: Küchentisch
                     aspect_ratio: 1/1
                     show_state: false
-                    hold_action:
+                    tap_action:
                       action: more-info
                       haptic: light
                     entity: sensor.schalter_kuchentisch_power
@@ -1444,7 +1467,7 @@ views:
                     name: Küchendecke Zeile
                     aspect_ratio: 1/1
                     show_state: false
-                    hold_action:
+                    tap_action:
                       action: more-info
                       haptic: light
                     entity: sensor.steckdose_kuchendecke_zeile_power
@@ -1457,7 +1480,7 @@ views:
                     name: Küchendecke Herd
                     aspect_ratio: 1/1
                     show_state: false
-                    hold_action:
+                    tap_action:
                       action: more-info
                       haptic: light
                     entity: sensor.schalter_kuchendecke_herd_power
@@ -1471,9 +1494,9 @@ views:
                     name: Spülmaschine
                     aspect_ratio: 1/1
                     show_state: false
-                    hold_action:
+                    tap_action:
                       action: more-info
-                      haptic: switch
+                      haptic: light
                     template:
                       - base
                       - base_power_layout
@@ -1487,9 +1510,9 @@ views:
                     show_state: false
                     name: Waschmaschine
                     entity: sensor.steckdose_waschmaschine_power
-                    hold_action:
+                    tap_action:
                       action: more-info
-                      haptic: switch
+                      haptic: light
                     template:
                       - base
                       - base_power_layout
@@ -1511,12 +1534,6 @@ views:
                     aspect_ratio: 1/1
                     show_state: false
                     tap_action:
-                      action: call-service
-                      service: automation.trigger
-                      service_data:
-                        entity_id: automation.badezimmerdecke_toggle
-                      haptic: light
-                    hold_action:
                       action: more-info
                       haptic: light
                     entity: sensor.schalter_badezimmerdecke_power
@@ -1532,10 +1549,13 @@ views:
                     template:
                       - base_empty_layout
                   - type: custom:button-card
-                    name: Server
+                    name: Kühlschrank
                     aspect_ratio: 1/1
                     show_state: false
-                    entity: sensor.steckdose_server_power
+                    tap_action:
+                      action: more-info
+                      haptic: light
+                    entity: sensor.steckdose_kuhlschrank_power
                     template:
                       - base
                       - base_power_layout
@@ -1545,8 +1565,305 @@ views:
                     template:
                       - base_spacing_layout
                   - type: custom:button-card
+                    name: Server
+                    aspect_ratio: 1/1
+                    show_state: false
+                    tap_action:
+                      action: more-info
+                      haptic: light
+                    entity: sensor.steckdose_server_power
                     template:
-                      - base_empty_layout
+                      - base
+                      - base_power_layout
+                      - button_animation
+                      - power
+  - theme: ios-dark-mode
+    title: Energie
+    path: energie
+    icon: mdi:power
+    type: sidebar
+    badges: []
+    cards:
+      - type: energy-date-selection
+      - type: energy-distribution
+        card_mod: null
+        style: |
+          ha-card {
+            border-radius: 10px;
+            background: none;
+          }
+      - type: energy-usage-graph
+        style: |
+          ha-card {
+            border-radius: 10px;
+          }
+      - type: energy-devices-graph
+        style: |
+          ha-card {
+            border-radius: 10px;
+          }
+      - type: energy-sources-table
+        style: |
+          ha-card {
+            border-radius: 10px;
+          }
+  - theme: ios-dark-mode
+    title: Lichter
+    path: lichter
+    icon: mdi:lamps-outline
+    type: sidebar
+    badges: []
+    cards:
+      - type: custom:auto-entities
+        card:
+          type: grid
+          columns: 4
+          square: false
+        card_param: cards
+        sort:
+          method: name
+        filter:
+          exclude:
+            - entity_id: light.wohnzimmer
+            - entity_id: light.hue_wohnzimmerdecke
+          include:
+            - domain: light
+              area: Wohnzimmer
+              options:
+                type: custom:stack-in-card
+                style: |
+                  ha-card {
+                    border-radius: 10px;
+                  }
+                cards:
+                - type: custom:mushroom-template-card
+                  entity: this.entity_id
+                  icon: '{{ state_attr(entity, ''icon'') }}'
+                  icon_color: >
+                    {% if states(entity) == 'off' %}
+                      #6f6f6f
+                    {% elif state_attr(entity, 'rgb_color') == none %}
+                      #ff9800   
+                    {% else %} 
+                      {{ '#%02x%02x%02x' % state_attr(entity, 'rgb_color') if states(entity) == 'on' else 'disabled' }}
+                    {% endif %}
+                  primary: >
+                    {% set name = state_attr(entity,
+                    'friendly_name')|replace("Wohnzimmer Hue", "") %}
+                    {{- name  }}
+                  card_mod:
+                    style: |
+                      ha-card {
+                        margin-bottom: 8%;
+                      }
+                - type: custom:my-slider-v2
+                  entity: this.entity_id
+                  showMin: true
+                  styles:
+                    card:
+                      - height: '40px'
+                      - left: '5%'
+                      - width: '90%'
+                      - bottom: '15px'
+                    track: 
+                      - background: '#4b3619'
+                    progress:
+                      - border-radius: '0px'
+                      - background: |
+                          [[[
+                            if (entity?.attributes?.rgb_color) return `rgb(${entity.attributes.rgb_color})`
+                            else return 'var(--primary-color)';
+                          ]]]
+                    thumb:
+                      - width: '5px'
+                      - right: '0px'
+                      - opacity: '0.3'
+                      - background: rgb(255,255,255)
+
+                
+      - type: custom:mushroom-title-card
+        title: WOHNZIMMER
+      - type: custom:auto-entities
+        card:
+          type: grid
+          columns: 4
+          square: false
+        card_param: cards
+        sort:
+          method: name
+        filter:
+          exclude:
+            - entity_id: light.wohnzimmer
+            - entity_id: light.hue_wohnzimmerdecke
+          include:
+            - domain: light
+              area: Wohnzimmer
+              options:
+                type: custom:mushroom-light-card
+                fill_container: true
+                show_brightness_control: true
+                use_light_color: true
+                secondary_info: none
+                card_mod:
+                  style: |
+                    ha-card {
+                      border-radius: 10px;
+                    }
+      - type: custom:mushroom-title-card
+        title: KÜCHE
+      - type: custom:auto-entities
+        card:
+          type: grid
+          columns: 4
+          square: false
+        card_param: cards
+        filter:
+          exclude:
+            - entity_id: light.kuche
+            - entity_id: light.hue_kuchentisch
+          include:
+            - domain: light
+              area: Küche
+              options:
+                type: custom:mushroom-light-card
+                fill_container: true
+                show_brightness_control: true
+                use_light_color: true
+                secondary_info: none
+                card_mod:
+                  style: |
+                    ha-card {
+                      border-radius: 10px;
+                    }
+      - type: custom:mushroom-title-card
+        title: BAD, FLUR
+      - type: custom:auto-entities
+        card:
+          type: grid
+          columns: 4
+          square: false
+        card_param: cards
+        filter:
+          exclude:
+            - entity_id: light.flur
+            - state: unavailable
+          include:
+            - domain: light
+              area: Badezimmer
+              options:
+                type: custom:mushroom-light-card
+                fill_container: true
+                show_brightness_control: true
+                use_light_color: true
+                card_mod:
+                  style: |
+                    ha-card {
+                      border-radius: 10px;
+                    }
+            - domain: light
+              area: Flur
+              options:
+                type: custom:mushroom-light-card
+                fill_container: true
+                show_brightness_control: true
+                use_light_color: true
+                secondary_info: none
+                card_mod:
+                  style: |
+                    ha-card {
+                      border-radius: 10px;
+                    }
+  - theme: ios-dark-mode
+    title: Schalter
+    path: schalter
+    icon: mdi:power-plug-outline
+    type: sidebar
+    badges: []
+    cards:
+      - type: custom:mushroom-title-card
+        title: WOHNZIMMER
+      - type: custom:auto-entities
+        card:
+          type: grid
+          columns: 4
+          square: false
+        card_param: cards
+        filter:
+          exclude:
+            - state: unavailable
+          include:
+            - domain: switch
+              area: Wohnzimmer
+              options:
+                tap_action:
+                  action: toggle
+                type: custom:mushroom-entity-card
+                secondary_info: none
+                card_mod:
+                  style: |
+                    ha-card {
+                      border-radius: 10px;
+                    }                
+      - type: custom:mushroom-title-card
+        title: KÜCHE
+      - type: custom:auto-entities
+        card:
+          type: grid
+          columns: 4
+          square: false
+        card_param: cards
+        filter:
+          exclude:
+            - state: unavailable
+          include:
+            - domain: switch
+              area: Küche
+              options:
+                tap_action:
+                  action: toggle
+                type: custom:mushroom-entity-card
+                secondary_info: none
+                card_mod:
+                  style: |
+                    ha-card {
+                      border-radius: 10px;
+                    }
+      - type: custom:mushroom-title-card
+        title: BAD, FLUR
+      - type: custom:auto-entities
+        card:
+          type: grid
+          columns: 4
+          square: false
+        card_param: cards
+        filter:
+          exclude:
+            - state: unavailable
+          include:
+            - domain: switch
+              area: Badezimmer
+              options:
+                tap_action:
+                  action: toggle
+                type: custom:mushroom-entity-card
+                secondary_info: none
+                card_mod:
+                  style: |
+                    ha-card {
+                      border-radius: 10px;
+                    }                
+            - domain: switch
+              area: Flur
+              options:
+                tap_action:
+                  action: toggle
+                type: custom:mushroom-entity-card
+                secondary_info: none
+                card_mod:
+                  style: |
+                    ha-card {
+                      border-radius: 10px;
+                    }                
   - title: Calendar Mika
     path: calendar-mika
     type: panel
@@ -1605,85 +1922,6 @@ views:
     path: test
     badges: []
     cards:
-      - type: custom:auto-entities
-        show_empty: false
-        card:
-          type: custom:mushroom-chips-card
-        card_param: chips
-        filter:
-          include:
-            - domain: light
-              state: 'on'
-              options:
-                type: entity
-                content_info: name
-                tap_action:
-                  action: toggle
-      - type: horizontal-stack
-        cards:
-          - type: horizontal-stack
-            cards:
-              - type: custom:button-card
-                entity: input_select.waschmaschine_status
-                icon: mdi:washing-machine
-                show_state: false
-                show_name: false
-                label: |
-                  [[[
-                   return states['input_select.waschmaschine_status'].state;
-                  ]]]
-                show_label: true
-                state:
-                  - value: Aus
-                    color: var(--disabled-text-color)
-                    icon: mdi:washing-machine-off
-                  - value: Wäscht
-                    color: var(--accent-color)
-                  - value: Fertig
-                    color: var(--primary-color)
-                    icon: mdi:washing-machine-alert
-                  - value: Leer
-                    color: var(--disabled-text-color)
-                    icon: mdi:washing-machine
-              - type: custom:button-card
-                entity: input_select.spulmaschine_status
-                icon: mdi:dishwasher
-                show_state: false
-                show_name: false
-                label: |
-                  [[[
-                   return states['input_select.spulmaschine_status'].state;
-                  ]]]
-                show_label: true
-                state:
-                  - value: Aus
-                    color: var(--disabled-text-color)
-                    icon: mdi:dishwasher-off
-                  - value: Wäscht
-                    color: var(--accent-color)
-                  - value: Trocknung
-                    color: var(--accent-color)
-                    icon: mdi:dishwasher
-                  - value: Fertig
-                    color: var(--primary-color)
-                    icon: mdi:dishwasher-alert
-      - type: custom:mushroom-climate-card
-        entity: climate.wz_heizungsgruppe
-        name: Wohnzimmer
-        icon: mdi:radiator
-        primary_info: name
-        show_temperature_control: true
-        hvac_modes:
-          - auto
-          - 'off'
-          - heat
-        tap_action:
-          action: none
-        hold_action:
-          action: none
-        double_tap_action:
-          action: none
-        secondary_info: state
       - type: vertical-stack
         cards:
           - type: custom:mushroom-title-card
@@ -1856,12 +2094,6 @@ views:
                   transform: translate3d(0,0,0);
                   -webkit-transform: translate3d(0,0,0);
                 }
-      - show_name: true
-        show_icon: true
-        type: button
-        tap_action:
-          action: toggle
-        entity: script.turn_on_xiaomi_fan
 button_card_templates:
   base:
     variables:
@@ -2362,3 +2594,33 @@ button_card_templates:
             </svg>
           `;
         ]]]
+  loader:
+    custom_fields:
+      loader: |
+        <img src="/local/community/loader.svg" width="100%">
+    tap_action:
+      loader: |
+        [[[
+          if (entity) {
+              let elt = this.shadowRoot,
+                  loader = (id, style, timeout) => {
+                    elt.getElementById(id) && (elt.getElementById(id).style.display = style,
+                      window.setTimeout(() => {
+                        elt.getElementById('loader').style.display = 'none'
+                      }, 30000))
+                  };
+              loader('circle', 'none', 'initial'),
+              loader('loader', 'initial', 'none');
+          }
+        ]]]
+    styles:
+      custom_fields:
+        loader:
+          - display: none
+          - top: 1%
+          - right: 2%
+          - width: 40%
+          - position: absolute
+          - opacity: 0.8
+          - pointer-events: none
+          - filter: invert(1)
