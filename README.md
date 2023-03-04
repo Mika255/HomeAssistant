@@ -25,6 +25,7 @@ This lovelace UI was created for my tablet and is very customized. Still, some p
 - EVERYWHERE: *kiosk-mode* to hide header and sidebar https://github.com/NemesisRE/kiosk-mode
 - EVERYWHERE: *card-mod* mainly for CSS styling https://github.com/thomasloven/lovelace-card-mod
 - EVERYWHERE: *button-card* which is amazing to create custom buttons https://github.com/custom-cards/button-card
+- EVERYWHERE: *sidebar-card* to create a nice sidebar with a clock, weather and menu https://github.com/DBuit/sidebar-card
 - HOME: *todoist-card* to display the shopping list created via Alexa https://github.com/grinstantin/todoist-card
 - HOME, LICHTER, SCHALTER: *mushroom-cards* for nice buttons and modern UI https://github.com/piitaya/lovelace-mushroom
 - STROM: *mini-graph-card* creates an energy graph on the switch buttons https://github.com/kalkih/mini-graph-card
@@ -32,6 +33,13 @@ This lovelace UI was created for my tablet and is very customized. Still, some p
 - LICHTER: *hue-icons* for nicer looking hue icons https://github.com/arallsopp/hass-hue-icons
 - PFLANZEN: *flower-card* for plants https://github.com/Olen/lovelace-flower-card
   - uses *plant* which creates a plant entity in HA https://github.com/Olen/homeassistant-plant
+
+### Media Player
+
+- HOME MEDIA-PLAYER for Spotify will need
+  - *mushroom-cards* for the play+pause+skip buttons and artist+song title
+  - *mini-media-player* for the progress bar
+  - *spotcast* to start playback on Spotify connect devices, e.g. Amazon Show
 
 
 ## Inspirations
