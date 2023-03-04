@@ -62,7 +62,7 @@ sidebar:
         left: 0;
       }
       ha-card {
-        width: 100%;
+        width: 90%;
         border: none;
         background: transparent;
         overflow: hidden !important;
@@ -85,7 +85,7 @@ views:
               style: |
                 ha-card {
                   --chip-box-shadow: none;
-                  --chip-border-radius: 0px;
+                  --chip-border-radius: 10px;
                 }
             chips:
               - type: template
@@ -199,6 +199,13 @@ views:
                         - light.flur
                       state_filter:
                         - 'on'
+      - type: markdown
+        content: ' '
+        card_mod:
+          style: |
+            ha-card {
+              background: none;
+            }      
       - type: horizontal-stack
         cards:
           - type: horizontal-stack
@@ -252,7 +259,7 @@ views:
                     - border: solid
                     - border-width: 1px
                     - border-color: black
-                    - border-radius: 0px
+                    - border-radius: 10px
                   grid:
                     - grid-template-areas: '"person" "calendar"'
                     - grid-template-columns: 1fr
@@ -384,7 +391,7 @@ views:
                     - border: solid
                     - border-width: 1px
                     - border-color: black
-                    - border-radius: 0px
+                    - border-radius: 10px
                   grid:
                     - grid-template-areas: '"person" "calendar"'
                     - grid-template-columns: 1fr
@@ -516,7 +523,7 @@ views:
                     - border: solid
                     - border-width: 1px
                     - border-color: black
-                    - border-radius: 0px
+                    - border-radius: 10px
                   grid:
                     - grid-template-areas: '"person" "calendar"'
                     - grid-template-columns: 1fr
@@ -620,16 +627,23 @@ views:
                 hide_top_header: true
                 hide_currently_playing: true
                 hide_playback_controls: true
+      - type: custom:button-card
+        card_mod:
+          style: |
+            ha-card {
+              background: none;
+              height: 4.5em
+            }      
       - type: custom:auto-entities
         show_empty: false
         card:
           type: custom:mushroom-chips-card
-          card_mod: null
-          style: |
-            ha-card {
-              --chip-box-shadow: none;
-              --chip-border-radius: 0px;
-            }
+          card_mod:
+            style: |
+              ha-card {
+                --chip-box-shadow: none;
+                --chip-border-radius: 10px;
+              }
         card_param: chips
         sort:
           method: state
@@ -645,23 +659,122 @@ views:
           exclude:
             - entity_id: sensor.steckdose_kuhlschrank_power
             - entity_id: sensor.steckdose_server_power
-  - theme: Backend-selected
+  - theme: ios-dark-mode
     title: Heizungen
     path: heizungen
     icon: mdi:radiator
-    type: panel
+    type: sidebar
     badges: []
     cards:
-      - type: vertical-stack
+
+      - type: markdown
+        content: ' '
+        title: WOHNZIMMER
+        card_mod:
+          style: |
+            ha-card {
+              margin-left: 2%;
+              margin-top: 2%;
+              margin-bottom: -5%;
+              background: none;
+            }    
+      - type: horizontal-stack
+        cards:
+          - type: custom:simple-thermostat
+            entity: climate.wz_heizungsgruppe
+            hide:
+              temperature: true
+              state: true
+            card_mod:
+              style: |
+                ha-card {
+                  width: 80%;
+                  margin-left: 7%;
+                  border: none;
+                  border-radius: 10px;
+                  --st-font-size-xl: 24px;
+                  --st-font-size-m: 24px;
+                  --st-spacing: 3px
+                }
+            layout:
+              step: row
+              mode:
+                names: true
+                icons: false
+                headings: false
+            control:
+              hvac:
+                heat:
+                  name: "Manuell"
+                auto:
+                  name: "Auto"
+              preset:
+                away: false
+                none: false
+                boost:
+                  name: Boost
+                week_program_1:
+                  name: Normal
+                week_program_2:
+                  name: Urlaub
+                week_program_3: false
+            header: false
+
+          - type: custom:thermostat-dark-card
+            step: '0.5'
+            chevron_size: '50'
+            pending: '3'
+            idle_zone: '2'
+            entity: climate.wz_heizungsgruppe
+            card_mod:
+              style: |
+                ha-card {
+                  width: 44%;
+                  margin-left: 0%;
+                  box-shadow: none;
+                  border: none;
+                }              
+
+      - type: markdown
+        content: ' '
+        title: BADEZIMMER
+        card_mod:
+          style: |
+            ha-card {
+              margin-left: 2%;
+              margin-bottom: -5%;
+              background: none;
+            }    
+      - type: horizontal-stack      
         cards:
           - type: custom:simple-thermostat
             entity: climate.bz_heizungsgruppe
+            hide:
+              temperature: true
+              state: true
+            card_mod:
+              style: |
+                ha-card {
+                  width: 80%;
+                  margin-left: 7%;
+                  border: none;
+                  border-radius: 10px;
+                  --st-font-size-xl: 24px;
+                  --st-font-size-m: 24px;
+                  --st-spacing: 3px
+                }
             layout:
+              step: row
               mode:
                 names: true
-                icons: true
+                icons: false
                 headings: false
             control:
+              hvac:
+                heat:
+                  name: "Manuell"
+                auto:
+                  name: "Auto"
               preset:
                 away: false
                 none: false
@@ -672,44 +785,64 @@ views:
                 week_program_2:
                   name: Urlaub
                 week_program_3: false
-              hvac: true
-            header:
-              name: Badezimmer
-            sensors:
-              - entity: binary_sensor.bz_fensterkontakt_state
-                name: Window
-          - type: custom:simple-thermostat
-            entity: climate.wz_heizungsgruppe
-            layout:
-              mode:
-                names: true
-                icons: true
-                headings: false
-            control:
-              preset:
-                away: false
-                none: false
-                boost:
-                  name: Boost
-                week_program_1:
-                  name: Normal
-                week_program_2:
-                  name: Urlaub
-                week_program_3: false
-              hvac: true
-            sensors:
-              - entity: binary_sensor.wz_fensterkontakt_state
-                name: Window
-            header:
-              name: Wohnzimmer
+            header: false
+          - type: custom:thermostat-dark-card
+            step: '0.5'
+            chevron_size: '50'
+            pending: '3'
+            idle_zone: '2'
+            entity: climate.bz_heizungsgruppe
+            card_mod:
+              style: |
+                ha-card {
+                  width: 44%;
+                  margin-left: 0%;
+                  box-shadow: none;
+                  border: none;
+                }            
+
+      - type: markdown
+        content: ' '
+        title: KÜCHE
+        card_mod:
+          style: |
+            ha-card {
+              margin-left: 2%;
+              margin-top: -2%;
+              margin-bottom: -5%;
+              background: none;
+            }    
+
+      - type: horizontal-stack
+        cards:
           - type: custom:simple-thermostat
             entity: climate.k_heizungsgruppe
+            hide:
+              temperature: true
+              state: true
+            card_mod:
+              style: |
+                ha-card {
+                  width: 80%;
+                  margin-left: 7%;
+                  border: none;
+                  border-radius: 10px;
+                  --st-font-size-xl: 24px;
+                  --st-font-size-m: 24px;
+                  --st-spacing: 3px
+                }
             layout:
+              step: row
               mode:
                 names: true
-                icons: true
+                icons: false
                 headings: false
             control:
+              hvac:
+                heat:
+                  name: "Manuell"
+                auto:
+                  name: "Auto"
               preset:
                 away: false
                 none: false
@@ -720,14 +853,27 @@ views:
                 week_program_2:
                   name: Urlaub
                 week_program_3: false
-              hvac: true
-            header:
-              name: Küche
+            header: false
+
+          - type: custom:thermostat-dark-card
+            step: '0.5'
+            chevron_size: '50'
+            pending: '3'
+            idle_zone: '2'
+            entity: climate.k_heizungsgruppe
+            card_mod:
+              style: |
+                ha-card {
+                  width: 44%;
+                  margin-left: 0%;
+                  box-shadow: none;
+                  border: none;
+                }              
+ 
   - theme: ios-dark-mode
     title: Lampen
     path: lampen
-    icon: mdi:sofa
-    badges: []
+    icon: mdi:lamps
     type: custom:grid-layout
     layout:
       grid-template-columns: 1fr
@@ -735,6 +881,7 @@ views:
       grid-template-areas: |
         "set1"
       margin: 0px
+    badges: []
     cards:
       - type: custom:layout-card
         layout_type: custom:masonry-layout
@@ -805,8 +952,9 @@ views:
                       haptic: switch
                     template:
                       - base
-                      - base_switch_layout
+                      - base_fan_layout
                       - button_animation
+                      - circle
                   - type: custom:button-card
                     entity: switch.steckdose_spielekonsolen
                     icon: mdi:nintendo-game-boy
@@ -823,6 +971,9 @@ views:
                       - base
                       - base_switch_layout
                       - button_animation
+                  - type: custom:button-card
+                    template:
+                      - base_spacing_layout
                   - type: custom:button-card
                     entity: switch.schalter_wohnzimmerdecke
                     name: Deckenlicht
@@ -913,6 +1064,9 @@ views:
                       - base_switch_layout
                       - button_animation
                   - type: custom:button-card
+                    template:
+                      - base_spacing_layout
+                  - type: custom:button-card
                     aspect_ratio: 1/1
                     show_state: false
                     name: Küchendecke
@@ -971,6 +1125,23 @@ views:
                       - button_animation
                       - circle
                   - type: custom:button-card
+                    aspect_ratio: 1/1
+                    show_state: false
+                    template:
+                      - base_empty_layout
+                  - type: custom:button-card
+                    name: Robi
+                    aspect_ratio: 1/1
+                    show_state: false
+                    entity: vacuum.robi
+                    template:
+                      - base
+                      - base_standard_layout
+                      - button_animation
+                  - type: custom:button-card
+                    template:
+                      - base_spacing_layout
+                  - type: custom:button-card
                     entity: switch.schalter_badezimmerdecke
                     name: Schalter Bad
                     aspect_ratio: 1/1
@@ -985,27 +1156,6 @@ views:
                       - base
                       - base_switch_layout
                       - button_animation
-                  - type: custom:button-card
-                    name: POWER
-                    aspect_ratio: 1/1
-                    show_state: false
-                    entity: switch.schalter_wohnzimmerdecke
-                    template:
-                      - base
-                      - base_empty_layout
-                      - button_animation
-                  - type: custom:button-card
-                    name: Fernseher
-                    aspect_ratio: 1/1
-                    show_state: false
-                    tap_action: none
-                    entity: sensor.steckdose_fernseher_hifi_power
-                    icon: mdi:lightning-bolt-circle
-                    template:
-                      - base
-                      - base_power_layout
-                      - button_animation
-                      - power
   - title: Calendar Mika
     path: calendar-mika
     type: panel
@@ -1327,6 +1477,14 @@ button_card_templates:
         ]]]    
       circle_input: |
         [[[ return Math.round(entity.attributes.brightness / 2.55); ]]]
+      circle_inputs: |
+        [[[ 
+          let is_brightness = entity?.attributes?.brightness;
+          let is_fan_percentage = entity?.attributes?.percentage;
+          if (is_brightness)  return Math.round(entity.attributes.brightness / 2.55);
+          else if (is_fan_percentage) return Math.round(entity.attributes.percentage / 1.00);
+          else return 0;
+        ]]]
       state_on: >
         [[[ return ['on', 'home', 'cool', 'fan_only', 'playing'].indexOf(entity
         === undefined || entity.state) !== -1; ]]]
@@ -1407,15 +1565,51 @@ button_card_templates:
           - margin: '-75% 5% 0 0'
           - justify-self: end
           - opacity: 1
+  base_fan_layout:
+    state:
+      - value: 'on'
+        styles:
+          icon:
+            - animation: rotating 4s linear infinite
+    styles:
+      icon:
+        - color: |
+            [[[ 
+              return variables.state_on
+                ? `var(--primary-color)`
+                : `var(--primary-text-color)`;
+            ]]]       
+        - top: 3%
+        - left: 10%
+        - height: 50%
+        - width: 50%
+      grid:
+        - grid-template-areas: '"i circle" "n n"'
+        - grid-template-columns: 1fr 1fr
+        - grid-template-rows: 3fr 1fr
+      custom_fields:
+        circle:
+          - display: initial
+          - width: 60%
+          - letter-spacing: 0.03vw
+          - margin: '-75% 5% 0 0'
+          - justify-self: end
+          - opacity: 1
+  base_spacing_layout:
+    show_icon: false
+    show_name: false
+    styles:
+      card:
+        - width: 0.5em
+        - background: none
+        - border: none
   base_empty_layout:
     show_icon: false
     show_name: false
     styles:
       card:
         - background: none
-        - border: solid
-        - border-width: 1px
-        - border-color: var(--card-background-color)
+        - border: none
   base_power_layout:
     styles:
       card:
@@ -1588,7 +1782,7 @@ button_card_templates:
       circle: |
         [[[
           if (variables.state_on) {
-            let input = variables.circle_input ;
+            let input = variables.circle_inputs;
             return `
               <svg viewBox="0 0 36 36" class="circular-chart">
               <path class="circle-bg"
@@ -1642,6 +1836,13 @@ button_card_templates:
           var c = Math.trunc(Math.round(b))
           return `<text font-size="100">${c}W</text>`
         ]]]
+  fan:
+    custom_fields:
+      fan: |
+        [[[ 
+          var f = entity.state;
+          return `<text font-size="100">${f}</text>`
+        ]]]        
   powers:
     custom_fields:
       powers: |
@@ -1709,55 +1910,3 @@ button_card_templates:
             </svg>
           `;
         ]]]
-  base_state:
-    variables:
-      circle_input: |
-        [[[ return Math.round(entity.attributes.brightness / 2.55); ]]]
-      state_on: >
-        [[[ return ['on', 'home', 'cool', 'fan_only', 'playing'].indexOf(entity
-        === undefined || entity.state) !== -1; ]]]
-      timeout: >
-        [[[ return entity === undefined || Date.now() -
-        Date.parse(entity.last_changed); ]]]
-    styles:
-      card:
-        - padding: 5%
-        - font-size: 13px
-        - border-radius: 10px
-      name:
-        - text-align: left
-        - justify-self: start
-        - padding: 0px 10px
-        - font-weight: bold
-        - line-height: 15px
-      state:
-        - justify-self: start
-        - padding: 0px 10px
-  base_light_layout_state:
-    styles:
-      icon:
-        - top: 15%
-        - left: 10%
-        - height: 40%
-      grid:
-        - grid-template-areas: '"i circle" "n n" "s s"'
-        - grid-template-columns: 1fr 1fr
-        - grid-template-rows: 3fr 1fr 1fr
-      custom_fields:
-        circle:
-          - display: initial
-          - width: 60%
-          - letter-spacing: 0.03vw
-          - margin: '-30% 5% 0 0'
-          - justify-self: end
-          - opacity: 1
-  base_standard_layout_state:
-    styles:
-      icon:
-        - top: 18%
-        - left: '-5%'
-        - height: 32%
-      grid:
-        - grid-template-areas: '"i" "n" "s"'
-        - grid-template-columns: auto
-        - grid-template-rows: 3fr 1fr 1fr
