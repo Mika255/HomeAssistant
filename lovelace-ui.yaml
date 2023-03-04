@@ -553,7 +553,7 @@ views:
             - entity_id: sensor.steckdose_kuhlschrank_power
             - entity_id: sensor.steckdose_server_power
       - type: custom:todoist-card
-        entity: sensor.to_do_list
+        entity: sensor.todoist_alexa_einkaufsliste
         show_header: true
         show_completed: 5
         show_item_add: true
@@ -561,6 +561,13 @@ views:
         show_item_close: true
         show_item_delete: true
         only_today_overdue: false
+        style: |
+          .todoist-list .todoist-item .todoist-item-close {
+            color: white;
+          }
+          ha-card {
+            border-radius: 10px;
+          }
   - theme: ios-dark-mode
     title: Heizungen
     path: heizungen
