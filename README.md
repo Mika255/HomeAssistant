@@ -1,19 +1,29 @@
 # HomeAssistant
-Home Assistant Lovelace configuration
+Home Assistant Lovelace configuration for my tablet dashboard.
+
+![home-assistant_tablet_home](https://user-images.githubusercontent.com/67970450/222905939-0ff2246e-a5de-436d-a638-76fd1d22b3c0.jpg)
+
+
+
+## Screenshots
+
+![Home-Assistant_tablet_Home](https://user-images.githubusercontent.com/67970450/222906231-1b1e67e3-0ad9-4289-b364-f183399f06d1.jpg)
+![Home-Assistant_tablet_Heizungen](https://user-images.githubusercontent.com/67970450/222906229-bd672da1-b107-4119-ba8a-b133b4a16246.jpg)
+![Home-Assistant_tablet_Lichter](https://user-images.githubusercontent.com/67970450/222906235-537c0b24-46a8-4bed-bdda-3769e966310a.jpg)
+![Home-Assistant_tablet_Pflanzen](https://user-images.githubusercontent.com/67970450/222906237-0ea01ff9-e41d-47fa-a8d8-6b08bce00551.jpg)
+![Home-Assistant_tablet_Steuerung](https://user-images.githubusercontent.com/67970450/222906238-4b755a26-0930-402e-b299-816de67e0cc2.jpg)
+![Home-Assistant_Tablet_Strom](https://user-images.githubusercontent.com/67970450/222906240-162d857e-9dbb-42da-8327-bd59ece54e9a.jpg)
+
 
 
 ## Inspirations
 
 - Zorrt's dashboard
-
-https://www.reddit.com/r/homeassistant/comments/tbjel8/my_dashboard_still_a_work_in_progress_most_prob/
-
-https://github.com/zorrt/hass-lovelace
+  - https://www.reddit.com/r/homeassistant/comments/tbjel8/my_dashboard_still_a_work_in_progress_most_prob/
+  - https://github.com/zorrt/hass-lovelace
 
 
 - Mattias Perrson's dashboard
-
-https://community.home-assistant.io/t/a-different-take-on-designing-a-lovelace-ui/162594
-
-https://github.com/matt8707/hass-config
+  - https://community.home-assistant.io/t/a-different-take-on-designing-a-lovelace-ui/162594
+  - https://github.com/matt8707/hass-config
 
