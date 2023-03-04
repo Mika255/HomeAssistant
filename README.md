@@ -9,6 +9,7 @@ Here is my Home Assistant Lovelace configuration for my tablet dashboard. It sup
 
 <img src='https://user-images.githubusercontent.com/67970450/222906231-1b1e67e3-0ad9-4289-b364-f183399f06d1.jpg' width="768" />
 
+
 ## Table of Contents
 
 - [Screenshots](#screenshots)
@@ -18,6 +19,10 @@ Here is my Home Assistant Lovelace configuration for my tablet dashboard. It sup
   - [Shopping-List](#shopping-list)
 - [Inspirations](#inspirations)
 - [Todos](#todos)
+
+## Support
+
+<a href="https://www.buymeacoffee.com/mika2550" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/white_img.png" alt="Buy Me A Beer" style="height: auto !important;width: auto !important;" ></a>
 
 ## Screenshots
 
@@ -63,10 +68,12 @@ This lovelace UI was created for my tablet and is very customized. Still, some p
 
 ### Shopping-List
 
+
 I am using Todoist to synchronize items from Alexa's shopping list to home assistant.
 1. Create a Todoist account https://todoist.com/
 2. Install the Todoist skill to your Alexa
 3. Install the Todoist card to HA https://github.com/grinstantin/todoist-card
+
 
 ## Inspirations
 
