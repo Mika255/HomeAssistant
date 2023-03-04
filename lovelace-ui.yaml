@@ -1,4 +1,4 @@
-title: Schulstrasse Home
+title: Home
 kiosk_mode:
   user_settings:
     - users:
@@ -51,7 +51,7 @@ sidebar:
   bottomCard:
     type: weather-forecast
     cardOptions:
-      name: Schulstr.
+      name: Home
       show_forecast: true
       entity: weather.forecast_home
       tap_action:
@@ -2000,7 +2000,7 @@ views:
         cards:
           - type: weather-forecast
             entity: weather.forecast_home
-            name: Schulstrasse
+            name: Home
             show_forecast: true
             card_mod:
               style: |
