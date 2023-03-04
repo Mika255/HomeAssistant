@@ -25,7 +25,7 @@ sidebar:
       icon: mdi:thermometer-low
     - action: navigate
       navigation_path: /dashboard-tablet/lampen
-      name: Lampen
+      name: Steuerung
       active: true
       icon: mdi:lamp-outline
     - action: navigate
@@ -662,214 +662,325 @@ views:
   - theme: ios-dark-mode
     title: Heizungen
     path: heizungen
-    icon: mdi:radiator
-    type: sidebar
+    icon: mdi:lamps
+    type: custom:grid-layout
+    layout:
+      grid-template-columns: 1fr
+      grid-template-rows: 79px
+      grid-template-areas: |
+        "set1"
+      margin: 0px
     badges: []
     cards:
-
-      - type: markdown
-        content: ' '
-        title: WOHNZIMMER
-        card_mod:
-          style: |
-            ha-card {
-              margin-left: 2%;
-              margin-top: 2%;
-              margin-bottom: -5%;
-              background: none;
-            }    
-      - type: horizontal-stack
+      - type: custom:layout-card
+        layout_type: custom:masonry-layout
+        layout:
+          width: 800
+          max_cols: 5
+          padding: 0px
+          margin: 30px 30px 0px 30px
+        view_layout:
+          grid-area: set1
         cards:
-          - type: custom:simple-thermostat
-            entity: climate.wz_heizungsgruppe
-            hide:
-              temperature: true
-              state: true
-            card_mod:
-              style: |
-                ha-card {
-                  width: 80%;
-                  margin-left: 7%;
-                  border: none;
-                  border-radius: 10px;
-                  --st-font-size-xl: 24px;
-                  --st-font-size-m: 24px;
-                  --st-spacing: 3px
-                }
-            layout:
-              step: row
-              mode:
-                names: true
-                icons: false
-                headings: false
-            control:
-              hvac:
-                heat:
-                  name: "Manuell"
-                auto:
-                  name: "Auto"
-              preset:
-                away: false
-                none: false
-                boost:
-                  name: Boost
-                week_program_1:
-                  name: Normal
-                week_program_2:
-                  name: Urlaub
-                week_program_3: false
-            header: false
-
-          - type: custom:thermostat-dark-card
-            step: '0.5'
-            chevron_size: '50'
-            pending: '3'
-            idle_zone: '2'
-            entity: climate.wz_heizungsgruppe
-            card_mod:
-              style: |
-                ha-card {
-                  width: 44%;
-                  margin-left: 0%;
-                  box-shadow: none;
-                  border: none;
-                }              
-
-      - type: markdown
-        content: ' '
-        title: BADEZIMMER
-        card_mod:
-          style: |
-            ha-card {
-              margin-left: 2%;
-              margin-bottom: -5%;
-              background: none;
-            }    
-      - type: horizontal-stack      
-        cards:
-          - type: custom:simple-thermostat
-            entity: climate.bz_heizungsgruppe
-            hide:
-              temperature: true
-              state: true
-            card_mod:
-              style: |
-                ha-card {
-                  width: 80%;
-                  margin-left: 7%;
-                  border: none;
-                  border-radius: 10px;
-                  --st-font-size-xl: 24px;
-                  --st-font-size-m: 24px;
-                  --st-spacing: 3px
-                }
-            layout:
-              step: row
-              mode:
-                names: true
-                icons: false
-                headings: false
-            control:
-              hvac:
-                heat:
-                  name: "Manuell"
-                auto:
-                  name: "Auto"
-              preset:
-                away: false
-                none: false
-                boost:
-                  name: Boost
-                week_program_1:
-                  name: Normal
-                week_program_2:
-                  name: Urlaub
-                week_program_3: false
-            header: false
-          - type: custom:thermostat-dark-card
-            step: '0.5'
-            chevron_size: '50'
-            pending: '3'
-            idle_zone: '2'
-            entity: climate.bz_heizungsgruppe
-            card_mod:
-              style: |
-                ha-card {
-                  width: 44%;
-                  margin-left: 0%;
-                  box-shadow: none;
-                  border: none;
-                }            
-
-      - type: markdown
-        content: ' '
-        title: KÜCHE
-        card_mod:
-          style: |
-            ha-card {
-              margin-left: 2%;
-              margin-top: -2%;
-              margin-bottom: -5%;
-              background: none;
-            }    
-
-      - type: horizontal-stack
-        cards:
-          - type: custom:simple-thermostat
-            entity: climate.k_heizungsgruppe
-            hide:
-              temperature: true
-              state: true
-            card_mod:
-              style: |
-                ha-card {
-                  width: 80%;
-                  margin-left: 7%;
-                  border: none;
-                  border-radius: 10px;
-                  --st-font-size-xl: 24px;
-                  --st-font-size-m: 24px;
-                  --st-spacing: 3px
-                }
-            layout:
-              step: row
-              mode:
-                names: true
-                icons: false
-                headings: false
-            control:
-              hvac:
-                heat:
-                  name: "Manuell"
-                auto:
-                  name: "Auto"
-              preset:
-                away: false
-                none: false
-                boost:
-                  name: Boost
-                week_program_1:
-                  name: Normal
-                week_program_2:
-                  name: Urlaub
-                week_program_3: false
-            header: false
-
-          - type: custom:thermostat-dark-card
-            step: '0.5'
-            chevron_size: '50'
-            pending: '3'
-            idle_zone: '2'
-            entity: climate.k_heizungsgruppe
-            card_mod:
-              style: |
-                ha-card {
-                  width: 44%;
-                  margin-left: 0%;
-                  box-shadow: none;
-                  border: none;
-                }              
- 
+          - type: vertical-stack
+            cards:
+              - type: markdown
+                content: ' '
+                title: WOHNZIMMER
+                card_mod:
+                  style: |
+                    ha-card {
+                      background: none;
+                      margin-bottom: -5%;
+                    }
+              - type: horizontal-stack
+                cards:
+                  - type: custom:simple-thermostat
+                    entity: climate.wz_heizungsgruppe
+                    hide:
+                      temperature: true
+                      state: true
+                    card_mod:
+                      style: |
+                        ha-card {
+                          width: 100%;
+                          margin-left: 0%;
+                          border: none;
+                          border-radius: 10px;
+                          --st-font-size-xl: 20px;
+                          --st-spacing: 0.8px
+                        }
+                    layout:
+                      mode:
+                        names: true
+                        icons: false
+                        headings: false
+                    control:
+                      hvac:
+                        heat:
+                          name: Manuell
+                        auto:
+                          name: Auto
+                      preset:
+                        away: false
+                        none: false
+                        boost: false
+                        week_program_1: false
+                        week_program_2: false
+                        week_program_3: false
+                    header: false
+                  - type: custom:thermostat-dark-card
+                    step: '0.5'
+                    chevron_size: '50'
+                    pending: '3'
+                    idle_zone: '2'
+                    entity: climate.wz_heizungsgruppe
+                    card_mod:
+                      style: |
+                        ha-card {
+                          width: 96.5%;
+                          margin-left: 0%;
+                          box-shadow: none;
+                          border: none;
+                        }              
+                  - type: custom:button-card
+                    name: BOOST
+                    aspect_ratio: 1/1
+                    entity: climate.wz_heizungsgruppe
+                    tap_action:
+                      action: call-service
+                      service: climate.set_preset_mode
+                      service_data:
+                        entity_id: climate.wz_heizungsgruppe
+                        preset_mode: boost
+                      haptic: climate
+                    hold_action:
+                      action: more-info
+                      haptic: climate
+                    template:
+                      - base
+                      - base_standard_layout
+                      - base_boost_layout
+                  - type: custom:button-card
+                    aspect_ratio: 1/1
+                    template:
+                      - base_empty_layout
+                  - type: custom:button-card
+                    name: URLAUB
+                    aspect_ratio: 1/1
+                    entity: climate.wz_heizungsgruppe
+                    tap_action:
+                      action: call-service
+                      service: climate.set_preset_mode
+                      service_data:
+                        entity_id: climate.wz_heizungsgruppe
+                        preset_mode: week_program_2
+                      haptic: climate
+                    hold_action:
+                      action: more-info
+                      haptic: climate
+                    template:
+                      - base
+                      - base_standard_layout
+                      - base_holiday_layout
+              - type: markdown
+                content: ' '
+                title: KÜCHE
+                card_mod:
+                  style: |
+                    ha-card {
+                      background: none;
+                      margin-bottom: -5%;
+                    }
+              - type: horizontal-stack
+                cards:
+                  - type: custom:simple-thermostat
+                    entity: climate.k_heizungsgruppe
+                    hide:
+                      temperature: true
+                      state: true
+                    card_mod:
+                      style: |
+                        ha-card {
+                          width: 100%;
+                          margin-left: 0%;
+                          border: none;
+                          border-radius: 10px;
+                          --st-font-size-xl: 20px;
+                          --st-spacing: 0.8px
+                        }
+                    layout:
+                      mode:
+                        names: true
+                        icons: false
+                        headings: false
+                    control:
+                      hvac:
+                        heat:
+                          name: Manuell
+                        auto:
+                          name: Auto
+                      preset:
+                        away: false
+                        none: false
+                        boost: false
+                        week_program_1: false
+                        week_program_2: false
+                        week_program_3: false
+                    header: false
+                  - type: custom:thermostat-dark-card
+                    step: '0.5'
+                    chevron_size: '50'
+                    pending: '3'
+                    idle_zone: '2'
+                    entity: climate.k_heizungsgruppe
+                    card_mod:
+                      style: |
+                        ha-card {
+                          width: 96.5%;
+                          margin-left: 0%;
+                          box-shadow: none;
+                          border: none;
+                        }              
+                  - type: custom:button-card
+                    name: BOOST
+                    aspect_ratio: 1/1
+                    entity: climate.k_heizungsgruppe
+                    tap_action:
+                      action: call-service
+                      service: climate.set_preset_mode
+                      service_data:
+                        entity_id: climate.k_heizungsgruppe
+                        preset_mode: boost
+                      haptic: climate
+                    hold_action:
+                      action: more-info
+                      haptic: climate
+                    template:
+                      - base
+                      - base_standard_layout
+                      - base_boost_layout
+                  - type: custom:button-card
+                    aspect_ratio: 1/1
+                    template:
+                      - base_empty_layout
+                  - type: custom:button-card
+                    name: URLAUB
+                    aspect_ratio: 1/1
+                    entity: climate.k_heizungsgruppe
+                    tap_action:
+                      action: call-service
+                      service: climate.set_preset_mode
+                      service_data:
+                        entity_id: climate.k_heizungsgruppe
+                        preset_mode: week_program_2
+                      haptic: climate
+                    hold_action:
+                      action: more-info
+                      haptic: climate
+                    template:
+                      - base
+                      - base_standard_layout
+                      - base_holiday_layout
+              - type: markdown
+                content: ' '
+                title: BADEZIMMER
+                card_mod:
+                  style: |
+                    ha-card {
+                      background: none;
+                      margin-bottom: -5%;
+                    }
+              - type: horizontal-stack
+                cards:
+                  - type: custom:simple-thermostat
+                    entity: climate.bz_heizungsgruppe
+                    hide:
+                      temperature: true
+                      state: true
+                    card_mod:
+                      style: |
+                        ha-card {
+                          width: 100%;
+                          margin-left: 0%;
+                          border: none;
+                          border-radius: 10px;
+                          --st-font-size-xl: 20px;
+                          --st-spacing: 0.8px
+                        }
+                    layout:
+                      mode:
+                        names: true
+                        icons: false
+                        headings: false
+                    control:
+                      hvac:
+                        heat:
+                          name: Manuell
+                        auto:
+                          name: Auto
+                      preset:
+                        away: false
+                        none: false
+                        boost: false
+                        week_program_1: false
+                        week_program_2: false
+                        week_program_3: false
+                    header: false
+                  - type: custom:thermostat-dark-card
+                    step: '0.5'
+                    chevron_size: '50'
+                    pending: '3'
+                    idle_zone: '2'
+                    entity: climate.bz_heizungsgruppe
+                    card_mod:
+                      style: |
+                        ha-card {
+                          width: 96.5%;
+                          margin-left: 0%;
+                          box-shadow: none;
+                          border: none;
+                        }              
+                  - type: custom:button-card
+                    name: BOOST
+                    aspect_ratio: 1/1
+                    entity: climate.bz_heizungsgruppe
+                    tap_action:
+                      action: call-service
+                      service: climate.set_preset_mode
+                      service_data:
+                        entity_id: climate.bz_heizungsgruppe
+                        preset_mode: boost
+                      haptic: climate
+                    hold_action:
+                      action: more-info
+                      haptic: climate
+                    template:
+                      - base
+                      - base_standard_layout
+                      - base_boost_layout
+                  - type: custom:button-card
+                    aspect_ratio: 1/1
+                    template:
+                      - base_empty_layout
+                  - type: custom:button-card
+                    name: URLAUB
+                    aspect_ratio: 1/1
+                    entity: climate.bz_heizungsgruppe
+                    tap_action:
+                      action: call-service
+                      service: climate.set_preset_mode
+                      service_data:
+                        entity_id: climate.bz_heizungsgruppe
+                        preset_mode: week_program_2
+                      haptic: climate
+                    hold_action:
+                      action: more-info
+                      haptic: climate
+                    template:
+                      - base
+                      - base_standard_layout
+                      - base_holiday_layout
   - theme: ios-dark-mode
     title: Lampen
     path: lampen
@@ -969,6 +1080,7 @@ views:
                       haptic: switch
                     template:
                       - base
+                      - base_standard_layout
                       - base_switch_layout
                       - button_animation
                   - type: custom:button-card
@@ -987,6 +1099,7 @@ views:
                       haptic: switch
                     template:
                       - base
+                      - base_standard_layout
                       - base_switch_layout
                       - button_animation
               - type: markdown
@@ -1061,6 +1174,7 @@ views:
                       haptic: switch
                     template:
                       - base
+                      - base_standard_layout
                       - base_switch_layout
                       - button_animation
                   - type: custom:button-card
@@ -1079,6 +1193,7 @@ views:
                       haptic: switch
                     template:
                       - base
+                      - base_standard_layout
                       - base_switch_layout
                       - button_animation
               - type: markdown
@@ -1154,6 +1269,7 @@ views:
                       haptic: switch
                     template:
                       - base
+                      - base_standard_layout
                       - base_switch_layout
                       - button_animation
   - title: Calendar Mika
@@ -1485,6 +1601,10 @@ button_card_templates:
           else if (is_fan_percentage) return Math.round(entity.attributes.percentage / 1.00);
           else return 0;
         ]]]
+      boost_on: |
+        [[[ return (entity.attributes.preset_mode === 'boost'); ]]]
+      holiday_on: |
+        [[[ return (entity.attributes.preset_mode === 'week_program_2'); ]]]
       state_on: >
         [[[ return ['on', 'home', 'cool', 'fan_only', 'playing'].indexOf(entity
         === undefined || entity.state) !== -1; ]]]
@@ -1532,14 +1652,24 @@ button_card_templates:
                 ? `${variables.colorz}`
                 : `var(--primary-text-color)`;
             ]]] 
-        - top: 3%
-        - left: 10%
-        - height: 50%
-        - width: 50%
-      grid:
-        - grid-template-areas: '"i circle" "n n"'
-        - grid-template-columns: 1fr 1fr
-        - grid-template-rows: 3fr 1fr
+  base_boost_layout:
+    styles:
+      icon:
+        - color: |
+            [[[ 
+              return variables.boost_on
+                ? `${variables.colorz}`
+                : `var(--primary-text-color)`;
+            ]]] 
+  base_holiday_layout:
+    styles:
+      icon:
+        - color: |
+            [[[ 
+              return variables.holiday_on
+                ? `${variables.colorz}`
+                : `var(--primary-text-color)`;
+            ]]] 
   base_light_layout:
     styles:
       icon:
@@ -1609,7 +1739,8 @@ button_card_templates:
     styles:
       card:
         - background: none
-        - border: none
+        - border: false
+        - border-width: 0px
   base_power_layout:
     styles:
       card:
