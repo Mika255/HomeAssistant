@@ -1,9 +1,12 @@
 # HomeAssistant
-Home Assistant Lovelace configuration for my tablet dashboard.
+My Home Assistant Lovelace configuration for my tablet dashboard.
 
-![home-assistant_tablet_home](https://user-images.githubusercontent.com/67970450/222905939-0ff2246e-a5de-436d-a638-76fd1d22b3c0.jpg)
+<img src='https://user-images.githubusercontent.com/67970450/222906231-1b1e67e3-0ad9-4289-b364-f183399f06d1.jpg' width="768" />
 
+## Table of Contents
 
+- [Screenshots](#screenshots)
+- [Inspirations](#inspirations)
 
 ## Screenshots
 
@@ -15,6 +18,20 @@ Home Assistant Lovelace configuration for my tablet dashboard.
    |:--:| :--: | :--: | 
 | *Strom* | *Lichter* | *Pflanzen* |
 
+## Installation
+
+This lovelace UI was created for my tablet and is very customized. Still, some parts can surely be taken over. You will need
+
+- EVERYWHERE: *kiosk-mode* to hide header and sidebar https://github.com/NemesisRE/kiosk-mode
+- EVERYWHERE: *card-mod* mainly for CSS styling https://github.com/thomasloven/lovelace-card-mod
+- EVERYWHERE: *button-card* which is amazing to create custom buttons https://github.com/custom-cards/button-card
+- HOME: *todoist-card* to display the shopping list created via Alexa https://github.com/grinstantin/todoist-card
+- HOME, LICHTER, SCHALTER: *mushroom-cards* for nice buttons and modern UI https://github.com/piitaya/lovelace-mushroom
+- STROM: *mini-graph-card* creates an energy graph on the switch buttons https://github.com/kalkih/mini-graph-card
+- LICHTER, SCHALTER: *auto-entities* which helps to autopopulate cards https://github.com/thomasloven/lovelace-auto-entities
+- LICHTER: *hue-icons* for nicer looking hue icons https://github.com/arallsopp/hass-hue-icons
+- PFLANZEN: *flower-card* for plants https://github.com/Olen/lovelace-flower-card
+  - uses *plant* which creates a plant entity in HA https://github.com/Olen/homeassistant-plant
 
 
 ## Inspirations
