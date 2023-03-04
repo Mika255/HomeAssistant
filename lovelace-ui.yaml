@@ -188,13 +188,6 @@ views:
                 tap_action:
                   action: navigate
                   navigation_path: /dashboard-tablet/steuerung
-      - type: markdown
-        content: ' '
-        card_mod:
-          style: |
-            ha-card {
-              background: none;
-            }      
       - type: horizontal-stack
         cards:
           - type: horizontal-stack
@@ -586,34 +579,248 @@ views:
                   .time {
                     padding-bottom: 1em;
                   }
-          - type: vertical-stack
+          - type: custom:stack-in-card
             cards:
-              - type: media-control
+              - type: horizontal-stack
+                cards:
+                  - type: custom:mushroom-template-card
+                    entity: media_player.spotify_hell255
+                    icon: mdi:laptop
+                    icon_color: >
+                      {% set source =
+                      state_attr('media_player.spotify_hell255','source') %} {%-
+                      if ("MacBook Air (2)" not in
+                      state_attr('media_player.spotify_hell255', 'source_list'))
+                      -%}grey{% else %}
+                       {% if source == "MacBook Air (2)" %}#ff9e0b
+                       {% elif source == "Überall" %}#4050b5 {% else %}white{% endif %}
+                      {% endif %}
+                    tap_action:
+                      action: call-service
+                      service: automation.trigger
+                      service_data:
+                        entity_id: automation.spotify_play_macbook
+                  - type: custom:mushroom-template-card
+                    entity: media_player.spotify_hell255
+                    icon: mdi:phone
+                    icon_color: >
+                      {% set source =
+                      state_attr('media_player.spotify_hell255','source') %} {%-
+                      if ("iPhone" not in
+                      state_attr('media_player.spotify_hell255', 'source_list'))
+                      -%}grey{% else %}
+                       {% if source == "iPhone" %}#ff9e0b
+                       {% elif source == "Überall" %}#4050b5 {% else %}white{% endif %}
+                      {% endif %}
+                    tap_action:
+                      action: call-service
+                      service: automation.trigger
+                      service_data:
+                        entity_id: automation.spotify_play_iphone
+                  - type: custom:mushroom-template-card
+                    entity: media_player.spotify_hell255
+                    icon: mdi:shower
+                    icon_color: >
+                      {% set source =
+                      state_attr('media_player.spotify_hell255','source') %} {%-
+                      if ("Mikaels Echo Klo" not in
+                      state_attr('media_player.spotify_hell255', 'source_list'))
+                      -%}grey{% else %}
+                       {% if source == "Mikaels Echo Klo" %}#ff9e0b
+                       {% elif source == "Überall" %}#4050b5 {% else %}white{% endif %}
+                      {% endif %}
+                    tap_action:
+                      action: call-service
+                      service: automation.trigger
+                      service_data:
+                        entity_id: automation.spotify_play_echo_klo
+                  - type: custom:mushroom-template-card
+                    entity: media_player.spotify_hell255
+                    icon: mdi:chef-hat
+                    icon_color: >
+                      {% set source =
+                      state_attr('media_player.spotify_hell255','source') %} {%-
+                      if ("Mikaels Echo Küche" not in
+                      state_attr('media_player.spotify_hell255', 'source_list'))
+                      -%}grey{% else %}
+                       {% if source == "Mikaels Echo Küche" %}#ff9e0b
+                       {% elif source == "Überall" %}#4050b5 {% else %}white{% endif %}
+                      {% endif %}                    
+                    tap_action:
+                      action: call-service
+                      service: automation.trigger
+                      service_data:
+                        entity_id: automation.spotify_play_echo_kuche
+                  - type: custom:mushroom-template-card
+                    entity: media_player.spotify_hell255
+                    icon: mdi:sofa
+                    icon_color: >
+                      {% set source =
+                      state_attr('media_player.spotify_hell255','source') %} {%-
+                      if ("Mikaels Echo Dot" not in
+                      state_attr('media_player.spotify_hell255', 'source_list'))
+                      -%}grey{% else %}
+                       {% if source == "Mikaels Echo Dot" %}#ff9e0b
+                       {% elif source == "Überall" %}#4050b5 {% else %}white{% endif %}
+                      {% endif %}
+                    tap_action:
+                      action: call-service
+                      service: automation.trigger
+                      service_data:
+                        entity_id: automation.spotify_play_echo_dot
+                  - type: custom:mushroom-template-card
+                    entity: media_player.spotify_hell255
+                    icon: mdi:spotify
+                    icon_color: >
+                      {% set source = state_attr('media_player.spotify_hell255',
+                      'source') %} {% if source == "Überall" %}#ff9e0b {% else
+                      %}white{% endif %}
+                    tap_action:
+                      action: call-service
+                      service: media_player.select_source
+                      data:
+                        entity_id: media_player.spotify_hell255
+                        source: Überall
+              - type: custom:mushroom-media-player-card
                 entity: media_player.spotify_hell255
+                icon: mdi:play
+                use_media_info: true
+                use_media_artwork: false
+                show_volume_level: false
+                media_controls:
+                  - play_pause_stop
+                  - previous
+                  - next
+                  - shuffle
+                volume_controls:
+                  - volume_buttons
+                  - volume_set
+                fill_container: false
                 card_mod:
                   style: |
-                    ha-card {
-                      --primary-color: var(--card-background-color);
-                      background: none;
-                      box-shadow: none;
+                    mushroom-shape-icon {
+                        --card-mod-icon-color: var(--accent-color);
+                      display: flex;
+                      {% set media_type = state_attr(config.entity, 'media_content_type') %}
+                      {% if media_type == 'music' %}
+                        --card-mod-icon: mdi:music;
+                        animation: beat 1.3s ease-out infinite both;
+                      {% elif media_type == 'playlist' %}
+                        --card-mod-icon: mdi:playlist-music;
+                        animation: beat 1.3s ease-out infinite both;
+                      {% else %}
+                        --card-mod-icon: mdi:spotify;
+                      {% endif %}
+
+                      {{ 'animation: none;' if not is_state(config.entity, 'playing') }}
+
                     }
-              - type: custom:spotify-card
-                default_device: Mikaels Echo Küche
-                always_play_random_song: true
-                display_style: grid
-                name: null
-                grid_covers_per_row: 5
-                country_code: DE
-                hide_top_header: true
-                hide_currently_playing: true
-                hide_playback_controls: true
-      - type: custom:button-card
-        card_mod:
-          style: |
-            ha-card {
-              background: none;
-              height: 4.5em
-            }      
+                    @keyframes beat {
+                      0%, 60% { --icon-symbol-size: 21px; }
+                      5%, 17%, 57% { --icon-symbol-size: 22px; }
+                      10%, 20%, 51% { --icon-symbol-size: 23px; }
+                      25%, 45% { --icon-symbol-size: 24px; }
+                      30%, 39% { --icon-symbol-size: 25px; }
+                      33% { --icon-symbol-size: 26px; }
+                    }
+                    ha-card {
+                      --ha-card-border-width: 0;
+                    }
+                    ha-card:before {
+                      transform: translate3d(0,0,0);
+                      -webkit-transform: translate3d(0,0,0);
+                      content: "";
+
+                      background: url('/local/community/music.jpg') center no-repeat;
+                      {% if is_state(config.entity, 'playing') %}
+                        background: url( '{{ state_attr(config.entity, "entity_picture") }}') center no-repeat;
+                      {% endif %}
+
+                      background-size: contain;
+                      margin: -10px 4px 16px;
+                      filter: drop-shadow(4px 4px 6px rgba(0, 0, 0, 0.5));
+                      border-radius: var(--control-border-radius);
+                      aspect-ratio: 1 / 1;
+                    }
+              - type: conditional
+                conditions:
+                  - entity: media_player.spotify_hell255
+                    state: playing
+                card:
+                  entity: media_player.spotify_hell255
+                  hide:
+                    icon: true
+                    name: true
+                    runtime: true
+                    source: true
+                    power: true
+                    state_label: true
+                    volume: true
+                    info: true
+                    progress: false
+                    controls: true
+                  more_info: false
+                  type: custom:mini-media-player
+                  toggle_power: false
+                  group: true
+                  card_mod:
+                    style:
+                      .: |
+                        ha-card {
+                          margin: 0px 12px 12px;
+                          --mmp-progress-height: 24px !important;
+                          height: var(--mmp-progress-height);
+                          --mmp-border-radius: 10px !important;
+                          --ha-card-border-width: 0;
+                        }
+              - type: conditional
+                conditions:
+                  - entity: media_player.spotify_hell255
+                    state: idle
+                card:
+                  type: custom:mini-media-player
+                  entity: media_player.spotify_hell255
+                  hide:
+                    icon: false
+                    name: false
+                    runtime: true
+                    source: true
+                    power: true
+                    state_label: true
+                    volume: true
+                    info: true
+                    progress: true
+                    controls: true
+                  more_info: false
+                  toggle_power: false
+                  group: true
+                  card_mod:
+                    style: |
+                      ha-card {
+                      margin-left: 20px;
+                      margin-right: 20px;
+            card_mod:
+              style: |
+                ha-card:before {
+                  transform: translate3d(0,0,0);
+                  -webkit-transform: translate3d(0,0,0);
+                  content: "";
+                  position: absolute;
+                  height: 100%;
+                  width: 100%;
+
+                  background: url('/local/community/bathroom_shower.png') center no-repeat;
+                  {% if is_state('media_player.spotify_hell255', 'playing') %}
+                    background: url( '{{ state_attr('media_player.spotify_hell255', "entity_picture") }}' ) center no-repeat;
+                  {% endif %}
+
+                  filter: blur(150px) saturate(200%) opacity(0.3);
+                  background-size: 100% 100%;
+                }
+                ha-card {
+                  transform: translate3d(0,0,0);
+                  -webkit-transform: translate3d(0,0,0);
+                }
       - type: custom:auto-entities
         show_empty: false
         card:
@@ -1614,73 +1821,6 @@ views:
     type: sidebar
     badges: []
     cards:
-      - type: custom:auto-entities
-        card:
-          type: grid
-          columns: 4
-          square: false
-        card_param: cards
-        sort:
-          method: name
-        filter:
-          exclude:
-            - entity_id: light.wohnzimmer
-            - entity_id: light.hue_wohnzimmerdecke
-          include:
-            - domain: light
-              area: Wohnzimmer
-              options:
-                type: custom:stack-in-card
-                style: |
-                  ha-card {
-                    border-radius: 10px;
-                  }
-                cards:
-                - type: custom:mushroom-template-card
-                  entity: this.entity_id
-                  icon: '{{ state_attr(entity, ''icon'') }}'
-                  icon_color: >
-                    {% if states(entity) == 'off' %}
-                      #6f6f6f
-                    {% elif state_attr(entity, 'rgb_color') == none %}
-                      #ff9800   
-                    {% else %} 
-                      {{ '#%02x%02x%02x' % state_attr(entity, 'rgb_color') if states(entity) == 'on' else 'disabled' }}
-                    {% endif %}
-                  primary: >
-                    {% set name = state_attr(entity,
-                    'friendly_name')|replace("Wohnzimmer Hue", "") %}
-                    {{- name  }}
-                  card_mod:
-                    style: |
-                      ha-card {
-                        margin-bottom: 8%;
-                      }
-                - type: custom:my-slider-v2
-                  entity: this.entity_id
-                  showMin: true
-                  styles:
-                    card:
-                      - height: '40px'
-                      - left: '5%'
-                      - width: '90%'
-                      - bottom: '15px'
-                    track: 
-                      - background: '#4b3619'
-                    progress:
-                      - border-radius: '0px'
-                      - background: |
-                          [[[
-                            if (entity?.attributes?.rgb_color) return `rgb(${entity.attributes.rgb_color})`
-                            else return 'var(--primary-color)';
-                          ]]]
-                    thumb:
-                      - width: '5px'
-                      - right: '0px'
-                      - opacity: '0.3'
-                      - background: rgb(255,255,255)
-
-                
       - type: custom:mushroom-title-card
         title: WOHNZIMMER
       - type: custom:auto-entities
@@ -1699,16 +1839,25 @@ views:
             - domain: light
               area: Wohnzimmer
               options:
-                type: custom:mushroom-light-card
-                fill_container: true
-                show_brightness_control: true
-                use_light_color: true
-                secondary_info: none
-                card_mod:
-                  style: |
-                    ha-card {
-                      border-radius: 10px;
-                    }
+                type: custom:config-template-card
+                entities:
+                  - this.entity_id
+                card:
+                  type: custom:mushroom-light-card
+                  entity: this.entity_id
+                  name: >-
+                    ${
+                    states['this.entity_id'].attributes.friendly_name.replace('Wohnzimmer
+                    Hue', '') }
+                  fill_container: true
+                  show_brightness_control: true
+                  use_light_color: true
+                  secondary_info: none
+                  card_mod:
+                    style: |
+                      ha-card {
+                        border-radius: 10px;
+                      }
       - type: custom:mushroom-title-card
         title: KÜCHE
       - type: custom:auto-entities
@@ -1725,16 +1874,25 @@ views:
             - domain: light
               area: Küche
               options:
-                type: custom:mushroom-light-card
-                fill_container: true
-                show_brightness_control: true
-                use_light_color: true
-                secondary_info: none
-                card_mod:
-                  style: |
-                    ha-card {
-                      border-radius: 10px;
-                    }
+                type: custom:config-template-card
+                entities:
+                  - this.entity_id
+                card:
+                  type: custom:mushroom-light-card
+                  entity: this.entity_id
+                  name: >-
+                    ${
+                    states['this.entity_id'].attributes.friendly_name.replace('Küche
+                    Hue', '').replace('Küche ', '') }
+                  fill_container: true
+                  show_brightness_control: true
+                  use_light_color: true
+                  secondary_info: none
+                  card_mod:
+                    style: |
+                      ha-card {
+                        border-radius: 10px;
+                      }
       - type: custom:mushroom-title-card
         title: BAD, FLUR
       - type: custom:auto-entities
@@ -1746,33 +1904,52 @@ views:
         filter:
           exclude:
             - entity_id: light.flur
-            - state: unavailable
+            - entity_id: light.badezimmer
           include:
             - domain: light
               area: Badezimmer
               options:
-                type: custom:mushroom-light-card
-                fill_container: true
-                show_brightness_control: true
-                use_light_color: true
-                card_mod:
-                  style: |
-                    ha-card {
-                      border-radius: 10px;
-                    }
+                type: custom:config-template-card
+                entities:
+                  - this.entity_id
+                card:
+                  type: custom:mushroom-light-card
+                  entity: this.entity_id
+                  name: >-
+                    ${
+                    states['this.entity_id'].attributes.friendly_name.replace('Hue',
+                    '') }
+                  fill_container: true
+                  show_brightness_control: true
+                  use_light_color: true
+                  secondary_info: none
+                  card_mod:
+                    style: |
+                      ha-card {
+                        border-radius: 10px;
+                      }
             - domain: light
               area: Flur
               options:
-                type: custom:mushroom-light-card
-                fill_container: true
-                show_brightness_control: true
-                use_light_color: true
-                secondary_info: none
-                card_mod:
-                  style: |
-                    ha-card {
-                      border-radius: 10px;
-                    }
+                type: custom:config-template-card
+                entities:
+                  - this.entity_id
+                card:
+                  type: custom:mushroom-light-card
+                  entity: this.entity_id
+                  name: >-
+                    ${
+                    states['this.entity_id'].attributes.friendly_name.replace('Hue',
+                    '') }
+                  fill_container: true
+                  show_brightness_control: true
+                  use_light_color: true
+                  secondary_info: none
+                  card_mod:
+                    style: |
+                      ha-card {
+                        border-radius: 10px;
+                      }
   - theme: ios-dark-mode
     title: Schalter
     path: schalter
@@ -1795,15 +1972,25 @@ views:
             - domain: switch
               area: Wohnzimmer
               options:
-                tap_action:
-                  action: toggle
-                type: custom:mushroom-entity-card
-                secondary_info: none
-                card_mod:
-                  style: |
-                    ha-card {
-                      border-radius: 10px;
-                    }                
+                type: custom:config-template-card
+                entities:
+                  - this.entity_id
+                card:
+                  type: custom:mushroom-entity-card
+                  tap_action:
+                    action: toggle
+                  entity: this.entity_id
+                  name: >-
+                    ${
+                    states['this.entity_id'].attributes.friendly_name.replace(/Steckdose|Schalter/g,
+                    '') }
+                  fill_container: true
+                  secondary_info: none
+                  card_mod:
+                    style: |
+                      ha-card {
+                        border-radius: 10px;
+                      }              
       - type: custom:mushroom-title-card
         title: KÜCHE
       - type: custom:auto-entities
@@ -1819,15 +2006,25 @@ views:
             - domain: switch
               area: Küche
               options:
-                tap_action:
-                  action: toggle
-                type: custom:mushroom-entity-card
-                secondary_info: none
-                card_mod:
-                  style: |
-                    ha-card {
-                      border-radius: 10px;
-                    }
+                type: custom:config-template-card
+                entities:
+                  - this.entity_id
+                card:
+                  type: custom:mushroom-entity-card
+                  tap_action:
+                    action: toggle
+                  entity: this.entity_id
+                  name: >-
+                    ${
+                    states['this.entity_id'].attributes.friendly_name.replace(/Steckdose|Schalter/g,
+                    '') }
+                  fill_container: true
+                  secondary_info: none
+                  card_mod:
+                    style: |
+                      ha-card {
+                        border-radius: 10px;
+                      }    
       - type: custom:mushroom-title-card
         title: BAD, FLUR
       - type: custom:auto-entities
@@ -1843,27 +2040,47 @@ views:
             - domain: switch
               area: Badezimmer
               options:
-                tap_action:
-                  action: toggle
-                type: custom:mushroom-entity-card
-                secondary_info: none
-                card_mod:
-                  style: |
-                    ha-card {
-                      border-radius: 10px;
-                    }                
+                type: custom:config-template-card
+                entities:
+                  - this.entity_id
+                card:
+                  type: custom:mushroom-entity-card
+                  tap_action:
+                    action: toggle
+                  entity: this.entity_id
+                  name: >-
+                    ${
+                    states['this.entity_id'].attributes.friendly_name.replace(/Steckdose|Schalter/g,
+                    '') }
+                  fill_container: true
+                  secondary_info: none
+                  card_mod:
+                    style: |
+                      ha-card {
+                        border-radius: 10px;
+                      }             
             - domain: switch
               area: Flur
               options:
-                tap_action:
-                  action: toggle
-                type: custom:mushroom-entity-card
-                secondary_info: none
-                card_mod:
-                  style: |
-                    ha-card {
-                      border-radius: 10px;
-                    }                
+                type: custom:config-template-card
+                entities:
+                  - this.entity_id
+                card:
+                  type: custom:mushroom-entity-card
+                  tap_action:
+                    action: toggle
+                  entity: this.entity_id
+                  name: >-
+                    ${
+                    states['this.entity_id'].attributes.friendly_name.replace(/Steckdose|Schalter/g,
+                    '') }
+                  fill_container: true
+                  secondary_info: none
+                  card_mod:
+                    style: |
+                      ha-card {
+                        border-radius: 10px;
+                      }             
   - title: Calendar Mika
     path: calendar-mika
     type: panel
