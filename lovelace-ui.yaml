@@ -40,20 +40,23 @@ sidebar:
       icon: mdi:chart-histogram
     - action: navigate
       navigation_path: /dashboard-tablet/lichter
-      name: Alle Lichter
+      name: Lichter
       active: true
       icon: mdi:lamps-outline
     - action: navigate
-      navigation_path: /dashboard-tablet/schalter
-      name: Alle Schalter
+      navigation_path: /dashboard-tablet/pflanzen
+      name: Pflanzen
       active: true
-      icon: mdi:power-plug-outline
+      icon: mdi:flower
   bottomCard:
     type: weather-forecast
     cardOptions:
       name: Schulstr.
       show_forecast: true
       entity: weather.forecast_home
+      tap_action:
+        action: navigate
+        navigation_path: /dashboard-tablet/wetter
     cardStyle: |
       :host {
         width: 100%;
@@ -206,44 +209,62 @@ views:
                   navigation_path: /dashboard-tablet/steuerung
       - type: horizontal-stack
         cards:
-          - type: horizontal-stack
+          - type: vertical-stack
             cards:
-              - type: custom:button-card
-                name: Family
-                show_icon: false
-                show_name: false
-                tap_action:
-                  action: navigate
-                  navigation_path: /dashboard-tablet/calendar-family
-                entity: sensor.calendar_family
-                custom_fields:
-                  person: <img src="/local/community/profile_galaxy.jpg"/>
-                template:
-                  - calendar
-              - type: custom:button-card
-                name: Mika
-                show_icon: false
-                show_name: false
-                tap_action:
-                  action: navigate
-                  navigation_path: /dashboard-tablet/calendar-mika
-                entity: sensor.calendar_mika
-                custom_fields:
-                  person: <img src="/local/community/profile_mika3.jpg"/>
-                template:
-                  - calendar
-              - type: custom:button-card
-                name: Eva
-                show_icon: false
-                show_name: false
-                tap_action:
-                  action: navigate
-                  navigation_path: /dashboard-tablet/calendar-eva
-                entity: sensor.calendar_eva
-                custom_fields:
-                  person: <img src="/local/community/profile_eva.jpg"/>
-                template:
-                  - calendar
+              - type: horizontal-stack
+                cards:
+                  - type: custom:button-card
+                    name: Family
+                    show_icon: false
+                    show_name: false
+                    tap_action:
+                      action: navigate
+                      navigation_path: /dashboard-tablet/calendar-family
+                    entity: sensor.calendar_family
+                    custom_fields:
+                      person: <img src="/local/community/profile_galaxy.jpg"/>
+                    template:
+                      - calendar
+                  - type: custom:button-card
+                    name: Mika
+                    show_icon: false
+                    show_name: false
+                    tap_action:
+                      action: navigate
+                      navigation_path: /dashboard-tablet/calendar-mika
+                    entity: sensor.calendar_mika
+                    custom_fields:
+                      person: <img src="/local/community/profile_mika3.jpg"/>
+                    template:
+                      - calendar
+                  - type: custom:button-card
+                    name: Eva
+                    show_icon: false
+                    show_name: false
+                    tap_action:
+                      action: navigate
+                      navigation_path: /dashboard-tablet/calendar-eva
+                    entity: sensor.calendar_eva
+                    custom_fields:
+                      person: <img src="/local/community/profile_eva.jpg"/>
+                    template:
+                      - calendar
+              - type: custom:todoist-card
+                entity: sensor.todoist_alexa_einkaufsliste
+                show_header: true
+                show_completed: 5
+                show_item_add: true
+                use_quick_add: false
+                show_item_close: true
+                show_item_delete: true
+                only_today_overdue: false
+                style: |
+                  .todoist-list .todoist-item .todoist-item-close {
+                    color: white;
+                  }
+                  ha-card {
+                    border-radius: 10px;
+                  }
           - type: custom:stack-in-card
             cards:
               - type: custom:mushroom-template-card
@@ -356,7 +377,7 @@ views:
                       action: call-service
                       service: automation.trigger
                       service_data:
-                        entity_id: automation.spotify_play_echo_kuche
+                        entity_id: automation.spotify_play_echo_koch
                   - type: custom:mushroom-template-card
                     entity: media_player.spotify_hell255
                     icon: mdi:sofa
@@ -373,7 +394,7 @@ views:
                       action: call-service
                       service: automation.trigger
                       service_data:
-                        entity_id: automation.spotify_play_echo_dot
+                        entity_id: automation.spotify_play_echo_eck
                   - type: custom:mushroom-template-card
                     entity: media_player.spotify_hell255
                     icon: mdi:spotify
@@ -552,22 +573,6 @@ views:
           exclude:
             - entity_id: sensor.steckdose_kuhlschrank_power
             - entity_id: sensor.steckdose_server_power
-      - type: custom:todoist-card
-        entity: sensor.todoist_alexa_einkaufsliste
-        show_header: true
-        show_completed: 5
-        show_item_add: true
-        use_quick_add: false
-        show_item_close: true
-        show_item_delete: true
-        only_today_overdue: false
-        style: |
-          .todoist-list .todoist-item .todoist-item-close {
-            color: white;
-          }
-          ha-card {
-            border-radius: 10px;
-          }
   - theme: ios-dark-mode
     title: Heizungen
     path: heizungen
@@ -1313,8 +1318,14 @@ views:
                     decimals: 0
                     entities:
                       - entity: sensor.schalter_wohnzimmerdecke_power
+                    tap_action:
+                      action: call-service
+                      service: switch.toggle
+                      service_data:
+                        entity_id: switch.schalter_wohnzimmerdecke
                     show:
                       icon: false
+                      points: false
                     card_mod:
                       style: |
                         .header.flex .name.flex {
@@ -1335,8 +1346,14 @@ views:
                     decimals: 0
                     entities:
                       - entity: sensor.steckdose_luftreiniger_power
+                    tap_action:
+                      action: call-service
+                      service: switch.toggle
+                      service_data:
+                        entity_id: switch.steckdose_luftreiniger
                     show:
                       icon: false
+                      points: false
                     card_mod:
                       style: |
                         .header.flex .name.flex {
@@ -1354,8 +1371,14 @@ views:
                     decimals: 0
                     entities:
                       - entity: sensor.steckdose_fernseher_hifi_power
+                    tap_action:
+                      action: call-service
+                      service: switch.toggle
+                      service_data:
+                        entity_id: switch.steckdose_fernseher_hifi
                     show:
                       icon: false
+                      points: false
                     card_mod:
                       style: |
                         .header.flex .name.flex {
@@ -1376,8 +1399,14 @@ views:
                     decimals: 0
                     entities:
                       - entity: sensor.steckdose_spielekonsolen_power
+                    tap_action:
+                      action: call-service
+                      service: switch.toggle
+                      service_data:
+                        entity_id: switch.steckdose_spielekonsolen
                     show:
                       icon: false
+                      points: false
                     card_mod:
                       style: |
                         .header.flex .name.flex {
@@ -1406,8 +1435,14 @@ views:
                     decimals: 0
                     entities:
                       - entity: sensor.schalter_kuchentisch_power
+                    tap_action:
+                      action: call-service
+                      service: switch.toggle
+                      service_data:
+                        entity_id: switch.schalter_kuchentisch
                     show:
                       icon: false
+                      points: false
                     card_mod:
                       style: |
                         .header.flex .name.flex {
@@ -1425,8 +1460,14 @@ views:
                     decimals: 0
                     entities:
                       - entity: sensor.steckdose_kuchendecke_zeile_power
+                    tap_action:
+                      action: call-service
+                      service: switch.toggle
+                      service_data:
+                        entity_id: switch.steckdose_kuchendecke_zeile
                     show:
                       icon: false
+                      points: false
                     card_mod:
                       style: |
                         .header.flex .name.flex {
@@ -1444,8 +1485,14 @@ views:
                     decimals: 0
                     entities:
                       - entity: sensor.schalter_kuchendecke_herd_power
+                    tap_action:
+                      action: call-service
+                      service: switch.toggle
+                      service_data:
+                        entity_id: switch.schalter_kuchendecke_herd
                     show:
                       icon: false
+                      points: false
                     card_mod:
                       style: |
                         .header.flex .name.flex {
@@ -1463,8 +1510,14 @@ views:
                     decimals: 0
                     entities:
                       - entity: sensor.steckdose_spulmaschine_power
+                    tap_action:
+                      action: call-service
+                      service: switch.toggle
+                      service_data:
+                        entity_id: switch.steckdose_spulmaschine
                     show:
                       icon: false
+                      points: false
                     card_mod:
                       style: |
                         .header.flex .name.flex {
@@ -1485,8 +1538,14 @@ views:
                     decimals: 0
                     entities:
                       - entity: sensor.steckdose_waschmaschine_power
+                    tap_action:
+                      action: call-service
+                      service: switch.toggle
+                      service_data:
+                        entity_id: switch.steckdose_waschmaschine
                     show:
                       icon: false
+                      points: false
                     card_mod:
                       style: |
                         .header.flex .name.flex {
@@ -1515,8 +1574,14 @@ views:
                     decimals: 0
                     entities:
                       - entity: sensor.schalter_badezimmerdecke_power
+                    tap_action:
+                      action: call-service
+                      service: switch.toggle
+                      service_data:
+                        entity_id: switch.schalter_badezimmerdecke
                     show:
                       icon: false
+                      points: false
                     card_mod:
                       style: |
                         .header.flex .name.flex {
@@ -1542,6 +1607,7 @@ views:
                       - entity: sensor.steckdose_kuhlschrank_power
                     show:
                       icon: false
+                      points: false
                     card_mod:
                       style: |
                         .header.flex .name.flex {
@@ -1564,6 +1630,7 @@ views:
                       - entity: sensor.steckdose_server_power
                     show:
                       icon: false
+                      points: false
                     card_mod:
                       style: |
                         .header.flex .name.flex {
@@ -1582,6 +1649,12 @@ views:
     type: sidebar
     badges: []
     cards:
+      - type: entities
+        entities:
+          - entity: sensor.stromkasten_verbrauch_gesamt
+          - entity: sensor.wohnung_verbrauch_summe
+        show_header_toggle: false
+        state_color: false
       - type: energy-date-selection
       - type: energy-distribution
         card_mod: null
@@ -1906,10 +1979,41 @@ views:
     title: Wetter
     path: wetter
     icon: mdi:weather-partly-cloudy
+    type: sidebar
     badges: []
     cards:
-      - type: weather-forecast
-        entity: weather.forecast_home
+      - type: custom:hourly-weather
+        entity: weather.forecast_home_hourly
+        icons: true
+        show_precipitation_amounts: true
+        show_precipitation_probability: true
+        show_wind: 'true'
+        label_spacing: '2'
+        offset: '0'
+        name: ' '
+        card_mod:
+          style: |
+            ha-card {
+              border-radius: 10px;
+            }
+      - type: horizontal-stack
+        cards:
+          - type: weather-forecast
+            entity: weather.forecast_home
+            name: Schulstrasse
+            show_forecast: true
+            card_mod:
+              style: |
+                ha-card {
+                  border-radius: 10px;
+                }
+          - type: custom:sun-card
+            language: de
+            card_mod:
+              style: |
+                ha-card {
+                  border-radius: 10px;
+                }          
       - type: custom:weather-radar-card
         map_style: Dark
         zoom_level: 7
@@ -1925,6 +2029,74 @@ views:
         extra_labels: false
         data_source: RainViewer-DarkSky
         frame_count: 10
+        card_mod:
+          style: |
+            ha-card {
+              border-radius: 10px;
+            }        
+  - theme: ios-dark-mode
+    title: Pflanzen
+    path: pflanzen
+    icon: mdi:flower
+    type: sidebar
+    badges: []
+    cards:
+      - type: custom:flower-card
+        entity: plant.papa_bonsai
+        show_bars:
+          - illuminance
+          - humidity
+          - moisture
+          - conductivity
+          - temperature
+          - dli
+        card_mod:
+          style: |
+            ha-card {
+              border-radius: 10px;
+            }     
+      - type: custom:flower-card
+        entity: plant.junior_bonsai
+        show_bars:
+          - illuminance
+          - humidity
+          - moisture
+          - conductivity
+          - temperature
+          - dli
+        card_mod:
+          style: |
+            ha-card {
+              border-radius: 10px;
+            }     
+      - type: custom:flower-card
+        entity: plant.badezimmerpflanze_junior
+        show_bars:
+          - illuminance
+          - humidity
+          - moisture
+          - conductivity
+          - temperature
+          - dli
+        card_mod:
+          style: |
+            ha-card {
+              border-radius: 10px;
+            }     
+      - type: custom:flower-card
+        entity: plant.badezimmerpflanze_papa
+        show_bars:
+          - illuminance
+          - humidity
+          - moisture
+          - conductivity
+          - temperature
+          - dli
+        card_mod:
+          style: |
+            ha-card {
+              border-radius: 10px;
+            }     
 button_card_templates:
   base:
     variables:
