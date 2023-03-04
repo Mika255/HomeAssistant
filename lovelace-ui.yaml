@@ -770,14 +770,13 @@ views:
                       action: more-info
                       haptic: light
                     entity: light.hue_wohnzimmerdecke
-                    icon: mdi:ceiling-light-multiple
                     template:
                       - base
                       - base_light_layout
                       - button_animation
                       - circle
                   - type: custom:button-card
-                    name: Eckenlampe
+                    name: Ecklampe
                     aspect_ratio: 1/1
                     show_state: false
                     tap_action:
@@ -787,55 +786,57 @@ views:
                       action: more-info
                       haptic: light
                     entity: light.ecklampe
-                    icon: mdi:led-strip-variant
                     template:
                       - base
                       - base_light_layout
                       - button_animation
                       - circle
                   - type: custom:button-card
+                    entity: switch.steckdose_luftreiniger
+                    icon: mdi:fan
                     name: Luftreiniger
                     aspect_ratio: 1/1
                     show_state: false
                     tap_action:
                       action: toggle
-                      haptic: light
+                      haptic: switch
                     hold_action:
                       action: more-info
-                      haptic: light
-                    entity: switch.steckdose_luftreiniger
-                    icon: mdi:fan
+                      haptic: switch
                     template:
                       - base
-                      - base_light_layout
+                      - base_switch_layout
                       - button_animation
-                      - circle
                   - type: custom:button-card
+                    entity: switch.steckdose_spielekonsolen
+                    icon: mdi:nintendo-game-boy
                     name: Konsolen
                     aspect_ratio: 1/1
                     show_state: false
                     tap_action:
                       action: toggle
-                      haptic: light
+                      haptic: switch
                     hold_action:
                       action: more-info
-                      haptic: light
-                    entity: switch.steckdose_spielekonsolen
-                    icon: mdi:nintendo-game-boy
+                      haptic: switch
                     template:
                       - base
-                      - base_standard_layout
+                      - base_switch_layout
                       - button_animation
                   - type: custom:button-card
-                    name: Nix
+                    entity: switch.schalter_wohnzimmerdecke
+                    name: Schalter Deckenlicht
                     aspect_ratio: 1/1
                     show_state: false
-                    tap_action: none
-                    entity: light.flur_deckenlampe
-                    icon: mdi:lamp
+                    tap_action:
+                      action: toggle
+                      haptic: switch
+                    hold_action:
+                      action: more-info
+                      haptic: switch
                     template:
                       - base
-                      - base_standard_layout
+                      - base_switch_layout
                       - button_animation
               - type: markdown
                 content: ' '
@@ -859,14 +860,13 @@ views:
                       action: more-info
                       haptic: light
                     entity: light.hue_kuchentisch
-                    icon: mdi:ceiling-light-multiple-outline
                     template:
                       - base
                       - base_light_layout
                       - button_animation
                       - circle
                   - type: custom:button-card
-                    name: Deckenfluter Zeile
+                    name: Deckenfluter
                     aspect_ratio: 1/1
                     show_state: false
                     tap_action:
@@ -875,15 +875,14 @@ views:
                     hold_action:
                       action: more-info
                       haptic: light
-                    entity: light.kueche_deckenfluter_zeile
-                    icon: mdi:led-strip
+                    entity: light.kuche_deckenfluter
                     template:
                       - base
                       - base_light_layout
                       - button_animation
                       - circle
                   - type: custom:button-card
-                    name: Deckenfluter Herd
+                    name: Metro
                     aspect_ratio: 1/1
                     show_state: false
                     tap_action:
@@ -892,47 +891,42 @@ views:
                     hold_action:
                       action: more-info
                       haptic: light
-                    entity: light.kueche_deckenfluter_herd
-                    icon: mdi:led-strip
+                    entity: light.dimmable_light_1
                     template:
                       - base
                       - base_light_layout
                       - button_animation
                       - circle
                   - type: custom:button-card
+                    entity: light.kueche_kuechenwand
                     name: Küchenwand
                     aspect_ratio: 1/1
                     show_state: false
                     tap_action:
                       action: toggle
-                      haptic: light
+                      haptic: switch
                     hold_action:
                       action: more-info
-                      haptic: light
-                    entity: light.kueche_kuechenwand
-                    icon: mdi:string-lights
+                      haptic: switch
                     template:
                       - base
-                      - base_standard_layout
+                      - base_switch_layout
                       - button_animation
-                      - circle
                   - type: custom:button-card
-                    name: Nix
                     aspect_ratio: 1/1
                     show_state: false
+                    name: Schalter Küchenzeile
+                    entity: switch.schalter_kuche
                     tap_action:
                       action: toggle
-                      haptic: light
+                      haptic: switch
                     hold_action:
                       action: more-info
-                      haptic: light
-                    entity: light.hue_wohnzimmerdecke
-                    icon: mdi:ceiling-light-multiple
+                      haptic: switch
                     template:
                       - base
-                      - base_light_layout
+                      - base_switch_layout
                       - button_animation
-                      - circle
               - type: markdown
                 content: ' '
                 title: BAD, FLUR
@@ -955,7 +949,6 @@ views:
                       action: more-info
                       haptic: light
                     entity: light.flur_deckenlampe
-                    icon: mdi:ceiling-light
                     template:
                       - base
                       - base_light_layout
@@ -972,57 +965,48 @@ views:
                       action: more-info
                       haptic: light
                     entity: light.badezimmer_surimu
-                    icon: mdi:lamp
                     template:
                       - base
                       - base_light_layout
                       - button_animation
                       - circle
                   - type: custom:button-card
-                    name: Nix
+                    entity: switch.schalter_badezimmerdecke
+                    name: Schalter Bad
                     aspect_ratio: 1/1
                     show_state: false
                     tap_action:
                       action: toggle
-                      haptic: light
+                      haptic: switch
                     hold_action:
                       action: more-info
-                      haptic: light
-                    entity: light.kueche_deckenfluter_herd
-                    icon: mdi:led-strip
+                      haptic: switch
                     template:
                       - base
-                      - base_light_layout
+                      - base_switch_layout
                       - button_animation
-                      - circle
                   - type: custom:button-card
                     name: POWER
                     aspect_ratio: 1/1
                     show_state: true
                     entity: sensor.steckdose_server_power
-                    icon: mdi:string-lights
                     template:
                       - base
                       - base_standard_layout
                       - button_animation
                       - circle
                   - type: custom:button-card
-                    name: Nix
+                    name: Fernseher
                     aspect_ratio: 1/1
                     show_state: false
-                    tap_action:
-                      action: toggle
-                      haptic: light
-                    hold_action:
-                      action: more-info
-                      haptic: light
-                    entity: light.hue_wohnzimmerdecke
-                    icon: mdi:ceiling-light-multiple
+                    tap_action: none
+                    entity: sensor.steckdose_fernseher_hifi_power
+                    icon: mdi:lightning-bolt-circle
                     template:
                       - base
-                      - base_light_layout
+                      - base_power_layout
                       - button_animation
-                      - circle
+                      - power
   - title: Calendar Mika
     path: calendar-mika
     type: panel
@@ -1335,6 +1319,13 @@ views:
 button_card_templates:
   base:
     variables:
+      colorz: |
+        [[[ 
+          let is_rgb = entity?.attributes?.rgb_color;
+          return is_rgb
+          ? `rgb(${entity.attributes.rgb_color})`
+          : 'var(--primary-color)';
+        ]]]    
       circle_input: |
         [[[ return Math.round(entity.attributes.brightness / 2.55); ]]]
       state_on: >
@@ -1361,6 +1352,7 @@ button_card_templates:
   base_standard_layout:
     styles:
       icon:
+        - color: var(--primary-color)
         - top: 3%
         - left: 10%
         - height: 50%
@@ -1369,9 +1361,37 @@ button_card_templates:
         - grid-template-areas: '"i ." "n n"'
         - grid-template-columns: 1fr 1fr
         - grid-template-rows: 3fr 1fr
+  base_switch_layout:
+    state:
+      - value: 'on'
+        styles:
+          icon:
+            - animation: jiggle 0.3s ease 4
+    styles:
+      icon:
+        - color: |
+            [[[ 
+              return variables.state_on
+                ? `${variables.colorz}`
+                : `var(--primary-text-color)`;
+            ]]] 
+        - top: 3%
+        - left: 10%
+        - height: 50%
+        - width: 50%
+      grid:
+        - grid-template-areas: '"i circle" "n n"'
+        - grid-template-columns: 1fr 1fr
+        - grid-template-rows: 3fr 1fr
   base_light_layout:
     styles:
       icon:
+        - color: |
+            [[[ 
+              return variables.state_on
+                ? `${variables.colorz}`
+                : `var(--primary-text-color)`;
+            ]]] 
         - top: 3%
         - left: 10%
         - height: 50%
@@ -1384,6 +1404,68 @@ button_card_templates:
         circle:
           - display: initial
           - width: 60%
+          - letter-spacing: 0.03vw
+          - margin: '-75% 5% 0 0'
+          - justify-self: end
+          - opacity: 1
+  base_empty_layout:
+    show_icon: false
+    show_name: false
+    styles:
+      card:
+        - background: none
+        - border: solid
+        - border-width: 1px
+        - border-color: var(--card-background-color)
+  base_power_layout:
+    styles:
+      card:
+        - background: none
+        - border: solid
+        - border-width: 1px
+        - border-color: var(--card-background-color)
+      icon:
+        - top: 3%
+        - left: 10%
+        - height: 50%
+        - width: 50%
+      grid:
+        - grid-template-areas: '"i power" "n n"'
+        - grid-template-columns: 1fr 1fr
+        - grid-template-rows: 3fr 1fr
+      custom_fields:
+        power:
+          - display: initial
+          - width: 100%
+          - letter-spacing: 0.03vw
+          - margin: '-75% 5% 0 0'
+          - justify-self: end
+          - opacity: 1
+  base_powers_layout:
+    styles:
+      card:
+        - border: solid
+        - border-width: 1px
+        - border-color: var(--card-background-color)
+      icon:
+        - color: |
+            [[[ 
+              return variables.state_on
+                ? `${variables.colorz}`
+                : `var(--primary-text-color)`;
+            ]]]        
+        - top: 3%
+        - left: 10%
+        - height: 50%
+        - width: 50%
+      grid:
+        - grid-template-areas: '"i powers" "n n"'
+        - grid-template-columns: 1fr 1fr
+        - grid-template-rows: 3fr 1fr
+      custom_fields:
+        powers:
+          - display: initial
+          - width: 100%
           - letter-spacing: 0.03vw
           - margin: '-75% 5% 0 0'
           - justify-self: end
@@ -1485,6 +1567,23 @@ button_card_templates:
           transform: scale(1);
         }
       }
+      @keyframes jiggle {
+        0% {
+            transform: rotate(-8deg);
+        }
+        25% {
+            transform: rotate(0deg);
+        }
+        50% {
+            transform: rotate(8deg);
+        }
+        75% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(-8deg);
+        }
+      }
   circle:
     custom_fields:
       circle: |
@@ -1507,7 +1606,7 @@ button_card_templates:
               stroke-width="1";
               stroke-dasharray = "${input}, 100"
               />
-              <text x="50%" y="50%" fill="#fff" font-size="10" text-anchor="middle" alignment-baseline="middle" dominant-baseline="middle">${input}<tspan font-size="10">%</tspan></text>
+              <text x="50%" y="50%" fill="#fff" font-size="8" text-anchor="middle" alignment-baseline="middle" dominant-baseline="middle">${input}<tspan font-size="10">%</tspan></text>
               <style>
               .circular-chart {
                 display: block;
@@ -1521,7 +1620,7 @@ button_card_templates:
                 stroke-width: 3.8;
               }
               .circle {
-                stroke: #fff;
+                stroke: ${variables.colorz};
                 fill: none;
                 stroke-width: 2.8;
                 stroke-linecap: round;
@@ -1535,6 +1634,21 @@ button_card_templates:
               </svg>
             `;
           }
+        ]]]
+  power:
+    custom_fields:
+      power: |
+        [[[ 
+          var b = entity.state;
+          var c = Math.trunc(Math.round(b))
+          return `<text font-size="100">${c}W</text>`
+        ]]]
+  powers:
+    custom_fields:
+      powers: |
+        [[[ 
+          var d = variables.colorz;
+          return `<text font-size="100">${d}</text>`
         ]]]
   battery:
     custom_fields:
