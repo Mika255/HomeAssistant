@@ -193,6 +193,18 @@ views:
           - type: horizontal-stack
             cards:
               - type: custom:button-card
+                name: Family
+                show_icon: false
+                show_name: false
+                tap_action:
+                  action: navigate
+                  navigation_path: /dashboard-tablet/calendar-family
+                entity: sensor.calendar_family
+                custom_fields:
+                  person: <img src="/local/community/profile_galaxy.jpg"/>
+                template:
+                  - calendar
+              - type: custom:button-card
                 name: Mika
                 show_icon: false
                 show_name: false
@@ -201,126 +213,9 @@ views:
                   navigation_path: /dashboard-tablet/calendar-mika
                 entity: sensor.calendar_mika
                 custom_fields:
-                  person: >-
-                    [[[ return `<img src="/local/community/profile_mika3.jpg"/>`
-                    ]]]
-                  calendar: |
-                    [[[ let calSnippet = ''; let j = 0
-                    for (let i = 0; i < entity.state; i++) {
-                      if (i > 2+j) {};
-                      if (i <= 2+j) {
-                      let year = entity.attributes.data[i].year;
-                      if (year < 2023) {j++; continue;}
-                      let start_month = entity.attributes.data[i].startMonth;
-                      let start_day = entity.attributes.data[i].startDay;
-                      let start_time = entity.attributes.data[i].startTime;
-                      let end_month = entity.attributes.data[i].endMonth;
-                      let end_day = entity.attributes.data[i].endDay;
-                      let end_time = entity.attributes.data[i].endTime;
-                      let time = start_time;
-                      let wholeDay = entity.attributes.data[i].wholeDay;
-                      if (end_day != null && start_day !== end_day) {time = "Mehrtägig, bis " + end_day + " " + end_month};
-                      if (wholeDay === true) {time = "Ganztägig"};
-                      let event = entity.attributes.data[i].summary;
-                      let location = entity.attributes.data[i].location;
-                      if (location === "" || location === undefined) {location = "-"}
-
-                    calSnippet += 
-                      `<table><tr>
-                          <td class="date month">${start_month}</td><td class="event"><div class="event-title">${event}</div></td>
-                        </tr>
-                        <tr>
-                          <td class="date day">${start_day}</td><td class="event"><span class="location"><ha-icon class="icon" icon="mdi:map-marker"></ha-icon>${location}</span><span class="time"><ha-icon class="icon" icon="mdi:clock-outline"></ha-icon>${time}</span></td>
-                        </tr></table>`
-                        }
-                    }
-                      
-                    return calSnippet; ]]]
-                styles:
-                  card:
-                    - border-radius: 10px
-                  grid:
-                    - grid-template-areas: '"person" "calendar"'
-                    - grid-template-columns: 1fr
-                    - grid-template-rows: 1fr min-content
-                  person:
-                    - align-self: middle
-                style: |
-                  img {
-                    border-radius: 50%;
-                    width: 64px;
-                    margin-bottom: 1em;
-                    margin-top: 0.2em;
-                  }
-                  .icon {
-                    margin-right: 5%;
-                    text-align: center;
-                    float: left;
-                    width: 12px;
-                  }
-                  table {
-                    margin-left: 8px;
-                    box-sizing: border-box;
-                    border-spacing: 0;
-                    margin-bottom: 1.0em;
-                    width: 100%;
-                    color: blue;
-                  }
-                  td {
-                    white-space: -o-pre-wrap; 
-                    word-wrap: break-word;
-                    white-space: pre-wrap; 
-                    white-space: -moz-pre-wrap; 
-                    white-space: -pre-wrap; 
-                    color: white;
-                  }
-                  .date {
-                    border-right: 1px solid var(--primary-color);
-                    width: 20%;
-                    text-align: center;
-                    color: var(--primary-text-color);
-                  }
-                  .event, .task {
-                    padding-left: 8px;
-                    width: 80%;
-                    font-family: Roboto,Noto,sans-serif;
-                    color: var(--primary-text-color);
-                  }
-                  .month {
-                    padding-right: 4px;
-                    text-transform: uppercase;
-                    vertical-align: bottom;
-                    font-family: Roboto,Noto,sans-serif;
-                    color: var(--primary-text-color);
-                  }
-                  .day {
-                    font-size: 1.0em;
-                    vertical-align: top;
-                    font-family: Roboto,Noto,sans-serif;
-                    color: var(--primary-text-color);
-                  }
-                  .event-title {
-                    margin-top: 0;
-                    margin-right: 6px;
-                    font-family: Roboto,Noto,sans-serif;
-                    font-size: 0.8em;
-                    font-weight: 400;
-                    text-align: left;
-                    vertical-align: top;
-                    word-wrap: break-word;
-                    overflow-wrap: break-word;
-                    color: var(--primary-text-color);
-                  }
-                  .time, .location {
-                    padding-right: 10px;
-                    display: block;
-                    text-align: left;
-                    font-size: 0.6em;
-                    padding-top: 5px;
-                  }
-                  .time {
-                    padding-bottom: 1em;
-                  }
+                  person: <img src="/local/community/profile_mika3.jpg"/>
+                template:
+                  - calendar
               - type: custom:button-card
                 name: Eva
                 show_icon: false
@@ -330,255 +225,9 @@ views:
                   navigation_path: /dashboard-tablet/calendar-eva
                 entity: sensor.calendar_eva
                 custom_fields:
-                  person: >-
-                    [[[ return `<img src="/local/community/profile_eva.jpg"/>`
-                    ]]]
-                  calendar: |
-                    [[[ let calSnippet = ''; let j = 0
-                    for (let i = 0; i < entity.state; i++) {
-                      if (i > 2+j) {};
-                      if (i <= 2+j) {
-                      let year = entity.attributes.data[i].year;
-                      if (year < 2023) {j++; continue;}
-                      let start_month = entity.attributes.data[i].startMonth;
-                      let start_day = entity.attributes.data[i].startDay;
-                      let start_time = entity.attributes.data[i].startTime;
-                      let end_month = entity.attributes.data[i].endMonth;
-                      let end_day = entity.attributes.data[i].endDay;
-                      let end_time = entity.attributes.data[i].endTime;
-                      let time = start_time;
-                      let wholeDay = entity.attributes.data[i].wholeDay;
-                      if (end_day != null && start_day !== end_day) {time = "Mehrtägig, bis " + end_day + " " + end_month};
-                      if (wholeDay === true) {time = "Ganztägig"};
-                      let event = entity.attributes.data[i].summary;
-                      let location = entity.attributes.data[i].location;
-                      if (location === "" || location === undefined) {location = "-"}
-
-                    calSnippet += 
-                      `<table><tr>
-                          <td class="date month">${start_month}</td><td class="event"><div class="event-title">${event}</div></td>
-                        </tr>
-                        <tr>
-                          <td class="date day">${start_day}</td><td class="event"><span class="location"><ha-icon class="icon" icon="mdi:map-marker"></ha-icon>${location}</span><span class="time"><ha-icon class="icon" icon="mdi:clock-outline"></ha-icon>${time}</span></td>
-                        </tr></table>`
-                        }
-                    }
-                      
-                    return calSnippet; ]]]
-                styles:
-                  card:
-                    - border-radius: 10px
-                  grid:
-                    - grid-template-areas: '"person" "calendar"'
-                    - grid-template-columns: 1fr
-                    - grid-template-rows: 1fr min-content
-                  person:
-                    - align-self: middle
-                style: |
-                  img {
-                    border-radius: 50%;
-                    width: 64px;
-                    margin-bottom: 1em;
-                    margin-top: 0.2em;
-                  }
-                  .icon {
-                    margin-right: 5%;
-                    text-align: center;
-                    float: left;
-                    width: 12px;
-                  }
-                  table {
-                    margin-left: 8px;
-                    box-sizing: border-box;
-                    border-spacing: 0;
-                    margin-bottom: 1.0em;
-                    width: 100%;
-                    color: blue;
-                  }
-                  td {
-                    white-space: -o-pre-wrap; 
-                    word-wrap: break-word;
-                    white-space: pre-wrap; 
-                    white-space: -moz-pre-wrap; 
-                    white-space: -pre-wrap; 
-                    color: white;
-                  }
-                  .date {
-                    border-right: 1px solid var(--primary-color);
-                    width: 20%;
-                    text-align: center;
-                    color: var(--primary-text-color);
-                  }
-                  .event, .task {
-                    padding-left: 8px;
-                    width: 80%;
-                    font-family: Roboto,Noto,sans-serif;
-                    color: var(--primary-text-color);
-                  }
-                  .month {
-                    padding-right: 4px;
-                    text-transform: uppercase;
-                    vertical-align: bottom;
-                    font-family: Roboto,Noto,sans-serif;
-                    color: var(--primary-text-color);
-                  }
-                  .day {
-                    font-size: 1.0em;
-                    vertical-align: top;
-                    font-family: Roboto,Noto,sans-serif;
-                    color: var(--primary-text-color);
-                  }
-                  .event-title {
-                    margin-top: 0;
-                    margin-right: 6px;
-                    font-family: Roboto,Noto,sans-serif;
-                    font-size: 0.8em;
-                    font-weight: 400;
-                    text-align: left;
-                    vertical-align: top;
-                    word-wrap: break-word;
-                    overflow-wrap: break-word;
-                    color: var(--primary-text-color);
-                  }
-                  .time, .location {
-                    padding-right: 10px;
-                    display: block;
-                    text-align: left;
-                    font-size: 0.6em;
-                    padding-top: 5px;
-                  }
-                  .time {
-                    padding-bottom: 1em;
-                  }
-              - type: custom:button-card
-                name: Family
-                show_icon: false
-                show_name: false
-                tap_action:
-                  action: navigate
-                  navigation_path: /dashboard-tablet/calendar-family
-                entity: sensor.calendar_family
-                custom_fields:
-                  person: >-
-                    [[[ return `<img
-                    src="/local/community/profile_galaxy.jpg"/>` ]]]
-                  calendar: |
-                    [[[ let calSnippet = ''; let j = 0
-                    for (let i = 0; i < entity.state; i++) {
-                      if (i > 2+j) {};
-                      if (i <= 2+j) {
-                      let year = entity.attributes.data[i].year;
-                      if (year < 2023) {j++; continue;}
-                      let start_month = entity.attributes.data[i].startMonth;
-                      let start_day = entity.attributes.data[i].startDay;
-                      let start_time = entity.attributes.data[i].startTime;
-                      let end_month = entity.attributes.data[i].endMonth;
-                      let end_day = entity.attributes.data[i].endDay;
-                      let end_time = entity.attributes.data[i].endTime;
-                      let time = start_time;
-                      let wholeDay = entity.attributes.data[i].wholeDay;
-                      if (end_day != null && start_day !== end_day) {time = "Mehrtägig, bis " + end_day + " " + end_month};
-                      if (wholeDay === true) {time = "Ganztägig"};
-                      let event = entity.attributes.data[i].summary;
-                      let location = entity.attributes.data[i].location;
-                      if (location === "" || location === undefined) {location = "-"}
-
-                    calSnippet += 
-                      `<table><tr>
-                          <td class="date month">${start_month}</td><td class="event"><div class="event-title">${event}</div></td>
-                        </tr>
-                        <tr>
-                          <td class="date day">${start_day}</td><td class="event"><span class="location"><ha-icon class="icon" icon="mdi:map-marker"></ha-icon>${location}</span><span class="time"><ha-icon class="icon" icon="mdi:clock-outline"></ha-icon>${time}</span></td>
-                        </tr></table>`
-                        }
-                    }
-                      
-                    return calSnippet; ]]]
-                styles:
-                  card:
-                    - border-radius: 10px
-                  grid:
-                    - grid-template-areas: '"person" "calendar"'
-                    - grid-template-columns: 1fr
-                    - grid-template-rows: 1fr min-content
-                  person:
-                    - align-self: middle
-                style: |
-                  img {
-                    border-radius: 50%;
-                    width: 64px;
-                    margin-bottom: 1em;
-                    margin-top: 0.2em;
-                  }
-                  .icon {
-                    margin-right: 5%;
-                    text-align: center;
-                    float: left;
-                    width: 12px;
-                  }
-                  table {
-                    margin-left: 8px;
-                    box-sizing: border-box;
-                    border-spacing: 0;
-                    margin-bottom: 1.0em;
-                    width: 100%;
-                    color: blue;
-                  }
-                  td {
-                    white-space: -o-pre-wrap; 
-                    word-wrap: break-word;
-                    white-space: pre-wrap; 
-                    white-space: -moz-pre-wrap; 
-                    white-space: -pre-wrap; 
-                    color: white;
-                  }
-                  .date {
-                    border-right: 1px solid var(--primary-color);
-                    width: 20%;
-                    text-align: center;
-                    color: var(--primary-text-color);
-                  }
-                  .event, .task {
-                    padding-left: 8px;
-                    width: 80%;
-                    font-family: Roboto,Noto,sans-serif;
-                    color: var(--primary-text-color);
-                  }
-                  .month {
-                    padding-right: 4px;
-                    text-transform: uppercase;
-                    vertical-align: bottom;
-                    font-family: Roboto,Noto,sans-serif;
-                    color: var(--primary-text-color);
-                  }
-                  .day {
-                    font-size: 1.0em;
-                    vertical-align: top;
-                    font-family: Roboto,Noto,sans-serif;
-                    color: var(--primary-text-color);
-                  }
-                  .event-title {
-                    margin-top: 0;
-                    margin-right: 6px;
-                    font-family: Roboto,Noto,sans-serif;
-                    font-size: 0.8em;
-                    font-weight: 400;
-                    text-align: left;
-                    vertical-align: top;
-                    word-wrap: break-word;
-                    overflow-wrap: break-word;
-                    color: var(--primary-text-color);
-                  }
-                  .time, .location {
-                    padding-right: 10px;
-                    display: block;
-                    text-align: left;
-                    font-size: 0.6em;
-                    padding-top: 5px;
-                  }
-                  .time {
-                    padding-bottom: 1em;
-                  }
+                  person: <img src="/local/community/profile_eva.jpg"/>
+                template:
+                  - calendar
           - type: custom:stack-in-card
             cards:
               - type: horizontal-stack
@@ -1306,9 +955,9 @@ views:
                       haptic: switch
                     template:
                       - base
+                      - base_standard_layout
                       - base_fan_layout
                       - button_animation
-                      - circle
                       - loader
                   - type: custom:button-card
                     entity: switch.steckdose_spielekonsolen
@@ -1585,67 +1234,77 @@ views:
                     }
               - type: horizontal-stack
                 cards:
-                  - type: custom:button-card
-                    name: Deckenlampe
-                    aspect_ratio: 1/1
-                    show_state: false
-                    tap_action:
-                      action: more-info
-                      haptic: light
-                    entity: sensor.schalter_wohnzimmerdecke_power
-                    template:
-                      - base
-                      - base_power_layout
-                      - button_animation
-                      - power
+                  - type: custom:mini-graph-card
+                    name: Decklamp
+                    animate: true
+                    entities:
+                      - entity: sensor.schalter_wohnzimmerdecke_power
+                    show: { icon: false }
+                    card_mod:
+                      style: |
+                        .states.flex {
+                          {% if states('sensor.schalter_wohnzimmerdecke_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
+                        }
+                        .header.flex .icon {
+                          {% if states('sensor.schalter_wohnzimmerdecke_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
+                        }
+                        ha-card {
+                          border-radius: 10px;
+                        }
                   - type: custom:button-card
                     template:
                       - base_empty_layout
-                  - type: custom:button-card
-                    entity: sensor.steckdose_luftreiniger_power
-                    icon: mdi:fan
+                  - type: custom:mini-graph-card
                     name: Luftreiniger
-                    aspect_ratio: 1/1
-                    show_state: false
-                    tap_action:
-                      action: more-info
-                      haptic: switch
-                    template:
-                      - base
-                      - base_power_layout
-                      - fan_animation
-                      - button_animation
-                      - power
-                  - type: custom:button-card
-                    entity: sensor.steckdose_spielekonsolen_power
-                    icon: mdi:nintendo-game-boy
-                    name: Konsolen
-                    aspect_ratio: 1/1
-                    show_state: false
-                    tap_action:
-                      action: more-info
-                      haptic: switch
-                    template:
-                      - base
-                      - base_power_layout
-                      - button_animation
-                      - power
+                    animate: true
+                    entities:
+                      - entity: sensor.steckdose_luftreiniger_power
+                    card_mod:
+                      style: |
+                        .states.flex {
+                          {% if states('sensor.steckdose_luftreiniger_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
+                        }
+                        .header.flex .icon {
+                          {% if states('sensor.steckdose_luftreiniger_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
+                        }
+                        ha-card {
+                          border-radius: 10px;
+                        }
+                  - type: custom:mini-graph-card
+                    name: Fernseher
+                    animate: true
+                    entities:
+                      - entity: sensor.steckdose_fernseher_hifi_power
+                    card_mod:
+                      style: |
+                        .states.flex {
+                          {% if states('sensor.steckdose_fernseher_hifi_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
+                        }
+                        .header.flex .icon {
+                          {% if states('sensor.steckdose_fernseher_hifi_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
+                        }
+                        ha-card {
+                          border-radius: 10px;
+                        }
                   - type: custom:button-card
                     template:
                       - base_spacing_layout
-                  - type: custom:button-card
-                    entity: sensor.steckdose_fernseher_hifi_power
-                    name: Fernseher
-                    aspect_ratio: 1/1
-                    show_state: false
-                    tap_action:
-                      action: more-info
-                      haptic: light
-                    template:
-                      - base
-                      - base_power_layout
-                      - button_animation
-                      - power
+                  - type: custom:mini-graph-card
+                    name: Konsolen
+                    animate: true
+                    entities:
+                      - entity: sensor.steckdose_spielekonsolen_power
+                    card_mod:
+                      style: |
+                        .states.flex {
+                          {% if states('sensor.steckdose_spielekonsolen_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
+                        }
+                        .header.flex .icon {
+                          {% if states('sensor.steckdose_spielekonsolen_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
+                        }
+                        ha-card {
+                          border-radius: 10px;
+                        }  
               - type: markdown
                 content: ' '
                 title: KÜCHE
@@ -1657,74 +1316,89 @@ views:
                     }
               - type: horizontal-stack
                 cards:
-                  - type: custom:button-card
+                  - type: custom:mini-graph-card
                     name: Küchentisch
-                    aspect_ratio: 1/1
-                    show_state: false
-                    tap_action:
-                      action: more-info
-                      haptic: light
-                    entity: sensor.schalter_kuchentisch_power
-                    template:
-                      - base
-                      - base_power_layout
-                      - button_animation
-                      - power
-                  - type: custom:button-card
-                    name: Küchendecke Zeile
-                    aspect_ratio: 1/1
-                    show_state: false
-                    tap_action:
-                      action: more-info
-                      haptic: light
-                    entity: sensor.steckdose_kuchendecke_zeile_power
-                    template:
-                      - base
-                      - base_power_layout
-                      - button_animation
-                      - power
-                  - type: custom:button-card
-                    name: Küchendecke Herd
-                    aspect_ratio: 1/1
-                    show_state: false
-                    tap_action:
-                      action: more-info
-                      haptic: light
-                    entity: sensor.schalter_kuchendecke_herd_power
-                    template:
-                      - base
-                      - base_power_layout
-                      - button_animation
-                      - power
-                  - type: custom:button-card
-                    entity: sensor.steckdose_spulmaschine_power
+                    animate: true
+                    entities:
+                      - entity: sensor.schalter_kuchentisch_power
+                    card_mod:
+                      style: |
+                        .states.flex {
+                          {% if states('sensor.schalter_kuchentisch_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
+                        }
+                        .header.flex .icon {
+                          {% if states('sensor.schalter_kuchentisch_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
+                        }
+                        ha-card {
+                          border-radius: 10px;
+                        }                    
+                  - type: custom:mini-graph-card
+                    name: Decke Zeile
+                    animate: true
+                    entities:
+                      - entity: sensor.steckdose_kuchendecke_zeile_power
+                    card_mod:
+                      style: |
+                        .states.flex {
+                          {% if states('sensor.steckdose_kuchendecke_zeile_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
+                        }
+                        .header.flex .icon {
+                          {% if states('sensor.steckdose_kuchendecke_zeile_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
+                        }
+                        ha-card {
+                          border-radius: 10px;
+                        }                    
+                  - type: custom:mini-graph-card
+                    name: Decke Herd
+                    animate: true
+                    entities:
+                      - entity: sensor.schalter_kuchendecke_herd_power
+                    card_mod:
+                      style: |
+                        .states.flex {
+                          {% if states('sensor.schalter_kuchendecke_herd_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
+                        }
+                        .header.flex .icon {
+                          {% if states('sensor.schalter_kuchendecke_herd_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
+                        }
+                        ha-card {
+                          border-radius: 10px;
+                        }                    
+                  - type: custom:mini-graph-card
                     name: Spülmaschine
-                    aspect_ratio: 1/1
-                    show_state: false
-                    tap_action:
-                      action: more-info
-                      haptic: light
-                    template:
-                      - base
-                      - base_power_layout
-                      - button_animation
-                      - power
+                    animate: true
+                    entities:
+                      - entity: sensor.steckdose_spulmaschine_power
+                    card_mod:
+                      style: |
+                        .states.flex {
+                          {% if states('sensor.steckdose_spulmaschine_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
+                        }
+                        .header.flex .icon {
+                          {% if states('sensor.steckdose_spulmaschine_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
+                        }
+                        ha-card {
+                          border-radius: 10px;
+                        }                    
                   - type: custom:button-card
                     template:
                       - base_spacing_layout
-                  - type: custom:button-card
-                    aspect_ratio: 1/1
-                    show_state: false
+                  - type: custom:mini-graph-card
                     name: Waschmaschine
-                    entity: sensor.steckdose_waschmaschine_power
-                    tap_action:
-                      action: more-info
-                      haptic: light
-                    template:
-                      - base
-                      - base_power_layout
-                      - button_animation
-                      - power
+                    animate: true
+                    entities:
+                      - entity: sensor.steckdose_waschmaschine_power
+                    card_mod:
+                      style: |
+                        .states.flex {
+                          {% if states('sensor.steckdose_waschmaschine_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
+                        }
+                        .header.flex .icon {
+                          {% if states('sensor.steckdose_waschmaschine_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
+                        }
+                        ha-card {
+                          border-radius: 10px;
+                        }                    
               - type: markdown
                 content: ' '
                 title: BAD, FLUR
@@ -1736,54 +1410,63 @@ views:
                     }
               - type: horizontal-stack
                 cards:
-                  - type: custom:button-card
+                  - type: custom:mini-graph-card
                     name: Badezimmerdecke
-                    aspect_ratio: 1/1
-                    show_state: false
-                    tap_action:
-                      action: more-info
-                      haptic: light
-                    entity: sensor.schalter_badezimmerdecke_power
-                    template:
-                      - base
-                      - base_power_layout
-                      - button_animation
-                      - power
+                    animate: true
+                    entities:
+                      - entity: sensor.schalter_badezimmerdecke_power
+                    card_mod:
+                      style: |
+                        .states.flex {
+                          {% if states('sensor.schalter_badezimmerdecke_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
+                        }
+                        .header.flex .icon {
+                          {% if states('sensor.schalter_badezimmerdecke_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
+                        }
+                        ha-card {
+                          border-radius: 10px;
+                        }                    
                   - type: custom:button-card
                     template:
                       - base_empty_layout
                   - type: custom:button-card
                     template:
                       - base_empty_layout
-                  - type: custom:button-card
+                  - type: custom:mini-graph-card
                     name: Kühlschrank
-                    aspect_ratio: 1/1
-                    show_state: false
-                    tap_action:
-                      action: more-info
-                      haptic: light
-                    entity: sensor.steckdose_kuhlschrank_power
-                    template:
-                      - base
-                      - base_power_layout
-                      - button_animation
-                      - power
+                    animate: true
+                    entities:
+                      - entity: sensor.steckdose_kuhlschrank_power
+                    card_mod:
+                      style: |
+                        .states.flex {
+                          {% if states('sensor.steckdose_kuhlschrank_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
+                        }
+                        .header.flex .icon {
+                          {% if states('sensor.steckdose_kuhlschrank_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
+                        }
+                        ha-card {
+                          border-radius: 10px;
+                        }                    
                   - type: custom:button-card
                     template:
                       - base_spacing_layout
-                  - type: custom:button-card
+                  - type: custom:mini-graph-card
                     name: Server
-                    aspect_ratio: 1/1
-                    show_state: false
-                    tap_action:
-                      action: more-info
-                      haptic: light
-                    entity: sensor.steckdose_server_power
-                    template:
-                      - base
-                      - base_power_layout
-                      - button_animation
-                      - power
+                    animate: true
+                    entities:
+                      - entity: sensor.steckdose_server_power
+                    card_mod:
+                      style: |
+                        .states.flex {
+                          {% if states('sensor.steckdose_server_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
+                        }
+                        .header.flex .icon {
+                          {% if states('sensor.steckdose_server_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
+                        }
+                        ha-card {
+                          border-radius: 10px;
+                        }                    
   - theme: ios-dark-mode
     title: Energie
     path: energie
@@ -2161,11 +1844,13 @@ button_card_templates:
       holiday_on: |
         [[[ return (entity.attributes.preset_mode === 'week_program_2'); ]]]
       state_on: >
-        [[[ return ['on', 'home', 'cool', 'fan_only', 'playing'].indexOf(entity
-        === undefined || entity.state) !== -1; ]]]
+        [[[ return ['on', 'home', 'cool', 'fan_only', 'playing',
+        'unlocked'].indexOf(!entity || entity.state) !== -1; ]]]
+      state: |
+        [[[ return !entity || entity.state; ]]]
       timeout: >
-        [[[ return entity === undefined || Date.now() -
-        Date.parse(entity.last_changed); ]]]
+        [[[ return !entity || Date.now() - Date.parse(entity.last_changed);
+        ]]]      
     styles:
       card:
         - padding: 5%
@@ -2664,3 +2349,206 @@ button_card_templates:
           - opacity: 0.8
           - pointer-events: none
           - filter: invert(1)
+  calendar:
+    custom_fields:
+      calendar: |
+        [[[ let calSnippet = ''; let j = 0
+        for (let i = 0; i < entity.state; i++) {
+          if (i > 2+j) {};
+          if (i <= 2+j) {
+          let year = entity.attributes.data[i].year;
+          if (year < 2023) {j++; continue;}
+          let start_month = entity.attributes.data[i].startMonth;
+          let start_day = entity.attributes.data[i].startDay;
+          let start_time = entity.attributes.data[i].startTime;
+          let end_month = entity.attributes.data[i].endMonth;
+          let end_day = entity.attributes.data[i].endDay;
+          let end_time = entity.attributes.data[i].endTime;
+          let time = start_time;
+          let wholeDay = entity.attributes.data[i].wholeDay;
+          if (end_day != null && start_day !== end_day) {time = "Mehrtägig, bis " + end_day + " " + end_month};
+          if (wholeDay === true) {time = "Ganztägig"};
+          let event = entity.attributes.data[i].summary;
+          let location = entity.attributes.data[i].location;
+          if (location === "" || location === undefined) {location = "-"}
+
+        calSnippet += 
+          `<table><tr>
+              <td class="date month">${start_month}</td><td class="event"><div class="event-title">${event}</div></td>
+            </tr>
+            <tr>
+              <td class="date day">${start_day}</td><td class="event"><span class="location"><ha-icon class="icon" icon="mdi:map-marker"></ha-icon>${location}</span><span class="time"><ha-icon class="icon" icon="mdi:clock-outline"></ha-icon>${time}</span></td>
+            </tr></table>`
+            }
+        }
+        return calSnippet; ]]]
+    styles:
+      card:
+        - border-radius: 10px
+      grid:
+        - grid-template-areas: '"person" "calendar"'
+        - grid-template-columns: 1fr
+        - grid-template-rows: 1fr min-content
+      person:
+        - align-self: middle
+    style: |
+      img {
+        border-radius: 50%;
+        width: 64px;
+        margin-bottom: 1em;
+        margin-top: 0.2em;
+      }
+      .icon {
+        margin-right: 5%;
+        text-align: center;
+        float: left;
+        width: 12px;
+      }
+      table {
+        margin-left: 8px;
+        box-sizing: border-box;
+        border-spacing: 0;
+        margin-bottom: 1.0em;
+        width: 100%;
+        color: blue;
+      }
+      td {
+        white-space: -o-pre-wrap; 
+        word-wrap: break-word;
+        white-space: pre-wrap; 
+        white-space: -moz-pre-wrap; 
+        white-space: -pre-wrap; 
+        color: white;
+      }
+      .date {
+        border-right: 1px solid var(--primary-color);
+        width: 20%;
+        text-align: center;
+        color: var(--primary-text-color);
+      }
+      .event, .task {
+        padding-left: 8px;
+        width: 80%;
+        font-family: Roboto,Noto,sans-serif;
+        color: var(--primary-text-color);
+      }
+      .month {
+        padding-right: 4px;
+        text-transform: uppercase;
+        vertical-align: bottom;
+        font-family: Roboto,Noto,sans-serif;
+        color: var(--primary-text-color);
+      }
+      .day {
+        font-size: 1.0em;
+        vertical-align: top;
+        font-family: Roboto,Noto,sans-serif;
+        color: var(--primary-text-color);
+      }
+      .event-title {
+        margin-top: 0;
+        margin-right: 6px;
+        font-family: Roboto,Noto,sans-serif;
+        font-size: 0.8em;
+        font-weight: 400;
+        text-align: left;
+        vertical-align: top;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        color: var(--primary-text-color);
+      }
+      .time, .location {
+        padding-right: 10px;
+        display: block;
+        text-align: left;
+        font-size: 0.6em;
+        padding-top: 5px;
+      }
+      .time {
+        padding-bottom: 1em;
+      }
+  base2_new:
+    styles:
+      grid:
+        - grid-template-areas: |
+            "icon  circle"
+            "n     n"
+            "s     s"
+        - grid-template-columns: repeat(2, 1fr)
+        - grid-template-rows: auto repeat(2, min-content)
+        - align-items: start
+        - top: 3%
+        - left: 10%
+        - height: 90%
+        - width: 90%
+  icon_fan2:
+    styles:
+      custom_fields:
+        icon:
+          - width: 75%
+          - margin-left: '-3%'
+    custom_fields:
+      icon: |
+        [[[
+          let path = `
+            <circle cx="25" cy="25" r="6.6"/>
+            <path d="M31.9 30.4c-.5.6-1.1 1.1-1.7 1.5-1.4 1.1-3.2 1.7-5.2 1.7-2.3 0-4.5-.9-6-2.4-.9 1.1-1.6 2.3-2.3 3.2l-4.9 5.4c-1.8 2.7.3 5.6 2.5 7 3.9 2.4 9.8 3.1 14.1 1.9 4.6-1.3 7.9-4.7 7.4-9.7-.2-3.4-1.9-6-3.9-8.6zM17 28.3c-.4-1-.6-2.1-.6-3.3a8.7 8.7 0 0 1 6.4-8.4l-1.6-3.5L19 6.2c-1.5-2.8-5-2.5-7.3-1.2-4 2.2-7.5 6.9-8.7 11.3-1.2 4.6.2 9.2 4.7 11.3 3.1 1.3 6.1 1.2 9.3.7zm26.9-17.6c-3.3-3.4-8-4.6-12.1-1.8-2.8 1.8-4.2 4.6-5.5 7.5 4.2.6 7.4 4.2 7.4 8.6 0 .9-.1 1.7-.4 2.5 1.3.2 2.8.3 3.8.4 2.3.4 4.7 1.3 7.1 1.7 3.2.3 4.7-3 4.8-5.6.3-4.6-1.9-10.1-5.1-13.3z"/>
+          `,
+          style = `
+            <svg viewBox="0 0 50 50">
+              <style>
+                @keyframes rotate {
+                  0% {
+                    visibility: visible;
+                    transform: rotate(0deg) translateZ(0);
+                  }
+                  100% {
+                    transform: rotate(1080deg) translateZ(0);
+                  }
+                }
+                .start {
+                  animation: rotate 2.8s ease-in;
+                  transform-origin: center;
+                  fill: #5daeea;
+                  visibility: hidden;
+                  will-change: transform;
+                }
+                .on {
+                  animation: rotate 1.8s linear infinite;
+                  transform-origin: center;
+                  fill: #5daeea;
+                  animation-delay: 2.8s;
+                  visibility: hidden;
+                  will-change: transform;
+                }
+                .end {
+                  animation: rotate 2.8s;
+                  transform-origin: center;
+                  fill: #9ca2a5;
+                  animation-timing-function: cubic-bezier(0.61, 1, 0.88, 1);
+                  will-change: transform;
+                }
+                .start_timeout {
+                  animation: rotate 1.8s linear infinite;
+                  transform-origin: center;
+                  fill: #5daeea;
+                  visibility: hidden;
+                  will-change: transform;
+                }
+                .end_timeout {
+                  fill: #9ca2a5;
+                }
+              </style>
+          `;
+          if (variables.state_on && variables.timeout < 2000) {
+            return `${style}<g class="start">${path}</g><g class="on">${path}</g></svg>`;
+          }
+          if (variables.state === 'off' && variables.timeout < 2000) {
+            return `${style}<g class="end">${path}</g></svg>`;
+          }
+          if (variables.state_on && variables.timeout > 2000) {
+            return `${style}<g class="start_timeout">${path}</g></svg>`;
+          } else {
+            return `${style}<g class="end_timeout">${path}</g></svg>`;
+          }
+        ]]]
