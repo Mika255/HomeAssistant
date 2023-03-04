@@ -6,6 +6,9 @@ My Home Assistant Lovelace configuration for my tablet dashboard.
 ## Table of Contents
 
 - [Screenshots](#screenshots)
+- [Installation](#installation)
+  - [Media-Player](#media-player)
+  - [Calendar](#calendar)
 - [Inspirations](#inspirations)
 
 ## Screenshots
@@ -28,19 +31,26 @@ This lovelace UI was created for my tablet and is very customized. Still, some p
 - EVERYWHERE: *sidebar-card* to create a nice sidebar with a clock, weather and menu https://github.com/DBuit/sidebar-card
 - HOME: *todoist-card* to display the shopping list created via Alexa https://github.com/grinstantin/todoist-card
 - HOME, LICHTER, SCHALTER: *mushroom-cards* for nice buttons and modern UI https://github.com/piitaya/lovelace-mushroom
+- HEIZUNGEN: *simple-thermostat-card* to change temperature and see heating modes https://github.com/nervetattoo/simple-thermostat
+- HEIZUNGEN: *thermostat-dark-card* displays temperature in a nice circle https://github.com/ciotlosm/lovelace-thermostat-dark-card
 - STROM: *mini-graph-card* creates an energy graph on the switch buttons https://github.com/kalkih/mini-graph-card
 - LICHTER, SCHALTER: *auto-entities* which helps to autopopulate cards https://github.com/thomasloven/lovelace-auto-entities
 - LICHTER: *hue-icons* for nicer looking hue icons https://github.com/arallsopp/hass-hue-icons
 - PFLANZEN: *flower-card* for plants https://github.com/Olen/lovelace-flower-card
   - uses *plant* which creates a plant entity in HA https://github.com/Olen/homeassistant-plant
 
-### Media Player
+### Media-Player
 
-- HOME MEDIA-PLAYER for Spotify will need
+- HOME, MEDIA-PLAYER for Spotify will need
   - *mushroom-cards* for the play+pause+skip buttons and artist+song title
   - *mini-media-player* for the progress bar
   - *spotcast* to start playback on Spotify connect devices, e.g. Amazon Show
 
+### Calendar
+
+- HOME, CALENDAR you will need
+  - *HASS Calendar Addon* will read google or caldav calendars in a parsable entity https://github.com/kdw2060/hassio-addons/tree/master/hass-addon-calendar
+  - *button-card* is used to create the calendar UI
 
 ## Inspirations
 
