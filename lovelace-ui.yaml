@@ -792,7 +792,7 @@ views:
                       - button_animation
                       - circle
                   - type: custom:button-card
-                    entity: switch.steckdose_luftreiniger
+                    entity: fan.xiaomi_smart_air_purifier_4_pro
                     icon: mdi:fan
                     name: Luftreiniger
                     aspect_ratio: 1/1
@@ -825,7 +825,7 @@ views:
                       - button_animation
                   - type: custom:button-card
                     entity: switch.schalter_wohnzimmerdecke
-                    name: Schalter Deckenlicht
+                    name: Deckenlicht
                     aspect_ratio: 1/1
                     show_state: false
                     tap_action:
@@ -915,7 +915,7 @@ views:
                   - type: custom:button-card
                     aspect_ratio: 1/1
                     show_state: false
-                    name: Schalter Küchenzeile
+                    name: Küchendecke
                     entity: switch.schalter_kuche
                     tap_action:
                       action: toggle
@@ -988,13 +988,12 @@ views:
                   - type: custom:button-card
                     name: POWER
                     aspect_ratio: 1/1
-                    show_state: true
-                    entity: sensor.steckdose_server_power
+                    show_state: false
+                    entity: switch.schalter_wohnzimmerdecke
                     template:
                       - base
-                      - base_standard_layout
+                      - base_empty_layout
                       - button_animation
-                      - circle
                   - type: custom:button-card
                     name: Fernseher
                     aspect_ratio: 1/1
@@ -1647,8 +1646,9 @@ button_card_templates:
     custom_fields:
       powers: |
         [[[ 
-          var d = variables.colorz;
-          return `<text font-size="100">${d}</text>`
+          var s = entity.state;
+          set dev = device_id(s);
+          return `<text font-size="100">${dev}</text>`
         ]]]
   battery:
     custom_fields:
