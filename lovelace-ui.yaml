@@ -171,6 +171,22 @@ views:
                   {% endif %}
                 content: Wohnzimmer
               - type: template
+                icon: >-
+                  {% if is_state('binary_sensor.fl_kontakt_wohnungstur_state',
+                  'on') %}
+                   mdi:door-open
+                  {% else %}
+                    mdi:door-closed-lock
+                  {% endif %}
+                icon_color: >-
+                  {% if is_state('binary_sensor.fl_kontakt_wohnungstur_state',
+                  'on') %}
+                    blue
+                  {% else %}
+                    grey
+                  {% endif %}
+                content: Wohnungstür
+              - type: template
                 icon: mdi:lightbulb-group
                 icon_color: |-
                   {% if is_state('light.wohnung', 'on') %}
@@ -230,19 +246,48 @@ views:
                   - calendar
           - type: custom:stack-in-card
             cards:
+              - type: custom:mushroom-template-card
+                entity: media_player.spotify_hell255
+                primary: >
+                  {% if is_state('media_player.spotify_hell255','playing') %} {{
+                  state_attr('media_player.spotify_hell255','source').upper() }}
+                  {% else %}PARTY PAUSE{% endif %}
+                card_mod:
+                  style: |
+                    ha-card {
+                      --primary-text-color: grey;
+                      margin-bottom: -12px;
+                    }
               - type: horizontal-stack
                 cards:
+                  - type: custom:mushroom-template-card
+                    entity: media_player.spotify_hell255
+                    icon: mdi:television
+                    icon_color: >
+                      {% set source =
+                      state_attr('media_player.spotify_hell255','source') %} {%-
+                      if ("Mikael's 2nd Fire TV" not in
+                      state_attr('media_player.spotify_hell255', 'source_list'))
+                      -%}grey{% else %}
+                       {% if source == "Mikael's 2nd Fire TV" %}#ff9e0b
+                       {% elif source == "Überall" %}#a70bcd {% else %}white{% endif %}
+                      {% endif %}
+                    tap_action:
+                      action: call-service
+                      service: automation.trigger
+                      service_data:
+                        entity_id: automation.spotify_play_fire_tv
                   - type: custom:mushroom-template-card
                     entity: media_player.spotify_hell255
                     icon: mdi:laptop
                     icon_color: >
                       {% set source =
                       state_attr('media_player.spotify_hell255','source') %} {%-
-                      if ("MacBook Air (2)" not in
+                      if ("Mikas MacBook Air" not in
                       state_attr('media_player.spotify_hell255', 'source_list'))
                       -%}grey{% else %}
-                       {% if source == "MacBook Air (2)" %}#ff9e0b
-                       {% elif source == "Überall" %}#4050b5 {% else %}white{% endif %}
+                       {% if source == "Mikas MacBook Air" %}#ff9e0b
+                       {% elif source == "Überall" %}#a70bcd {% else %}white{% endif %}
                       {% endif %}
                     tap_action:
                       action: call-service
@@ -251,7 +296,7 @@ views:
                         entity_id: automation.spotify_play_macbook
                   - type: custom:mushroom-template-card
                     entity: media_player.spotify_hell255
-                    icon: mdi:phone
+                    icon: mdi:apple
                     icon_color: >
                       {% set source =
                       state_attr('media_player.spotify_hell255','source') %} {%-
@@ -259,7 +304,7 @@ views:
                       state_attr('media_player.spotify_hell255', 'source_list'))
                       -%}grey{% else %}
                        {% if source == "iPhone" %}#ff9e0b
-                       {% elif source == "Überall" %}#4050b5 {% else %}white{% endif %}
+                       {% elif source == "Überall" %}#a70bcd {% else %}white{% endif %}
                       {% endif %}
                     tap_action:
                       action: call-service
@@ -268,15 +313,27 @@ views:
                         entity_id: automation.spotify_play_iphone
                   - type: custom:mushroom-template-card
                     entity: media_player.spotify_hell255
+                    icon: mdi:phone
+                    icon_color: >
+                      {% set source =
+                      state_attr('media_player.spotify_hell255','source') %} {%-
+                      if ("Galaxy S20 FE 5G" not in
+                      state_attr('media_player.spotify_hell255', 'source_list'))
+                      -%}grey{% else %}
+                       {% if source == "Galaxy S20 FE 5G" %}#ff9e0b
+                       {% elif source == "Überall" %}#a70bcd {% else %}white{% endif %}
+                      {% endif %}
+                  - type: custom:mushroom-template-card
+                    entity: media_player.spotify_hell255
                     icon: mdi:shower
                     icon_color: >
                       {% set source =
                       state_attr('media_player.spotify_hell255','source') %} {%-
-                      if ("Mikaels Echo Klo" not in
+                      if ("Mikas Echo Klo" not in
                       state_attr('media_player.spotify_hell255', 'source_list'))
                       -%}grey{% else %}
-                       {% if source == "Mikaels Echo Klo" %}#ff9e0b
-                       {% elif source == "Überall" %}#4050b5 {% else %}white{% endif %}
+                       {% if source == "Mikas Echo Klo" %}#ff9e0b
+                       {% elif source == "Überall" %}#a70bcd {% else %}white{% endif %}
                       {% endif %}
                     tap_action:
                       action: call-service
@@ -289,11 +346,11 @@ views:
                     icon_color: >
                       {% set source =
                       state_attr('media_player.spotify_hell255','source') %} {%-
-                      if ("Mikaels Echo Küche" not in
+                      if ("Mikas Echo Koch" not in
                       state_attr('media_player.spotify_hell255', 'source_list'))
                       -%}grey{% else %}
-                       {% if source == "Mikaels Echo Küche" %}#ff9e0b
-                       {% elif source == "Überall" %}#4050b5 {% else %}white{% endif %}
+                       {% if source == "Mikas Echo Koch" %}#ff9e0b
+                       {% elif source == "Überall" %}#a70bcd {% else %}white{% endif %}
                       {% endif %}                    
                     tap_action:
                       action: call-service
@@ -306,11 +363,11 @@ views:
                     icon_color: >
                       {% set source =
                       state_attr('media_player.spotify_hell255','source') %} {%-
-                      if ("Mikaels Echo Dot" not in
+                      if ("Mikas Echo Eck" not in
                       state_attr('media_player.spotify_hell255', 'source_list'))
                       -%}grey{% else %}
-                       {% if source == "Mikaels Echo Dot" %}#ff9e0b
-                       {% elif source == "Überall" %}#4050b5 {% else %}white{% endif %}
+                       {% if source == "Mikas Echo Eck" %}#ff9e0b
+                       {% elif source == "Überall" %}#a70bcd {% else %}white{% endif %}
                       {% endif %}
                     tap_action:
                       action: call-service
@@ -495,6 +552,15 @@ views:
           exclude:
             - entity_id: sensor.steckdose_kuhlschrank_power
             - entity_id: sensor.steckdose_server_power
+      - type: custom:todoist-card
+        entity: sensor.to_do_list
+        show_header: true
+        show_completed: 5
+        show_item_add: true
+        use_quick_add: false
+        show_item_close: true
+        show_item_delete: true
+        only_today_overdue: false
   - theme: ios-dark-mode
     title: Heizungen
     path: heizungen
@@ -1235,17 +1301,19 @@ views:
               - type: horizontal-stack
                 cards:
                   - type: custom:mini-graph-card
-                    name: Decklamp
+                    name: Decklampe
                     animate: true
+                    decimals: 0
                     entities:
                       - entity: sensor.schalter_wohnzimmerdecke_power
-                    show: { icon: false }
+                    show:
+                      icon: false
                     card_mod:
                       style: |
-                        .states.flex {
+                        .header.flex .name.flex {
                           {% if states('sensor.schalter_wohnzimmerdecke_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
                         }
-                        .header.flex .icon {
+                        .states.flex {
                           {% if states('sensor.schalter_wohnzimmerdecke_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
                         }
                         ha-card {
@@ -1257,14 +1325,17 @@ views:
                   - type: custom:mini-graph-card
                     name: Luftreiniger
                     animate: true
+                    decimals: 0
                     entities:
                       - entity: sensor.steckdose_luftreiniger_power
+                    show:
+                      icon: false
                     card_mod:
                       style: |
-                        .states.flex {
+                        .header.flex .name.flex {
                           {% if states('sensor.steckdose_luftreiniger_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
                         }
-                        .header.flex .icon {
+                        .states.flex {
                           {% if states('sensor.steckdose_luftreiniger_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
                         }
                         ha-card {
@@ -1273,14 +1344,17 @@ views:
                   - type: custom:mini-graph-card
                     name: Fernseher
                     animate: true
+                    decimals: 0
                     entities:
                       - entity: sensor.steckdose_fernseher_hifi_power
+                    show:
+                      icon: false
                     card_mod:
                       style: |
-                        .states.flex {
+                        .header.flex .name.flex {
                           {% if states('sensor.steckdose_fernseher_hifi_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
                         }
-                        .header.flex .icon {
+                        .states.flex {
                           {% if states('sensor.steckdose_fernseher_hifi_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
                         }
                         ha-card {
@@ -1292,14 +1366,17 @@ views:
                   - type: custom:mini-graph-card
                     name: Konsolen
                     animate: true
+                    decimals: 0
                     entities:
                       - entity: sensor.steckdose_spielekonsolen_power
+                    show:
+                      icon: false
                     card_mod:
                       style: |
-                        .states.flex {
+                        .header.flex .name.flex {
                           {% if states('sensor.steckdose_spielekonsolen_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
                         }
-                        .header.flex .icon {
+                        .states.flex {
                           {% if states('sensor.steckdose_spielekonsolen_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
                         }
                         ha-card {
@@ -1319,14 +1396,17 @@ views:
                   - type: custom:mini-graph-card
                     name: Küchentisch
                     animate: true
+                    decimals: 0
                     entities:
                       - entity: sensor.schalter_kuchentisch_power
+                    show:
+                      icon: false
                     card_mod:
                       style: |
-                        .states.flex {
+                        .header.flex .name.flex {
                           {% if states('sensor.schalter_kuchentisch_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
                         }
-                        .header.flex .icon {
+                        .states.flex {
                           {% if states('sensor.schalter_kuchentisch_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
                         }
                         ha-card {
@@ -1335,14 +1415,17 @@ views:
                   - type: custom:mini-graph-card
                     name: Decke Zeile
                     animate: true
+                    decimals: 0
                     entities:
                       - entity: sensor.steckdose_kuchendecke_zeile_power
+                    show:
+                      icon: false
                     card_mod:
                       style: |
-                        .states.flex {
+                        .header.flex .name.flex {
                           {% if states('sensor.steckdose_kuchendecke_zeile_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
                         }
-                        .header.flex .icon {
+                        .states.flex {
                           {% if states('sensor.steckdose_kuchendecke_zeile_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
                         }
                         ha-card {
@@ -1351,14 +1434,17 @@ views:
                   - type: custom:mini-graph-card
                     name: Decke Herd
                     animate: true
+                    decimals: 0
                     entities:
                       - entity: sensor.schalter_kuchendecke_herd_power
+                    show:
+                      icon: false
                     card_mod:
                       style: |
-                        .states.flex {
+                        .header.flex .name.flex {
                           {% if states('sensor.schalter_kuchendecke_herd_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
                         }
-                        .header.flex .icon {
+                        .states.flex {
                           {% if states('sensor.schalter_kuchendecke_herd_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
                         }
                         ha-card {
@@ -1367,14 +1453,17 @@ views:
                   - type: custom:mini-graph-card
                     name: Spülmaschine
                     animate: true
+                    decimals: 0
                     entities:
                       - entity: sensor.steckdose_spulmaschine_power
+                    show:
+                      icon: false
                     card_mod:
                       style: |
-                        .states.flex {
+                        .header.flex .name.flex {
                           {% if states('sensor.steckdose_spulmaschine_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
                         }
-                        .header.flex .icon {
+                        .states.flex {
                           {% if states('sensor.steckdose_spulmaschine_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
                         }
                         ha-card {
@@ -1386,14 +1475,17 @@ views:
                   - type: custom:mini-graph-card
                     name: Waschmaschine
                     animate: true
+                    decimals: 0
                     entities:
                       - entity: sensor.steckdose_waschmaschine_power
+                    show:
+                      icon: false
                     card_mod:
                       style: |
-                        .states.flex {
+                        .header.flex .name.flex {
                           {% if states('sensor.steckdose_waschmaschine_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
                         }
-                        .header.flex .icon {
+                        .states.flex {
                           {% if states('sensor.steckdose_waschmaschine_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
                         }
                         ha-card {
@@ -1413,14 +1505,17 @@ views:
                   - type: custom:mini-graph-card
                     name: Badezimmerdecke
                     animate: true
+                    decimals: 0
                     entities:
                       - entity: sensor.schalter_badezimmerdecke_power
+                    show:
+                      icon: false
                     card_mod:
                       style: |
-                        .states.flex {
+                        .header.flex .name.flex {
                           {% if states('sensor.schalter_badezimmerdecke_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
                         }
-                        .header.flex .icon {
+                        .states.flex {
                           {% if states('sensor.schalter_badezimmerdecke_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
                         }
                         ha-card {
@@ -1435,14 +1530,17 @@ views:
                   - type: custom:mini-graph-card
                     name: Kühlschrank
                     animate: true
+                    decimals: 0
                     entities:
                       - entity: sensor.steckdose_kuhlschrank_power
+                    show:
+                      icon: false
                     card_mod:
                       style: |
-                        .states.flex {
+                        .header.flex .name.flex {
                           {% if states('sensor.steckdose_kuhlschrank_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
                         }
-                        .header.flex .icon {
+                        .states.flex {
                           {% if states('sensor.steckdose_kuhlschrank_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
                         }
                         ha-card {
@@ -1454,14 +1552,17 @@ views:
                   - type: custom:mini-graph-card
                     name: Server
                     animate: true
+                    decimals: 0
                     entities:
                       - entity: sensor.steckdose_server_power
+                    show:
+                      icon: false
                     card_mod:
                       style: |
-                        .states.flex {
+                        .header.flex .name.flex {
                           {% if states('sensor.steckdose_server_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
                         }
-                        .header.flex .icon {
+                        .states.flex {
                           {% if states('sensor.steckdose_server_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
                         }
                         ha-card {
