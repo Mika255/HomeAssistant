@@ -24,25 +24,15 @@ sidebar:
       active: true
       icon: mdi:thermometer-low
     - action: navigate
-      navigation_path: /dashboard-tablet/lampen
+      navigation_path: /dashboard-tablet/steuerung
       name: Steuerung
       active: true
       icon: mdi:lamp-outline
     - action: navigate
-      navigation_path: /dashboard-tablet/calendar-mika
-      name: Kalender Mika
+      navigation_path: /dashboard-tablet/strom
+      name: Strom
       active: true
-      icon: mdi:calendar
-    - action: navigate
-      navigation_path: /dashboard-tablet/calendar-eva
-      name: Kalender Eva
-      active: true
-      icon: mdi:calendar
-    - action: navigate
-      navigation_path: /dashboard-tablet/calendar-family
-      name: Kalender Famille
-      active: true
-      icon: mdi:calendar
+      icon: mdi:lightning-bolt-outline
     - action: navigate
       navigation_path: /dashboard-tablet/wetter
       name: Wetter
@@ -186,19 +176,8 @@ views:
                     {% endif %}
                   {% endfor %} {{ count.value }} Lichter an
                 tap_action:
-                  action: call-service
-                  service: browser_mod.popup
-                  data:
-                    title: Lights On
-                    content:
-                      type: entity-filter
-                      entities:
-                        - light.badezimmer
-                        - light.wohnzimmer
-                        - light.ecklampe
-                        - light.flur
-                      state_filter:
-                        - 'on'
+                  action: navigate
+                  navigation_path: /dashboard-tablet/steuerung
       - type: markdown
         content: ' '
         card_mod:
@@ -744,7 +723,26 @@ views:
                           border: none;
                         }              
                   - type: custom:button-card
+                    name: NORMAL
+                    aspect_ratio: 1/1
+                    entity: climate.wz_heizungsgruppe
+                    tap_action:
+                      action: call-service
+                      service: climate.set_preset_mode
+                      service_data:
+                        entity_id: climate.wz_heizungsgruppe
+                        preset_mode: week_program_1
+                      haptic: climate
+                    hold_action:
+                      action: more-info
+                      haptic: climate
+                    template:
+                      - base
+                      - base_standard_layout
+                      - base_heat_normal_layout
+                  - type: custom:button-card
                     name: BOOST
+                    icon: mdi:fire
                     aspect_ratio: 1/1
                     entity: climate.wz_heizungsgruppe
                     tap_action:
@@ -760,13 +758,10 @@ views:
                     template:
                       - base
                       - base_standard_layout
-                      - base_boost_layout
-                  - type: custom:button-card
-                    aspect_ratio: 1/1
-                    template:
-                      - base_empty_layout
+                      - base_heat_boost_layout
                   - type: custom:button-card
                     name: URLAUB
+                    icon: mdi:airplane
                     aspect_ratio: 1/1
                     entity: climate.wz_heizungsgruppe
                     tap_action:
@@ -782,7 +777,7 @@ views:
                     template:
                       - base
                       - base_standard_layout
-                      - base_holiday_layout
+                      - base_heat_holiday_layout
               - type: markdown
                 content: ' '
                 title: KÜCHE
@@ -841,9 +836,28 @@ views:
                           margin-left: 0%;
                           box-shadow: none;
                           border: none;
-                        }              
+                        }
+                  - type: custom:button-card
+                    name: NORMAL
+                    aspect_ratio: 1/1
+                    entity: climate.k_heizungsgruppe
+                    tap_action:
+                      action: call-service
+                      service: climate.set_preset_mode
+                      service_data:
+                        entity_id: climate.k_heizungsgruppe
+                        preset_mode: week_program_1
+                      haptic: climate
+                    hold_action:
+                      action: more-info
+                      haptic: climate
+                    template:
+                      - base
+                      - base_standard_layout
+                      - base_heat_normal_layout
                   - type: custom:button-card
                     name: BOOST
+                    icon: mdi:fire
                     aspect_ratio: 1/1
                     entity: climate.k_heizungsgruppe
                     tap_action:
@@ -859,13 +873,10 @@ views:
                     template:
                       - base
                       - base_standard_layout
-                      - base_boost_layout
-                  - type: custom:button-card
-                    aspect_ratio: 1/1
-                    template:
-                      - base_empty_layout
+                      - base_heat_boost_layout
                   - type: custom:button-card
                     name: URLAUB
+                    icon: mdi:airplane
                     aspect_ratio: 1/1
                     entity: climate.k_heizungsgruppe
                     tap_action:
@@ -881,7 +892,7 @@ views:
                     template:
                       - base
                       - base_standard_layout
-                      - base_holiday_layout
+                      - base_heat_holiday_layout
               - type: markdown
                 content: ' '
                 title: BADEZIMMER
@@ -942,7 +953,26 @@ views:
                           border: none;
                         }              
                   - type: custom:button-card
+                    name: NORMAL
+                    aspect_ratio: 1/1
+                    entity: climate.bz_heizungsgruppe
+                    tap_action:
+                      action: call-service
+                      service: climate.set_preset_mode
+                      service_data:
+                        entity_id: climate.bz_heizungsgruppe
+                        preset_mode: week_program_1
+                      haptic: climate
+                    hold_action:
+                      action: more-info
+                      haptic: climate
+                    template:
+                      - base
+                      - base_standard_layout
+                      - base_heat_normal_layout
+                  - type: custom:button-card
                     name: BOOST
+                    icon: mdi:fire
                     aspect_ratio: 1/1
                     entity: climate.bz_heizungsgruppe
                     tap_action:
@@ -958,13 +988,10 @@ views:
                     template:
                       - base
                       - base_standard_layout
-                      - base_boost_layout
-                  - type: custom:button-card
-                    aspect_ratio: 1/1
-                    template:
-                      - base_empty_layout
+                      - base_heat_boost_layout
                   - type: custom:button-card
                     name: URLAUB
+                    icon: mdi:airplane
                     aspect_ratio: 1/1
                     entity: climate.bz_heizungsgruppe
                     tap_action:
@@ -980,11 +1007,11 @@ views:
                     template:
                       - base
                       - base_standard_layout
-                      - base_holiday_layout
+                      - base_heat_holiday_layout
   - theme: ios-dark-mode
-    title: Lampen
-    path: lampen
-    icon: mdi:lamps
+    title: Steuerung
+    path: steuerung
+    icon: mdi:cog
     type: custom:grid-layout
     layout:
       grid-template-columns: 1fr
@@ -1022,7 +1049,10 @@ views:
                     aspect_ratio: 1/1
                     show_state: false
                     tap_action:
-                      action: toggle
+                      action: call-service
+                      service: automation.trigger
+                      service_data:
+                        entity_id: automation.wohnzimmerdeckenlampe_toggle
                       haptic: light
                     hold_action:
                       action: more-info
@@ -1056,7 +1086,8 @@ views:
                     aspect_ratio: 1/1
                     show_state: false
                     tap_action:
-                      action: toggle
+                      action: call-service
+                      service: script.toggle_xiaomi_fan
                       haptic: switch
                     hold_action:
                       action: more-info
@@ -1087,12 +1118,15 @@ views:
                     template:
                       - base_spacing_layout
                   - type: custom:button-card
-                    entity: switch.schalter_wohnzimmerdecke
-                    name: Deckenlicht
+                    entity: media_player.samsung_the_frame_65
+                    name: Fernseher
                     aspect_ratio: 1/1
-                    show_state: false
+                    show_state: true
                     tap_action:
-                      action: toggle
+                      action: call-service
+                      service: media_player.toggle
+                      service_data:
+                        entity_id: media_player.samsung_the_frame_65
                       haptic: switch
                     hold_action:
                       action: more-info
@@ -1228,7 +1262,10 @@ views:
                     aspect_ratio: 1/1
                     show_state: false
                     tap_action:
-                      action: toggle
+                      action: call-service
+                      service: automation.trigger
+                      service_data:
+                        entity_id: automation.badezimmerdecke_toggle
                       haptic: light
                     hold_action:
                       action: more-info
@@ -1272,6 +1309,244 @@ views:
                       - base_standard_layout
                       - base_switch_layout
                       - button_animation
+  - theme: ios-dark-mode
+    title: Stromverbrauch
+    path: strom
+    icon: mdi:lightning-bolt
+    type: custom:grid-layout
+    layout:
+      grid-template-columns: 1fr
+      grid-template-rows: 79px
+      grid-template-areas: |
+        "set1"
+      margin: 0px
+    badges: []
+    cards:
+      - type: custom:layout-card
+        layout_type: custom:masonry-layout
+        layout:
+          width: 800
+          max_cols: 5
+          padding: 0px
+          margin: 30px 30px 0px 30px
+        view_layout:
+          grid-area: set1
+        cards:
+          - type: vertical-stack
+            cards:
+              - type: markdown
+                content: ' '
+                title: WOHNZIMMER
+                card_mod:
+                  style: |
+                    ha-card {
+                      background: none;
+                      margin-bottom: -5%;
+                    }
+              - type: horizontal-stack
+                cards:
+                  - type: custom:button-card
+                    name: Deckenlampe
+                    aspect_ratio: 1/1
+                    show_state: false
+                    tap_action:
+                      action: call-service
+                      service: automation.trigger
+                      service_data:
+                        entity_id: automation.wohnzimmerdeckenlampe_toggle
+                      haptic: light
+                    hold_action:
+                      action: more-info
+                      haptic: light
+                    entity: sensor.schalter_wohnzimmerdecke_power
+                    template:
+                      - base
+                      - base_power_layout
+                      - button_animation
+                      - power
+                  - type: custom:button-card
+                    template:
+                      - base_empty_layout
+                  - type: custom:button-card
+                    entity: sensor.steckdose_luftreiniger_power
+                    icon: mdi:fan
+                    name: Luftreiniger
+                    aspect_ratio: 1/1
+                    show_state: false
+                    tap_action:
+                      action: call-service
+                      service: script.toggle_xiaomi_fan
+                      haptic: switch
+                    hold_action:
+                      action: more-info
+                      haptic: switch
+                    template:
+                      - base
+                      - base_power_layout
+                      - fan_animation
+                      - button_animation
+                      - power
+                  - type: custom:button-card
+                    entity: sensor.steckdose_spielekonsolen_power
+                    icon: mdi:nintendo-game-boy
+                    name: Konsolen
+                    aspect_ratio: 1/1
+                    show_state: false
+                    hold_action:
+                      action: more-info
+                      haptic: switch
+                    template:
+                      - base
+                      - base_power_layout
+                      - button_animation
+                      - power
+                  - type: custom:button-card
+                    template:
+                      - base_spacing_layout
+                  - type: custom:button-card
+                    entity: sensor.steckdose_fernseher_hifi_power
+                    name: Fernseher
+                    aspect_ratio: 1/1
+                    show_state: false
+                    hold_action:
+                      action: more-info
+                      haptic: switch
+                    template:
+                      - base
+                      - base_power_layout
+                      - button_animation
+                      - power
+              - type: markdown
+                content: ' '
+                title: KÜCHE
+                card_mod:
+                  style: |
+                    ha-card {
+                      background: none;
+                      margin-bottom: -5%;
+                    }
+              - type: horizontal-stack
+                cards:
+                  - type: custom:button-card
+                    name: Küchentisch
+                    aspect_ratio: 1/1
+                    show_state: false
+                    hold_action:
+                      action: more-info
+                      haptic: light
+                    entity: sensor.schalter_kuchentisch_power
+                    template:
+                      - base
+                      - base_power_layout
+                      - button_animation
+                      - power
+                  - type: custom:button-card
+                    name: Küchendecke Zeile
+                    aspect_ratio: 1/1
+                    show_state: false
+                    hold_action:
+                      action: more-info
+                      haptic: light
+                    entity: sensor.steckdose_kuchendecke_zeile_power
+                    template:
+                      - base
+                      - base_power_layout
+                      - button_animation
+                      - power
+                  - type: custom:button-card
+                    name: Küchendecke Herd
+                    aspect_ratio: 1/1
+                    show_state: false
+                    hold_action:
+                      action: more-info
+                      haptic: light
+                    entity: sensor.schalter_kuchendecke_herd_power
+                    template:
+                      - base
+                      - base_power_layout
+                      - button_animation
+                      - power
+                  - type: custom:button-card
+                    entity: sensor.steckdose_spulmaschine_power
+                    name: Spülmaschine
+                    aspect_ratio: 1/1
+                    show_state: false
+                    hold_action:
+                      action: more-info
+                      haptic: switch
+                    template:
+                      - base
+                      - base_power_layout
+                      - button_animation
+                      - power
+                  - type: custom:button-card
+                    template:
+                      - base_spacing_layout
+                  - type: custom:button-card
+                    aspect_ratio: 1/1
+                    show_state: false
+                    name: Waschmaschine
+                    entity: sensor.steckdose_waschmaschine_power
+                    hold_action:
+                      action: more-info
+                      haptic: switch
+                    template:
+                      - base
+                      - base_power_layout
+                      - button_animation
+                      - power
+              - type: markdown
+                content: ' '
+                title: BAD, FLUR
+                card_mod:
+                  style: |
+                    ha-card {
+                      background: none;
+                      margin-bottom: -5%;
+                    }
+              - type: horizontal-stack
+                cards:
+                  - type: custom:button-card
+                    name: Badezimmerdecke
+                    aspect_ratio: 1/1
+                    show_state: false
+                    tap_action:
+                      action: call-service
+                      service: automation.trigger
+                      service_data:
+                        entity_id: automation.badezimmerdecke_toggle
+                      haptic: light
+                    hold_action:
+                      action: more-info
+                      haptic: light
+                    entity: sensor.schalter_badezimmerdecke_power
+                    template:
+                      - base
+                      - base_power_layout
+                      - button_animation
+                      - power
+                  - type: custom:button-card
+                    template:
+                      - base_empty_layout
+                  - type: custom:button-card
+                    template:
+                      - base_empty_layout
+                  - type: custom:button-card
+                    name: Server
+                    aspect_ratio: 1/1
+                    show_state: false
+                    entity: sensor.steckdose_server_power
+                    template:
+                      - base
+                      - base_power_layout
+                      - button_animation
+                      - power
+                  - type: custom:button-card
+                    template:
+                      - base_spacing_layout
+                  - type: custom:button-card
+                    template:
+                      - base_empty_layout
   - title: Calendar Mika
     path: calendar-mika
     type: panel
@@ -1581,6 +1856,12 @@ views:
                   transform: translate3d(0,0,0);
                   -webkit-transform: translate3d(0,0,0);
                 }
+      - show_name: true
+        show_icon: true
+        type: button
+        tap_action:
+          action: toggle
+        entity: script.turn_on_xiaomi_fan
 button_card_templates:
   base:
     variables:
@@ -1601,6 +1882,8 @@ button_card_templates:
           else if (is_fan_percentage) return Math.round(entity.attributes.percentage / 1.00);
           else return 0;
         ]]]
+      normal_on: |
+        [[[ return (entity.attributes.preset_mode === 'week_program_1'); ]]]
       boost_on: |
         [[[ return (entity.attributes.preset_mode === 'boost'); ]]]
       holiday_on: |
@@ -1624,8 +1907,13 @@ button_card_templates:
         - bottom: 10%
         - position: absolute
       state:
-        - justify-self: start
+        - text-align: right
+        - justify-self: end
         - padding: 0px 10px
+        - font-weight: normal
+        - line-height: 15px
+        - bottom: 10%
+        - position: absolute
   base_standard_layout:
     styles:
       icon:
@@ -1652,8 +1940,25 @@ button_card_templates:
                 ? `${variables.colorz}`
                 : `var(--primary-text-color)`;
             ]]] 
-  base_boost_layout:
+  base_heat_normal_layout:
     styles:
+      icon:
+        - color: |
+            [[[ 
+              if ( variables.boost_on ) return `var(--disabled-text-color)`;
+              return variables.normal_on
+                ? `${variables.colorz}`
+                : `var(--primary-text-color)`;
+            ]]] 
+  base_heat_boost_layout:
+    styles:
+      card:
+        - animation: |
+            [[[ 
+              return variables.boost_on
+              ? `myfading 3s ease infinite`
+              : ` `;
+            ]]] 
       icon:
         - color: |
             [[[ 
@@ -1661,11 +1966,18 @@ button_card_templates:
                 ? `${variables.colorz}`
                 : `var(--primary-text-color)`;
             ]]] 
-  base_holiday_layout:
+    extra_styles: |
+      @keyframes myfading {
+        0% {background: var(--primary-color)}
+        50% {background: var(--card-background-color)}
+        100% {background: var(--primary-color)}
+        }
+  base_heat_holiday_layout:
     styles:
       icon:
         - color: |
             [[[ 
+              if ( variables.boost_on ) return `var(--disabled-text-color)`;
               return variables.holiday_on
                 ? `${variables.colorz}`
                 : `var(--primary-text-color)`;
@@ -1743,22 +2055,23 @@ button_card_templates:
         - border-width: 0px
   base_power_layout:
     styles:
-      card:
-        - background: none
-        - border: solid
-        - border-width: 1px
-        - border-color: var(--card-background-color)
       icon:
         - top: 3%
         - left: 10%
         - height: 50%
         - width: 50%
+        - color: |
+            [[[ 
+              if (entity.state > 5.0) return `var(--primary-color)`;
+              return `var(--primary-text-color)`;
+            ]]]        
       grid:
         - grid-template-areas: '"i power" "n n"'
         - grid-template-columns: 1fr 1fr
         - grid-template-rows: 3fr 1fr
       custom_fields:
         power:
+          - font-size: 22px
           - display: initial
           - width: 100%
           - letter-spacing: 0.03vw
@@ -1862,6 +2175,14 @@ button_card_templates:
           - padding: 2px 10px
           - font-weight: bold
           - position: absolute
+  fan_animation:
+    styles:
+      icon:
+        - animation: |
+            [[[ 
+              if (entity.state > 5.0) return `rotating 4s linear infinite`;
+              return ` `;
+            ]]]
   button_animation:
     tap_action:
       animation_card: |
