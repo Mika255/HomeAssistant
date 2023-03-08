@@ -251,7 +251,7 @@ views:
                       - calendar
               - type: custom:todoist-card
                 entity: sensor.todoist_alexa_einkaufsliste
-                show_header: true
+                show_header: false
                 show_completed: 5
                 show_item_add: true
                 use_quick_add: false
@@ -262,6 +262,10 @@ views:
                   .todoist-list .todoist-item .todoist-item-close {
                     color: white;
                   }
+                  .todoist-list .todoist-item .todoist-item-delete {
+                    color: grey;
+                  }
+
                   ha-card {
                     border-radius: 10px;
                   }
@@ -278,11 +282,13 @@ views:
                     ha-card {
                       --primary-text-color: grey;
                       margin-bottom: -12px;
+                      --ha-card-border-width: 0;
                     }
               - type: horizontal-stack
                 cards:
                   - type: custom:mushroom-template-card
                     entity: media_player.spotify_hell255
+                    layout: vertical
                     icon: mdi:television
                     icon_color: >
                       {% set source =
@@ -298,8 +304,17 @@ views:
                       service: automation.trigger
                       service_data:
                         entity_id: automation.spotify_play_fire_tv
+                    card_mod:
+                      style: |
+                        ha-card {
+                          --ha-card-border-width: 0px;
+                          filter: drop-shadow(4px 4px 6px rgba(0, 0, 0, 0.5));
+                        }
+
+                               
                   - type: custom:mushroom-template-card
                     entity: media_player.spotify_hell255
+                    layout: vertical
                     icon: mdi:laptop
                     icon_color: >
                       {% set source =
@@ -315,37 +330,15 @@ views:
                       service: automation.trigger
                       service_data:
                         entity_id: automation.spotify_play_macbook
+                    card_mod:
+                      style: |
+                        ha-card {
+                          --ha-card-border-width: 0px;
+                          filter: drop-shadow(4px 4px 6px rgba(0, 0, 0, 0.5));
+                        }
                   - type: custom:mushroom-template-card
                     entity: media_player.spotify_hell255
-                    icon: mdi:apple
-                    icon_color: >
-                      {% set source =
-                      state_attr('media_player.spotify_hell255','source') %} {%-
-                      if ("iPhone" not in
-                      state_attr('media_player.spotify_hell255', 'source_list'))
-                      -%}grey{% else %}
-                       {% if source == "iPhone" %}#ff9e0b
-                       {% elif source == "Überall" %}#a70bcd {% else %}white{% endif %}
-                      {% endif %}
-                    tap_action:
-                      action: call-service
-                      service: automation.trigger
-                      service_data:
-                        entity_id: automation.spotify_play_iphone
-                  - type: custom:mushroom-template-card
-                    entity: media_player.spotify_hell255
-                    icon: mdi:phone
-                    icon_color: >
-                      {% set source =
-                      state_attr('media_player.spotify_hell255','source') %} {%-
-                      if ("Galaxy S20 FE 5G" not in
-                      state_attr('media_player.spotify_hell255', 'source_list'))
-                      -%}grey{% else %}
-                       {% if source == "Galaxy S20 FE 5G" %}#ff9e0b
-                       {% elif source == "Überall" %}#a70bcd {% else %}white{% endif %}
-                      {% endif %}
-                  - type: custom:mushroom-template-card
-                    entity: media_player.spotify_hell255
+                    layout: vertical
                     icon: mdi:shower
                     icon_color: >
                       {% set source =
@@ -361,8 +354,15 @@ views:
                       service: automation.trigger
                       service_data:
                         entity_id: automation.spotify_play_echo_klo
+                    card_mod:
+                      style: |
+                        ha-card {
+                          --ha-card-border-width: 0;
+                          filter: drop-shadow(4px 4px 6px rgba(0, 0, 0, 0.5));
+                        }
                   - type: custom:mushroom-template-card
                     entity: media_player.spotify_hell255
+                    layout: vertical
                     icon: mdi:chef-hat
                     icon_color: >
                       {% set source =
@@ -378,8 +378,15 @@ views:
                       service: automation.trigger
                       service_data:
                         entity_id: automation.spotify_play_echo_koch
+                    card_mod:
+                      style: |
+                        ha-card {
+                          --ha-card-border-width: 0;
+                          filter: drop-shadow(4px 4px 6px rgba(0, 0, 0, 0.5));
+                        }
                   - type: custom:mushroom-template-card
                     entity: media_player.spotify_hell255
+                    layout: vertical
                     icon: mdi:sofa
                     icon_color: >
                       {% set source =
@@ -395,8 +402,15 @@ views:
                       service: automation.trigger
                       service_data:
                         entity_id: automation.spotify_play_echo_eck
+                    card_mod:
+                      style: |
+                        ha-card {
+                          --ha-card-border-width: 0;
+                          filter: drop-shadow(4px 4px 6px rgba(0, 0, 0, 0.5));
+                        }
                   - type: custom:mushroom-template-card
                     entity: media_player.spotify_hell255
+                    layout: vertical
                     icon: mdi:spotify
                     icon_color: >
                       {% set source = state_attr('media_player.spotify_hell255',
@@ -408,6 +422,12 @@ views:
                       data:
                         entity_id: media_player.spotify_hell255
                         source: Überall
+                    card_mod:
+                      style: |
+                        ha-card {
+                          --ha-card-border-width: 0;
+                          filter: drop-shadow(4px 4px 6px rgba(0, 0, 0, 0.5));
+                        }
               - type: custom:mushroom-media-player-card
                 entity: media_player.spotify_hell255
                 icon: mdi:play
@@ -459,7 +479,7 @@ views:
                       content: "";
 
                       background: url('/local/community/music.jpg') center no-repeat;
-                      {% if is_state(config.entity, 'playing') %}
+                      {% if is_state(config.entity, ['playing', 'paused']) %}
                         background: url( '{{ state_attr(config.entity, "entity_picture") }}') center no-repeat;
                       {% endif %}
 
@@ -537,7 +557,7 @@ views:
                   width: 100%;
 
                   background: url('/local/community/bathroom_shower.png') center no-repeat;
-                  {% if is_state('media_player.spotify_hell255', 'playing') %}
+                  {% if is_state('media_player.spotify_hell255', ['playing', 'paused']) %}
                     background: url( '{{ state_attr('media_player.spotify_hell255', "entity_picture") }}' ) center no-repeat;
                   {% endif %}
 
@@ -2646,11 +2666,21 @@ button_card_templates:
           let end_time = entity.attributes.data[i].endTime;
           let time = start_time;
           let wholeDay = entity.attributes.data[i].wholeDay;
-          if (end_day != null && start_day !== end_day) {time = "Mehrtägig, bis " + end_day + " " + end_month};
+          if (end_day != null && start_day !== end_day) {time = "Mehrtägig bis " + end_day + " " + end_month};
           if (wholeDay === true) {time = "Ganztägig"};
           let event = entity.attributes.data[i].summary;
           let location = entity.attributes.data[i].location;
           if (location === "" || location === undefined) {location = "-"}
+
+          function truncate(str, length) {
+            return str.length > length
+              ? str.slice(0, length) + '...'
+              : str;
+          }
+
+          event = truncate(event, 28);
+
+
 
         calSnippet += 
           `<table><tr>
@@ -2679,18 +2709,20 @@ button_card_templates:
         margin-top: 0.2em;
       }
       .icon {
-        margin-right: 5%;
+        margin-right: 5px;
         text-align: center;
         float: left;
         width: 12px;
       }
       table {
         margin-left: 8px;
+        padding-right: 8px;
         box-sizing: border-box;
         border-spacing: 0;
         margin-bottom: 1.0em;
         width: 100%;
         color: blue;
+        line-break: strict;
       }
       td {
         white-space: -o-pre-wrap; 
