@@ -92,6 +92,10 @@ views:
                 }
             chips:
               - type: template
+                content: Spülmaschine
+                entity: input_select.spulmaschine_status
+                tap_action:
+                  action: more-info
                 icon: >-
                   {% if is_state('input_select.spulmaschine_status', 'Fertig')
                   %}
@@ -118,8 +122,11 @@ views:
                   {% else %}
                     grey
                   {% endif %}
-                content: Spülmaschine
               - type: template
+                content: Waschmaschine
+                entity: input_select.waschmaschine_status
+                tap_action:
+                  action: more-info
                 icon: >-
                   {% if is_state('input_select.waschmaschine_status', 'Fertig')
                   %}
@@ -140,8 +147,11 @@ views:
                   {% else %}
                     grey
                   {% endif %}
-                content: Waschmaschine
               - type: template
+                content: Badezimmer
+                entity: binary_sensor.bz_fensterkontakt_state
+                tap_action:
+                  action: more-info
                 icon: >-
                   {% if is_state('binary_sensor.bz_fensterkontakt_state', 'on')
                   %}
@@ -156,24 +166,30 @@ views:
                   {% else %}
                     grey
                   {% endif %}
-                content: Bad
               - type: template
-                icon: >-
-                  {% if is_state('binary_sensor.wz_fensterkontakt_state', 'on')
-                  %}
-                   mdi:window-open-variant
-                  {% else %}
-                    mdi:window-closed-variant
-                  {% endif %}
-                icon_color: >-
-                  {% if is_state('binary_sensor.wz_fensterkontakt_state', 'on')
-                  %}
-                    blue
-                  {% else %}
-                    grey
-                  {% endif %}
                 content: Wohnzimmer
+                entity: binary_sensor.wz_fensterkontakt_state
+                tap_action:
+                  action: more-info
+                icon: >-
+                  {% if is_state('binary_sensor.wz_fensterkontakt_state', 'on')
+                  %}
+                   mdi:window-open-variant
+                  {% else %}
+                    mdi:window-closed-variant
+                  {% endif %}
+                icon_color: >-
+                  {% if is_state('binary_sensor.wz_fensterkontakt_state', 'on')
+                  %}
+                    blue
+                  {% else %}
+                    grey
+                  {% endif %}
               - type: template
+                content: Wohnungstür
+                entity: binary_sensor.fl_kontakt_wohnungstur_state
+                tap_action:
+                  action: more-info
                 icon: >-
                   {% if is_state('binary_sensor.fl_kontakt_wohnungstur_state',
                   'on') %}
@@ -188,7 +204,6 @@ views:
                   {% else %}
                     grey
                   {% endif %}
-                content: Wohnungstür
               - type: template
                 icon: mdi:lightbulb-group
                 icon_color: |-
@@ -593,6 +608,31 @@ views:
           exclude:
             - entity_id: sensor.steckdose_kuhlschrank_power
             - entity_id: sensor.steckdose_server_power
+            
+      - type: custom:auto-entities
+        show_empty: false
+        card:
+          type: custom:mushroom-chips-card
+          card_mod:
+            style: |
+              ha-card {
+                --color: var(--accent-color);
+                --icon-color: var(--accent-color);
+                --chip-box-shadow: none;
+                --chip-border-radius: 10px;
+              }
+        card_param: chips
+        sort:
+          method: state
+          reverse: true
+          numeric: true
+        filter:
+          include:
+            - domain: sensor
+              entity_id: '*battery*'
+              state: '<20'
+              options:
+                type: entity
   - theme: ios-dark-mode
     title: Heizungen
     path: heizungen
@@ -2061,50 +2101,68 @@ views:
     type: sidebar
     badges: []
     cards:
+      - type: horizontal-stack
+        cards:
+          - type: custom:flower-card
+            entity: plant.papa_bonsai
+            show_bars:
+              - illuminance
+              - humidity
+              - moisture
+              - conductivity
+              - temperature
+              - dli
+            card_mod:
+              style: |
+                ha-card {
+                  border-radius: 10px;
+                }     
+          - type: custom:flower-card
+            entity: plant.junior_bonsai
+            show_bars:
+              - illuminance
+              - humidity
+              - moisture
+              - conductivity
+              - temperature
+              - dli
+            card_mod:
+              style: |
+                ha-card {
+                  border-radius: 10px;
+                }     
+      - type: horizontal-stack
+        cards:
+          - type: custom:flower-card
+            entity: plant.badezimmerpflanze_junior
+            show_bars:
+              - illuminance
+              - humidity
+              - moisture
+              - conductivity
+              - temperature
+              - dli
+            card_mod:
+              style: |
+                ha-card {
+                  border-radius: 10px;
+                }     
+          - type: custom:flower-card
+            entity: plant.badezimmerpflanze_papa
+            show_bars:
+              - illuminance
+              - humidity
+              - moisture
+              - conductivity
+              - temperature
+              - dli
+            card_mod:
+              style: |
+                ha-card {
+                  border-radius: 10px;
+                }     
       - type: custom:flower-card
-        entity: plant.papa_bonsai
-        show_bars:
-          - illuminance
-          - humidity
-          - moisture
-          - conductivity
-          - temperature
-          - dli
-        card_mod:
-          style: |
-            ha-card {
-              border-radius: 10px;
-            }     
-      - type: custom:flower-card
-        entity: plant.junior_bonsai
-        show_bars:
-          - illuminance
-          - humidity
-          - moisture
-          - conductivity
-          - temperature
-          - dli
-        card_mod:
-          style: |
-            ha-card {
-              border-radius: 10px;
-            }     
-      - type: custom:flower-card
-        entity: plant.badezimmerpflanze_junior
-        show_bars:
-          - illuminance
-          - humidity
-          - moisture
-          - conductivity
-          - temperature
-          - dli
-        card_mod:
-          style: |
-            ha-card {
-              border-radius: 10px;
-            }     
-      - type: custom:flower-card
-        entity: plant.badezimmerpflanze_papa
+        entity: plant.palme
         show_bars:
           - illuminance
           - humidity
