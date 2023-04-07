@@ -60,23 +60,590 @@ sidebar:
     cardStyle: |
       :host {
         width: 100%;
-        position: absolute;
+        position: relative;
         bottom: 0;
         left: 0;
       }
       ha-card {
-        width: 90%;
+        padding: none;
+        width: 110%;
         border: none;
-        background: transparent;
+        background: none;
         overflow: hidden !important;
         box-shadow: none !important;
         ha-card-border-radius: 0px;
-        font-size: '5px';
+        margin-top: -16px;
+        margin-right: -10px;
+        margin-left: -10px;        
       }
 views:
   - theme: ios-dark-mode
     title: Overview
     path: home
+    icon: mdi:home
+    type: custom:grid-layout
+    badges: []
+    layout:
+      grid-template-columns: 60% 40%
+      grid-template-rows: auto
+      grid-template-areas: |
+        "header header"
+        "left right"
+        "todo right"
+        "footer footer"
+    cards:
+      - type: custom:mushroom-chips-card
+        view_layout:
+          grid-area: header
+        card_mod:
+          style: |
+            ha-card {
+              --chip-box-shadow: none;
+              --chip-border-radius: 10px;
+            }
+        chips:
+          - type: template
+            content: Spülmaschine
+            entity: input_select.spulmaschine_status
+            tap_action:
+              action: more-info
+            icon: >-
+              {% if is_state('input_select.spulmaschine_status', 'Fertig') %}
+               mdi:dishwasher-alert
+              {% elif is_state('input_select.spulmaschine_status', 'Trocknung')
+              %}
+                mdi:dishwasher
+              {% elif is_state('input_select.spulmaschine_status', 'Wäscht') %}
+                mdi:dishwasher
+              {% else %}
+                mdi:dishwasher-off
+              {% endif %}
+            icon_color: >-
+              {% if is_state('input_select.spulmaschine_status', 'Fertig') %}
+               blue
+              {% elif is_state('input_select.spulmaschine_status', 'Wäscht') %}
+                orange
+              {% elif is_state('input_select.spulmaschine_status', 'Trocknung')
+              %}
+                orange
+              {% else %}
+                grey
+              {% endif %}
+          - type: template
+            content: Waschmaschine
+            entity: input_select.waschmaschine_status
+            tap_action:
+              action: more-info
+            icon: |-
+              {% if is_state('input_select.waschmaschine_status', 'Fertig') %}
+               mdi:washing-machine-alert
+              {% elif is_state('input_select.waschmaschine_status', 'Wäscht') %}
+                mdi:washing-machine
+              {% else %}
+                mdi:washing-machine-off
+              {% endif %}
+            icon_color: |-
+              {% if is_state('input_select.waschmaschine_status', 'Fertig') %}
+               blue
+              {% elif is_state('input_select.waschmaschine_status', 'Wäscht') %}
+                orange
+              {% else %}
+                grey
+              {% endif %}
+          - type: template
+            content: Badezimmer
+            entity: binary_sensor.bz_fensterkontakt_state
+            tap_action:
+              action: more-info
+            icon: |-
+              {% if is_state('binary_sensor.bz_fensterkontakt_state', 'on') %}
+               mdi:window-open-variant
+              {% else %}
+                mdi:window-closed-variant
+              {% endif %}
+            icon_color: |-
+              {% if is_state('binary_sensor.bz_fensterkontakt_state', 'on') %}
+                blue
+              {% else %}
+                grey
+              {% endif %}
+          - type: template
+            content: Wohnzimmer
+            entity: binary_sensor.wz_fensterkontakt_state
+            tap_action:
+              action: more-info
+            icon: |-
+              {% if is_state('binary_sensor.wz_fensterkontakt_state', 'on') %}
+               mdi:window-open-variant
+              {% else %}
+                mdi:window-closed-variant
+              {% endif %}
+            icon_color: |-
+              {% if is_state('binary_sensor.wz_fensterkontakt_state', 'on') %}
+                blue
+              {% else %}
+                grey
+              {% endif %}
+          - type: template
+            content: Wohnungstür
+            entity: binary_sensor.fl_kontakt_wohnungstur_state
+            tap_action:
+              action: more-info
+            icon: >-
+              {% if is_state('binary_sensor.fl_kontakt_wohnungstur_state', 'on')
+              %}
+               mdi:door-open
+              {% else %}
+                mdi:door-closed-lock
+              {% endif %}
+            icon_color: >-
+              {% if is_state('binary_sensor.fl_kontakt_wohnungstur_state', 'on')
+              %}
+                blue
+              {% else %}
+                grey
+              {% endif %}
+          - type: template
+            icon: mdi:lightbulb-group
+            icon_color: |-
+              {% if is_state('light.wohnung', 'on') %}
+                orange
+              {% else %}
+                grey
+              {% endif %}
+            content: >-
+              {% set count = namespace(value=0) %} {% for entity_id in
+              state_attr('light.all_light_entities','entity_id') %}
+                {% if (states(entity_id) == 'on') %}
+                  {% set count.value = count.value + 1 %}
+                {% endif %}
+              {% endfor %} {{ count.value }} Lichter an
+            tap_action:
+              action: navigate
+              navigation_path: /dashboard-tablet/steuerung
+      - type: horizontal-stack
+        view_layout:
+          grid-area: left
+        cards:
+          - type: custom:button-card
+            name: Family
+            show_icon: false
+            show_name: false
+            tap_action:
+              action: navigate
+              navigation_path: /dashboard-tablet/calendar-family
+            entity: sensor.calendar_family
+            custom_fields:
+              person: <img src="/local/community/profile_galaxy.jpg"/>
+            template:
+              - calendar
+          - type: custom:button-card
+            name: Mika
+            show_icon: false
+            show_name: false
+            tap_action:
+              action: navigate
+              navigation_path: /dashboard-tablet/calendar-mika
+            entity: sensor.calendar_mika
+            custom_fields:
+              person: <img src="/local/community/profile_mika3.jpg"/>
+            template:
+              - calendar
+          - type: custom:button-card
+            name: Eva
+            show_icon: false
+            show_name: false
+            tap_action:
+              action: navigate
+              navigation_path: /dashboard-tablet/calendar-eva
+            entity: sensor.calendar_eva
+            custom_fields:
+              person: <img src="/local/community/profile_eva.jpg"/>
+            template:
+              - calendar
+      - type: custom:todoist-card
+        view_layout:
+          grid-area: todo
+        entity: sensor.todoist_alexa_einkaufsliste
+        show_header: false
+        show_completed: 5
+        show_item_add: true
+        use_quick_add: false
+        show_item_close: true
+        show_item_delete: true
+        only_today_overdue: false
+        style: |
+
+          .todoist-list .todoist-item .todoist-item-close {
+            color: white;
+          }
+          .todoist-list .todoist-item .todoist-item-delete {
+            color: grey;
+          }
+
+          ha-card {
+            --mdc-icon-size: 24px;
+            border-radius: 10px;
+          }
+      - type: custom:stack-in-card
+        view_layout:
+          grid-area: right
+        cards:
+          - type: custom:mushroom-template-card
+            entity: media_player.spotify_hell255
+            primary: >
+              {% if is_state('media_player.spotify_hell255','playing') %} {{
+              state_attr('media_player.spotify_hell255','source').upper() }} {%
+              else %}PARTY PAUSE{% endif %}
+            card_mod:
+              style: |
+                ha-card {
+                  --primary-text-color: grey;
+                  margin-bottom: -12px;
+                  --ha-card-border-width: 0;
+                }
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-template-card
+                entity: media_player.spotify_hell255
+                layout: vertical
+                icon: mdi:television
+                icon_color: >
+                  {% set source =
+                  state_attr('media_player.spotify_hell255','source') %} {%- if
+                  ("Mikael's 2nd Fire TV" not in
+                  state_attr('media_player.spotify_hell255', 'source_list'))
+                  -%}grey{% else %}
+                   {% if source == "Mikael's 2nd Fire TV" %}#ff9e0b
+                   {% elif source == "Überall" %}#a70bcd {% else %}white{% endif %}
+                  {% endif %}
+                tap_action:
+                  action: call-service
+                  service: automation.trigger
+                  service_data:
+                    entity_id: automation.spotify_play_fire_tv
+                card_mod:
+                  style: |
+                    ha-card {
+                      --ha-card-border-width: 0px;
+                      filter: drop-shadow(4px 4px 6px rgba(0, 0, 0, 0.5));
+                    }
+
+                           
+              - type: custom:mushroom-template-card
+                entity: media_player.spotify_hell255
+                layout: vertical
+                icon: mdi:laptop
+                icon_color: >
+                  {% set source =
+                  state_attr('media_player.spotify_hell255','source') %} {%- if
+                  ("Mikas MacBook Air" not in
+                  state_attr('media_player.spotify_hell255', 'source_list'))
+                  -%}grey{% else %}
+                   {% if source == "Mikas MacBook Air" %}#ff9e0b
+                   {% elif source == "Überall" %}#a70bcd {% else %}white{% endif %}
+                  {% endif %}
+                tap_action:
+                  action: call-service
+                  service: automation.trigger
+                  service_data:
+                    entity_id: automation.spotify_play_macbook
+                card_mod:
+                  style: |
+                    ha-card {
+                      --ha-card-border-width: 0px;
+                      filter: drop-shadow(4px 4px 6px rgba(0, 0, 0, 0.5));
+                    }
+              - type: custom:mushroom-template-card
+                entity: media_player.spotify_hell255
+                layout: vertical
+                icon: mdi:shower
+                icon_color: >
+                  {% set source =
+                  state_attr('media_player.spotify_hell255','source') %} {%- if
+                  ("Mikas Echo Klo" not in
+                  state_attr('media_player.spotify_hell255', 'source_list'))
+                  -%}grey{% else %}
+                   {% if source == "Mikas Echo Klo" %}#ff9e0b
+                   {% elif source == "Überall" %}#a70bcd {% else %}white{% endif %}
+                  {% endif %}
+                tap_action:
+                  action: call-service
+                  service: automation.trigger
+                  service_data:
+                    entity_id: automation.spotify_play_echo_klo
+                card_mod:
+                  style: |
+                    ha-card {
+                      --ha-card-border-width: 0;
+                      filter: drop-shadow(4px 4px 6px rgba(0, 0, 0, 0.5));
+                    }
+              - type: custom:mushroom-template-card
+                entity: media_player.spotify_hell255
+                layout: vertical
+                icon: mdi:chef-hat
+                icon_color: >
+                  {% set source =
+                  state_attr('media_player.spotify_hell255','source') %} {%- if
+                  ("Mikas Echo Koch" not in
+                  state_attr('media_player.spotify_hell255', 'source_list'))
+                  -%}grey{% else %}
+                   {% if source == "Mikas Echo Koch" %}#ff9e0b
+                   {% elif source == "Überall" %}#a70bcd {% else %}white{% endif %}
+                  {% endif %}                    
+                tap_action:
+                  action: call-service
+                  service: automation.trigger
+                  service_data:
+                    entity_id: automation.spotify_play_echo_koch
+                card_mod:
+                  style: |
+                    ha-card {
+                      --ha-card-border-width: 0;
+                      filter: drop-shadow(4px 4px 6px rgba(0, 0, 0, 0.5));
+                    }
+              - type: custom:mushroom-template-card
+                entity: media_player.spotify_hell255
+                layout: vertical
+                icon: mdi:sofa
+                icon_color: >
+                  {% set source =
+                  state_attr('media_player.spotify_hell255','source') %} {%- if
+                  ("Mikas Echo Eck" not in
+                  state_attr('media_player.spotify_hell255', 'source_list'))
+                  -%}grey{% else %}
+                   {% if source == "Mikas Echo Eck" %}#ff9e0b
+                   {% elif source == "Überall" %}#a70bcd {% else %}white{% endif %}
+                  {% endif %}
+                tap_action:
+                  action: call-service
+                  service: automation.trigger
+                  service_data:
+                    entity_id: automation.spotify_play_echo_eck
+                card_mod:
+                  style: |
+                    ha-card {
+                      --ha-card-border-width: 0;
+                      filter: drop-shadow(4px 4px 6px rgba(0, 0, 0, 0.5));
+                    }
+              - type: custom:mushroom-template-card
+                entity: media_player.spotify_hell255
+                layout: vertical
+                icon: mdi:spotify
+                icon_color: >
+                  {% set source = state_attr('media_player.spotify_hell255',
+                  'source') %} {% if source == "Überall" %}#ff9e0b {% else
+                  %}white{% endif %}
+                tap_action:
+                  action: call-service
+                  service: media_player.select_source
+                  data:
+                    entity_id: media_player.spotify_hell255
+                    source: Überall
+                card_mod:
+                  style: |
+                    ha-card {
+                      --ha-card-border-width: 0;
+                      filter: drop-shadow(4px 4px 6px rgba(0, 0, 0, 0.5));
+                    }
+          - type: custom:mushroom-media-player-card
+            entity: media_player.spotify_hell255
+            icon: mdi:play
+            use_media_info: true
+            use_media_artwork: false
+            show_volume_level: false
+            media_controls:
+              - play_pause_stop
+              - previous
+              - next
+              - shuffle
+            volume_controls:
+              - volume_buttons
+              - volume_set
+            fill_container: false
+            card_mod:
+              style: |
+                mushroom-shape-icon {
+                    --card-mod-icon-color: var(--accent-color);
+                  display: flex;
+                  {% set media_type = state_attr(config.entity, 'media_content_type') %}
+                  {% if media_type == 'music' %}
+                    --card-mod-icon: mdi:music;
+                    animation: beat 1.3s ease-out infinite both;
+                  {% elif media_type == 'playlist' %}
+                    --card-mod-icon: mdi:playlist-music;
+                    animation: beat 1.3s ease-out infinite both;
+                  {% else %}
+                    --card-mod-icon: mdi:spotify;
+                  {% endif %}
+
+                  {{ 'animation: none;' if not is_state(config.entity, 'playing') }}
+
+                }
+                @keyframes beat {
+                  0%, 60% { --icon-symbol-size: 21px; }
+                  5%, 17%, 57% { --icon-symbol-size: 22px; }
+                  10%, 20%, 51% { --icon-symbol-size: 23px; }
+                  25%, 45% { --icon-symbol-size: 24px; }
+                  30%, 39% { --icon-symbol-size: 25px; }
+                  33% { --icon-symbol-size: 26px; }
+                }
+                ha-card {
+                  --ha-card-border-width: 0;
+                }
+                ha-card:before {
+                  transform: translate3d(0,0,0);
+                  -webkit-transform: translate3d(0,0,0);
+                  content: "";
+
+                  background: url('/local/community/music.jpg') center no-repeat;
+                  {% if is_state(config.entity, ['playing', 'paused']) %}
+                    background: url( '{{ state_attr(config.entity, "entity_picture") }}') center no-repeat;
+                  {% endif %}
+
+                  background-size: contain;
+                  margin: -10px 4px 16px;
+                  filter: drop-shadow(4px 4px 6px rgba(0, 0, 0, 0.5));
+                  border-radius: var(--control-border-radius);
+                  aspect-ratio: 1 / 1;
+                }
+          - type: conditional
+            conditions:
+              - entity: media_player.spotify_hell255
+                state: playing
+            card:
+              entity: media_player.spotify_hell255
+              hide:
+                icon: true
+                name: true
+                runtime: true
+                source: true
+                power: true
+                state_label: true
+                volume: true
+                info: true
+                progress: false
+                controls: true
+              more_info: false
+              type: custom:mini-media-player
+              toggle_power: false
+              group: true
+              card_mod:
+                style:
+                  .: |
+                    ha-card {
+                      margin: 0px 12px 12px;
+                      --mmp-progress-height: 24px !important;
+                      height: var(--mmp-progress-height);
+                      --mmp-border-radius: 10px !important;
+                      --ha-card-border-width: 0;
+                    }
+          - type: conditional
+            conditions:
+              - entity: media_player.spotify_hell255
+                state: idle
+            card:
+              type: custom:mini-media-player
+              entity: media_player.spotify_hell255
+              hide:
+                icon: false
+                name: false
+                runtime: true
+                source: true
+                power: true
+                state_label: true
+                volume: true
+                info: true
+                progress: true
+                controls: true
+              more_info: false
+              toggle_power: false
+              group: true
+              card_mod:
+                style: |
+                  ha-card {
+                  margin-left: 20px;
+                  margin-right: 20px;
+        card_mod:
+          style: |
+            ha-card:before {
+              transform: translate3d(0,0,0);
+              -webkit-transform: translate3d(0,0,0);
+              content: "";
+              position: absolute;
+              height: 100%;
+              width: 100%;
+
+              background: url('/local/community/bathroom_shower.png') center no-repeat;
+              {% if is_state('media_player.spotify_hell255', ['playing', 'paused']) %}
+                background: url( '{{ state_attr('media_player.spotify_hell255', "entity_picture") }}' ) center no-repeat;
+              {% endif %}
+
+              filter: blur(150px) saturate(200%) opacity(0.3);
+              background-size: 100% 100%;
+            }
+            ha-card {
+              transform: translate3d(0,0,0);
+              -webkit-transform: translate3d(0,0,0);
+            }
+
+
+
+                
+      - type: custom:auto-entities
+        view_layout:
+          grid-area: footer
+        show_empty: false
+        card:
+          type: custom:mushroom-chips-card
+          card_mod:
+            style: |
+              ha-card {
+                --chip-box-shadow: none;
+                --chip-border-radius: 10px;
+              }
+        card_param: chips
+        sort:
+          method: state
+          reverse: true
+          numeric: true
+        filter:
+          include:
+            - domain: sensor
+              entity_id: '*power*'
+              state: '>5'
+              options:
+                type: entity
+          exclude:
+            - entity_id: sensor.steckdose_kuhlschrank_power
+            - entity_id: sensor.steckdose_server_power
+      - type: custom:auto-entities
+        show_empty: false
+        card:
+          type: custom:mushroom-chips-card
+          card_mod:
+            style: |
+              ha-card {
+                --color: var(--accent-color);
+                --icon-color: var(--accent-color);
+                --chip-box-shadow: none;
+                --chip-border-radius: 10px;
+              }
+        card_param: chips
+        sort:
+          method: state
+          reverse: true
+          numeric: true
+        filter:
+          include:
+            - domain: sensor
+              entity_id: '*battery*'
+              state: <20
+              options:
+                type: entity
+  - theme: ios-dark-mode
+    title: Overview2
+    path: home2
     icon: mdi:home
     type: sidebar
     badges: []
@@ -608,7 +1175,6 @@ views:
           exclude:
             - entity_id: sensor.steckdose_kuhlschrank_power
             - entity_id: sensor.steckdose_server_power
-            
       - type: custom:auto-entities
         show_empty: false
         card:
@@ -630,7 +1196,7 @@ views:
           include:
             - domain: sensor
               entity_id: '*battery*'
-              state: '<20'
+              state: <20
               options:
                 type: entity
   - theme: ios-dark-mode
