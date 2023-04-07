@@ -8,6 +8,11 @@ kiosk_mode:
 sidebar:
   digitalClock: true
   date: true
+  style: |
+    .date {
+      font-size: 32px;
+      margin-left: 12px;
+    }
   width:
     mobile: 0
     tablet: 25
@@ -65,6 +70,7 @@ sidebar:
         left: 0;
       }
       ha-card {
+        font-weight: 200;
         padding: none;
         width: 110%;
         border: none;
@@ -641,7 +647,6 @@ views:
               state: <20
               options:
                 type: entity
- 
   - theme: ios-dark-mode
     title: Heizungen
     path: heizungen
@@ -2733,19 +2738,82 @@ button_card_templates:
           let end_time = entity.attributes.data[i].endTime;
           let time = start_time;
           let wholeDay = entity.attributes.data[i].wholeDay;
-          if (end_day != null && start_day !== end_day) {time = "Mehrtägig bis " + end_day + " " + end_month};
+          if (end_day != null && start_day !== end_day) {time = start_day + " bis " + end_day + " " + end_month};
           if (wholeDay === true) {time = "Ganztägig"};
           let event = entity.attributes.data[i].summary;
           let location = entity.attributes.data[i].location;
           if (location === "" || location === undefined) {location = "-"}
 
-          function truncate(str, length) {
-            return str.length > length
-              ? str.slice(0, length) + '...'
-              : str;
+          // Test-Data
+          //event = "Lorem Ipsum is now here";
+          //event = "LoremIpsumIsNow Here";
+          //event = "Lorem Ipsum IsNowHereEverywhere";
+          //location = "Flugnummer LH2418 von Hier";
+
+          //
+          // makeTextFit
+          //
+          // this function makes the text fit into the table
+          // maxLineLength: indicates the maximum length of a single line
+          // maxTotalLines: indicates how many lines we want
+          function makeTextFit(text, maxLineLength, maxTotalLines) {
+            let words = text.split(' ');
+
+            // first, we search for long words and split them
+            const words2 = [];
+             for (var x = 0; x < words.length; x++) {
+              let str = words[x];
+              if ( str.length > maxLineLength) {
+                words2.push(str.slice(0, maxLineLength - 1) + "-");
+                words2.push(str.slice(maxLineLength - 1, str.length));
+              }
+              else
+                words2.push( str );
+            }
+
+            // second, we go through all words and create lines
+            // if event field over max text field, we finish with "..."
+            let newText = "";
+            let currentLineLength = 0;
+            let currentLines = 1;
+            
+            for (var x = 0; x < words2.length; x++) {
+              let str = words2[x];
+
+              // if current line length + new word is bigger than max, create new line
+              if ( currentLineLength + str.length > maxLineLength )
+              {
+                // if we reached the maximum line, add "..." to finish
+                if ( currentLines + 1 > maxTotalLines)
+                {
+                  newText = newText.slice(0, newText.length - 3) + "...";
+                  break;
+                }
+                // else create a new line and add text
+                else 
+                {
+                  newText += "<br>" + str + " ";
+                  currentLineLength = str.length;
+                  currentLines += 1;
+                }
+              }
+              // we have space to add word
+              else
+              {
+                newText += str + " ";
+                currentLineLength += str.length + 1;
+              }
+            }
+
+            // return result without whitespaces
+            return newText.trim();
           }
 
-          event = truncate(event, 28);
+          // creates text field which fits into table
+          event = makeTextFit( event, 14, 2)
+
+          // location has smaller font, more space
+          location = makeTextFit( location, 16, 2)
 
 
 
@@ -2782,8 +2850,9 @@ button_card_templates:
         width: 12px;
       }
       table {
-        margin-left: 8px;
-        padding-right: 8px;
+        margin-left: 4px;
+        margin-right: 4px;
+        padding-right: 0px;
         box-sizing: border-box;
         border-spacing: 0;
         margin-bottom: 1.0em;
@@ -2810,18 +2879,23 @@ button_card_templates:
         width: 80%;
         font-family: Roboto,Noto,sans-serif;
         color: var(--primary-text-color);
+        font-weight: 200;
       }
       .month {
         padding-right: 4px;
         text-transform: uppercase;
         vertical-align: bottom;
         font-family: Roboto,Noto,sans-serif;
+        font-weight: 300;
+        font-size: 16px;
         color: var(--primary-text-color);
       }
       .day {
-        font-size: 1.0em;
         vertical-align: top;
         font-family: Roboto,Noto,sans-serif;
+        font-weight: 300;
+        font-size: 24px;
+        text-align: center;
         color: var(--primary-text-color);
       }
       .event-title {
@@ -2829,7 +2903,7 @@ button_card_templates:
         margin-right: 6px;
         font-family: Roboto,Noto,sans-serif;
         font-size: 0.8em;
-        font-weight: 400;
+        font-weight: 300;
         text-align: left;
         vertical-align: top;
         word-wrap: break-word;
