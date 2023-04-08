@@ -11,7 +11,13 @@ sidebar:
   style: |
     .date {
       font-size: 32px;
-      margin-left: 12px;
+      margin-left: 6px;
+    }
+    .sidebarMenu li {
+      font-weight: 200!important;
+    }
+    .sidebarMenu li.active {
+      font-weight: 400!important;
     }
   width:
     mobile: 0
@@ -104,7 +110,9 @@ views:
         card_mod:
           style: |
             ha-card {
+              --chip-font-weight: 200!important;
               --chip-box-shadow: none;
+              --chip-background: none;
               --chip-border-radius: 10px;
             }
         chips:
@@ -279,16 +287,37 @@ views:
         show_item_delete: true
         only_today_overdue: false
         style: |
-
-          .todoist-list .todoist-item .todoist-item-close {
-            color: white;
+          .todoist-list .todoist-item {
+            padding: 0px 0px 10px 0px;
+            line-height: 16px!important;
           }
-          .todoist-list .todoist-item .todoist-item-delete {
+          .todoist-item .todoist-item-close {
+            line-height: 16px!important;
+            padding-right: 10px;
             color: grey;
           }
-
+          .todoist-item .todoist-item-delete {
+            line-height: 16px!important;
+            color: grey;
+          }
+          .todoist-item .todoist-item-text {
+            font-size: 16px!important;
+            font-weight: 100!important;
+            line-height: 16px!important;
+            background: none;
+          }
+          .todoist-item-add {
+            font-size: 16px!important;
+            font-weight: 100!important;
+            line-height: 16px!important;
+            border: solid;
+            border-color: grey;
+            border-width: 1px;
+            background: none;
+          }          
           ha-card {
-            --mdc-icon-size: 24px;
+            --mdc-icon-button-size: 20px;
+            --mdc-icon-size: 20px;
             border-radius: 10px;
           }
       - type: custom:stack-in-card
@@ -307,6 +336,7 @@ views:
                   --primary-text-color: grey;
                   margin-bottom: -12px;
                   --ha-card-border-width: 0;
+                  --card-primary-font-weight: 400!important;
                 }
           - type: horizontal-stack
             cards:
@@ -334,8 +364,6 @@ views:
                       --ha-card-border-width: 0px;
                       filter: drop-shadow(4px 4px 6px rgba(0, 0, 0, 0.5));
                     }
-
-                           
               - type: custom:mushroom-template-card
                 entity: media_player.spotify_hell255
                 layout: vertical
@@ -496,6 +524,8 @@ views:
                 }
                 ha-card {
                   --ha-card-border-width: 0;
+                  --card-primary-font-weight: 200!important;
+                  --card-secondary-font-weight: 400!important;
                 }
                 ha-card:before {
                   transform: translate3d(0,0,0);
@@ -592,9 +622,6 @@ views:
               transform: translate3d(0,0,0);
               -webkit-transform: translate3d(0,0,0);
             }
-
-
-
                 
       - type: custom:auto-entities
         view_layout:
@@ -605,7 +632,10 @@ views:
           card_mod:
             style: |
               ha-card {
+                --chip-icon-size: 16px;
+                --chip-font-weight: 200!important;
                 --chip-box-shadow: none;
+                --chip-background: none;
                 --chip-border-radius: 10px;
               }
         card_param: chips
