@@ -88,9 +88,11 @@ I am using Todoist to synchronize items from Alexa's shopping list to home assis
 
 
 ## Todos
-
-- Use decluttering card to simplify the lovelace-UI
 - Use the colors defined by the theme instead of hard-coded colors
-- Enhance the design of the shopping list card
 - Fix the 20s UI-delay when changing sources via the media-player
+- Further declutter the yaml file
+
+## Done
+- DONE Use decluttering card to simplify the lovelace-UI
+- DONE Enhance the design of the shopping list card
 
