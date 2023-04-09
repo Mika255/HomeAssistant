@@ -1,3 +1,53 @@
+decluttering_templates:
+  template_title:
+    card:
+      type: custom:mushroom-template-card
+      primary: '[[primary]]'
+      card_mod:
+        style: |
+          ha-card {
+            background: none;
+            margin: 0 0 -20px -12px;
+            letter-spacing: .05em;
+            --card-primary-font-size: 32px!important;
+            --card-primary-font-weight: 200!important;
+          }
+
+  template_power:
+    card:
+      type: custom:mini-graph-card
+      name: '[[name]]'
+      animate: true
+      decimals: 0
+      entities:
+        - entity: '[[sensor]]'
+      tap_action:
+        action: call-service
+        service: switch.toggle
+        service_data:
+          entity_id: '[[entity]]'
+      show:
+        icon: false
+        points: false
+      card_mod:
+        style: |
+          .header.flex .name.flex {
+            {% if states('[[sensor]]')|float > 5.0 %}color: var(--accent-color);{% endif %}
+          }
+          .states.flex {
+            {% if states('[[sensor]]')|float > 5.0 %}color: var(--accent-color);{% endif %}
+          }
+          .ellipsis {
+            font-weight: 300!important;
+          }
+          ha-card {
+            border-radius: 10px;
+          }
+
+
+
+                        
+
 title: Home
 kiosk_mode:
   user_settings:
@@ -680,6 +730,7 @@ views:
               state: <20
               options:
                 type: entity
+                
   - theme: ios-dark-mode
     title: Heizungen
     path: heizungen
@@ -705,18 +756,10 @@ views:
         cards:
           - type: vertical-stack
             cards:
-
-              - type: custom:mushroom-template-card
-                primary: WOHNZIMMER
-                card_mod:
-                  style: |
-                    ha-card {
-                      background: none;
-                      margin: 0 0 -20px -12px;
-                      letter-spacing: .05em;
-                      --card-primary-font-size: 32px!important;
-                      --card-primary-font-weight: 200!important;
-                    }
+              - type: custom:decluttering-card
+                template: template_title
+                variables:
+                  - primary: WOHNZIMMER
                          
               - type: horizontal-stack
                 cards:
@@ -824,19 +867,10 @@ views:
                       - base
                       - base_standard_layout
                       - base_heat_holiday_layout
-
-              - type: custom:mushroom-template-card
-                primary: KÜCHE
-                card_mod:
-                  style: |
-                    ha-card {
-                      background: none;
-                      margin: 0 0 -20px -12px;
-                      letter-spacing: .05em;
-                      --card-primary-font-size: 32px!important;
-                      --card-primary-font-weight: 200!important;
-                    }
-
+              - type: custom:decluttering-card
+                template: template_title
+                variables:
+                  - primary: KÜCHE
               - type: horizontal-stack
                 cards:
                   - type: custom:simple-thermostat
@@ -943,18 +977,10 @@ views:
                       - base
                       - base_standard_layout
                       - base_heat_holiday_layout
-
-              - type: custom:mushroom-template-card
-                primary: BADEZIMMER
-                card_mod:
-                  style: |
-                    ha-card {
-                      background: none;
-                      margin: 0 0 -20px -12px;
-                      letter-spacing: .05em;
-                      --card-primary-font-size: 32px!important;
-                      --card-primary-font-weight: 200!important;
-                    }
+              - type: custom:decluttering-card
+                template: template_title
+                variables:
+                  - primary: BADEZIMMER
 
               - type: horizontal-stack
                 cards:
@@ -1087,25 +1113,15 @@ views:
         cards:
           - type: vertical-stack
             cards:
-
-              - type: custom:mushroom-template-card
-                primary: WOHNZIMMER
-                card_mod:
-                  style: |
-                    ha-card {
-                      background: none;
-                      margin: 0 0 -20px -12px;
-                      letter-spacing: .05em;
-                      --card-primary-font-size: 32px!important;
-                      --card-primary-font-weight: 200!important;
-                    }
+              - type: custom:decluttering-card
+                template: template_title
+                variables:
+                  - primary: WOHNZIMMER
 
               - type: horizontal-stack
                 cards:
                   - type: custom:button-card
                     name: Deckenlampe
-                    aspect_ratio: 1/1
-                    show_state: false
                     tap_action:
                       action: call-service
                       service: automation.trigger
@@ -1124,8 +1140,6 @@ views:
                       - loader
                   - type: custom:button-card
                     name: Ecklampe
-                    aspect_ratio: 1/1
-                    show_state: false
                     tap_action:
                       action: toggle
                       haptic: light
@@ -1143,8 +1157,6 @@ views:
                     entity: fan.xiaomi_smart_air_purifier_4_pro
                     icon: mdi:fan
                     name: Luftreiniger
-                    aspect_ratio: 1/1
-                    show_state: false
                     tap_action:
                       action: call-service
                       service: automation.trigger
@@ -1164,8 +1176,6 @@ views:
                     entity: switch.steckdose_spielekonsolen
                     icon: mdi:nintendo-game-boy
                     name: Konsolen
-                    aspect_ratio: 1/1
-                    show_state: false
                     tap_action:
                       action: toggle
                       haptic: switch
@@ -1184,8 +1194,7 @@ views:
                   - type: custom:button-card
                     entity: media_player.samsung_the_frame_65
                     name: Fernseher
-                    aspect_ratio: 1/1
-                    show_state: true
+                    show_state: true         
                     tap_action:
                       action: call-service
                       service: media_player.toggle
@@ -1201,25 +1210,14 @@ views:
                       - base_switch_layout
                       - button_animation
                       - loader
-
-              - type: custom:mushroom-template-card
-                primary: KÜCHE
-                card_mod:
-                  style: |
-                    ha-card {
-                      background: none;
-                      margin: 0 0 -20px -12px;
-                      letter-spacing: .05em;
-                      --card-primary-font-size: 32px!important;
-                      --card-primary-font-weight: 200!important;
-                    }
-              
+              - type: custom:decluttering-card
+                template: template_title
+                variables:
+                  - primary: KÜCHE
               - type: horizontal-stack
                 cards:
                   - type: custom:button-card
                     name: Küchentisch
-                    aspect_ratio: 1/1
-                    show_state: false
                     tap_action:
                       action: call-service
                       service: automation.trigger
@@ -1238,8 +1236,6 @@ views:
                       - loader
                   - type: custom:button-card
                     name: Deckenfluter
-                    aspect_ratio: 1/1
-                    show_state: false
                     tap_action:
                       action: call-service
                       service: automation.trigger
@@ -1258,8 +1254,6 @@ views:
                       - loader
                   - type: custom:button-card
                     name: Metro
-                    aspect_ratio: 1/1
-                    show_state: false
                     tap_action:
                       action: toggle
                       haptic: light
@@ -1276,8 +1270,6 @@ views:
                   - type: custom:button-card
                     entity: light.kueche_kuechenwand
                     name: Küchenwand
-                    aspect_ratio: 1/1
-                    show_state: false
                     tap_action:
                       action: toggle
                       haptic: switch
@@ -1294,8 +1286,6 @@ views:
                     template:
                       - base_spacing_layout
                   - type: custom:button-card
-                    aspect_ratio: 1/1
-                    show_state: false
                     name: Küchendecke
                     entity: switch.schalter_kuche
                     tap_action:
@@ -1310,25 +1300,16 @@ views:
                       - base_switch_layout
                       - button_animation
                       - loader
-
-              - type: custom:mushroom-template-card
-                primary: BAD, FLUR
-                card_mod:
-                  style: |
-                    ha-card {
-                      background: none;
-                      margin: 0 0 -20px -12px;
-                      letter-spacing: .05em;
-                      --card-primary-font-size: 32px!important;
-                      --card-primary-font-weight: 200!important;
-                    }
+                      
+              - type: custom:decluttering-card
+                template: template_title
+                variables:
+                  - primary: BAD, FLUR
                            
               - type: horizontal-stack
                 cards:
                   - type: custom:button-card
                     name: Flur
-                    aspect_ratio: 1/1
-                    show_state: false
                     tap_action:
                       action: toggle
                       haptic: light
@@ -1344,8 +1325,6 @@ views:
                       - loader
                   - type: custom:button-card
                     name: Badezimmer
-                    aspect_ratio: 1/1
-                    show_state: false
                     tap_action:
                       action: call-service
                       service: automation.trigger
@@ -1364,8 +1343,6 @@ views:
                       - loader
                   - type: custom:button-card
                     name: Robi
-                    aspect_ratio: 1/1
-                    show_state: false
                     entity: vacuum.robi
                     template:
                       - base
@@ -1377,8 +1354,6 @@ views:
                       - base_spacing_layout
                   - type: custom:button-card
                     name: Guten Morgen
-                    aspect_ratio: 1/1
-                    show_state: false
                     icon: mdi:weather-sunny
                     entity: light.all_light_entities
                     template:
@@ -1394,8 +1369,6 @@ views:
                   - type: custom:button-card
                     name: Gute Nacht
                     icon: mdi:weather-night
-                    aspect_ratio: 1/1
-                    show_state: false
                     entity: light.all_light_entities
                     tap_action:
                       action: call-service
@@ -1432,395 +1405,123 @@ views:
         cards:
           - type: vertical-stack
             cards:
-            
-              - type: custom:mushroom-template-card
-                primary: WOHNZIMMER
-                card_mod:
-                  style: |
-                    ha-card {
-                      background: none;
-                      margin: 0 0 -20px -12px;
-                      letter-spacing: .05em;
-                      --card-primary-font-size: 32px!important;
-                      --card-primary-font-weight: 200!important;
-                    }
+              - type: custom:decluttering-card
+                template: template_title
+                variables:
+                  - primary: WOHNZIMMER
                                  
               - type: horizontal-stack
                 cards:
-                  - type: custom:mini-graph-card
-                    name: Decklampe
-                    animate: true
-                    decimals: 0
-                    entities:
-                      - entity: sensor.schalter_wohnzimmerdecke_power
-                    tap_action:
-                      action: call-service
-                      service: switch.toggle
-                      service_data:
-                        entity_id: switch.schalter_wohnzimmerdecke
-                    show:
-                      icon: false
-                      points: false
-                    card_mod:
-                      style: |
-                        .header.flex .name.flex {
-                          {% if states('sensor.schalter_wohnzimmerdecke_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
-                        }
-                        .states.flex {
-                          {% if states('sensor.schalter_wohnzimmerdecke_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
-                        }
-                        .ellipsis {
-                          font-weight: 300!important;
-                        }
-                        ha-card {
-                          border-radius: 10px;
-                        }
+                  - type: custom:decluttering-card
+                    template: template_power
+                    variables:
+                      - name: Decklampe
+                      - entity: switch.schalter_wohnzimmerdecke
+                      - sensor: sensor.schalter_wohnzimmerdecke_power
                   - type: custom:button-card
                     template:
                       - base_empty_layout
-                  - type: custom:mini-graph-card
-                    name: Luftreiniger
-                    animate: true
-                    decimals: 0
-                    entities:
-                      - entity: sensor.steckdose_luftreiniger_power
-                    tap_action:
-                      action: call-service
-                      service: switch.toggle
-                      service_data:
-                        entity_id: switch.steckdose_luftreiniger
-                    show:
-                      icon: false
-                      points: false
-                    card_mod:
-                      style: |
-                        .header.flex .name.flex {
-                          {% if states('sensor.steckdose_luftreiniger_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
-                        }
-                        .states.flex {
-                          {% if states('sensor.steckdose_luftreiniger_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
-                        }
-                        .ellipsis {
-                          font-weight: 300!important;
-                        }
-                        ha-card {
-                          border-radius: 10px;
-                        }
-                  - type: custom:mini-graph-card
-                    name: Fernseher
-                    animate: true
-                    decimals: 0
-                    entities:
-                      - entity: sensor.steckdose_fernseher_hifi_power
-                    tap_action:
-                      action: call-service
-                      service: switch.toggle
-                      service_data:
-                        entity_id: switch.steckdose_fernseher_hifi
-                    show:
-                      icon: false
-                      points: false
-                    card_mod:
-                      style: |
-                        .header.flex .name.flex {
-                          {% if states('sensor.steckdose_fernseher_hifi_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
-                        }
-                        .states.flex {
-                          {% if states('sensor.steckdose_fernseher_hifi_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
-                        }
-                        .ellipsis {
-                          font-weight: 300!important;
-                        }
-                        ha-card {
-                          border-radius: 10px;
-                        }
+                  - type: custom:decluttering-card
+                    template: template_power
+                    variables:
+                      - name: Luftreiniger
+                      - entity: switch.steckdose_luftreiniger
+                      - sensor: sensor.steckdose_luftreiniger_power
+                  - type: custom:decluttering-card
+                    template: template_power
+                    variables:
+                      - name: Fernseher
+                      - entity: switch.steckdose_fernseher_hifi
+                      - sensor: sensor.steckdose_fernseher_hifi_power
                   - type: custom:button-card
                     template:
                       - base_spacing_layout
-                  - type: custom:mini-graph-card
-                    name: Konsolen
-                    animate: true
-                    decimals: 0
-                    entities:
-                      - entity: sensor.steckdose_spielekonsolen_power
-                    tap_action:
-                      action: call-service
-                      service: switch.toggle
-                      service_data:
-                        entity_id: switch.steckdose_spielekonsolen
-                    show:
-                      icon: false
-                      points: false
-                    card_mod:
-                      style: |
-                        .header.flex .name.flex {
-                          {% if states('sensor.steckdose_spielekonsolen_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
-                        }
-                        .states.flex {
-                          {% if states('sensor.steckdose_spielekonsolen_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
-                        }
-                        .ellipsis {
-                          font-weight: 300!important;
-                        }
-                        ha-card {
-                          border-radius: 10px;
-                        }  
-
-              - type: custom:mushroom-template-card
-                primary: KÜCHE
-                card_mod:
-                  style: |
-                    ha-card {
-                      background: none;
-                      margin: 0 0 -20px -12px;
-                      letter-spacing: .05em;
-                      --card-primary-font-size: 32px!important;
-                      --card-primary-font-weight: 200!important;
-                    }
+                  - type: custom:decluttering-card
+                    template: template_power
+                    variables:
+                      - name: Konsolen
+                      - entity: switch.steckdose_spielekonsolen
+                      - sensor: sensor.steckdose_spielekonsolen_power                      
+                        
+              - type: custom:decluttering-card
+                template: template_title
+                variables:
+                  - primary: KÜCHE
                                      
               - type: horizontal-stack
                 cards:
-                  - type: custom:mini-graph-card
-                    name: Küchentisch
-                    animate: true
-                    decimals: 0
-                    entities:
-                      - entity: sensor.schalter_kuchentisch_power
-                    tap_action:
-                      action: call-service
-                      service: switch.toggle
-                      service_data:
-                        entity_id: switch.schalter_kuchentisch
-                    show:
-                      icon: false
-                      points: false
-                    card_mod:
-                      style: |
-                        .header.flex .name.flex {
-                          {% if states('sensor.schalter_kuchentisch_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
-                        }
-                        .states.flex {
-                          {% if states('sensor.schalter_kuchentisch_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
-                        }
-                        .ellipsis {
-                          font-weight: 300!important;
-                        }
-                        ha-card {
-                          border-radius: 10px;
-                        }                    
-                  - type: custom:mini-graph-card
-                    name: Decke Zeile
-                    animate: true
-                    decimals: 0
-                    entities:
-                      - entity: sensor.steckdose_kuchendecke_zeile_power
-                    tap_action:
-                      action: call-service
-                      service: switch.toggle
-                      service_data:
-                        entity_id: switch.steckdose_kuchendecke_zeile
-                    show:
-                      icon: false
-                      points: false
-                    card_mod:
-                      style: |
-                        .header.flex .name.flex {
-                          {% if states('sensor.steckdose_kuchendecke_zeile_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
-                        }
-                        .states.flex {
-                          {% if states('sensor.steckdose_kuchendecke_zeile_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
-                        }
-                        .ellipsis {
-                          font-weight: 300!important;
-                        }
-                        ha-card {
-                          border-radius: 10px;
-                        }                    
-                  - type: custom:mini-graph-card
-                    name: Decke Herd
-                    animate: true
-                    decimals: 0
-                    entities:
-                      - entity: sensor.schalter_kuchendecke_herd_power
-                    tap_action:
-                      action: call-service
-                      service: switch.toggle
-                      service_data:
-                        entity_id: switch.schalter_kuchendecke_herd
-                    show:
-                      icon: false
-                      points: false
-                    card_mod:
-                      style: |
-                        .header.flex .name.flex {
-                          {% if states('sensor.schalter_kuchendecke_herd_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
-                        }
-                        .states.flex {
-                          {% if states('sensor.schalter_kuchendecke_herd_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
-                        }
-                        .ellipsis {
-                          font-weight: 300!important;
-                        }
-                        ha-card {
-                          border-radius: 10px;
-                        }                    
-                  - type: custom:mini-graph-card
-                    name: Spülmaschine
-                    animate: true
-                    decimals: 0
-                    entities:
-                      - entity: sensor.steckdose_spulmaschine_power
-                    tap_action:
-                      action: call-service
-                      service: switch.toggle
-                      service_data:
-                        entity_id: switch.steckdose_spulmaschine
-                    show:
-                      icon: false
-                      points: false
-                    card_mod:
-                      style: |
-                        .header.flex .name.flex {
-                          {% if states('sensor.steckdose_spulmaschine_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
-                        }
-                        .states.flex {
-                          {% if states('sensor.steckdose_spulmaschine_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
-                        }
-                        .ellipsis {
-                          font-weight: 300!important;
-                        }
-                        ha-card {
-                          border-radius: 10px;
-                        }                    
+                  - type: custom:decluttering-card
+                    template: template_power
+                    variables:
+                      - name: Küchentisch
+                      - entity: switch.schalter_kuchentisch
+                      - sensor: sensor.schalter_kuchentisch_power
+                  - type: custom:decluttering-card
+                    template: template_power
+                    variables:
+                      - name: Decke Zeile
+                      - entity: switch.steckdose_kuchendecke_zeile
+                      - sensor: sensor.steckdose_kuchendecke_zeile_power
+                  - type: custom:decluttering-card
+                    template: template_power
+                    variables:
+                      - name: Decke Herd
+                      - entity: switch.schalter_kuchendecke_herd
+                      - sensor: sensor.schalter_kuchendecke_herd_power
+                  - type: custom:decluttering-card
+                    template: template_power
+                    variables:
+                      - name: Spülmaschine
+                      - entity: switch.steckdose_spulmaschine
+                      - sensor: sensor.steckdose_spulmaschine_power
                   - type: custom:button-card
                     template:
                       - base_spacing_layout
-                  - type: custom:mini-graph-card
-                    name: Waschmaschine
-                    animate: true
-                    decimals: 0
-                    entities:
-                      - entity: sensor.steckdose_waschmaschine_power
-                    tap_action:
-                      action: call-service
-                      service: switch.toggle
-                      service_data:
-                        entity_id: switch.steckdose_waschmaschine
-                    show:
-                      icon: false
-                      points: false
-                    card_mod:
-                      style: |
-                        .header.flex .name.flex {
-                          {% if states('sensor.steckdose_waschmaschine_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
-                        }
-                        .states.flex {
-                          {% if states('sensor.steckdose_waschmaschine_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
-                        }
-                        .ellipsis {
-                          font-weight: 300!important;
-                        }
-                        ha-card {
-                          border-radius: 10px;
-                        }
+                  - type: custom:decluttering-card
+                    template: template_power
+                    variables:
+                      - name: Waschmaschine
+                      - entity: switch.steckdose_waschmaschine
+                      - sensor: sensor.steckdose_waschmaschine_power
 
-              - type: custom:mushroom-template-card
-                primary: BAD, FLUR
-                card_mod:
-                  style: |
-                    ha-card {
-                      background: none;
-                      margin: 0 0 -20px -12px;
-                      letter-spacing: .05em;
-                      --card-primary-font-size: 32px!important;
-                      --card-primary-font-weight: 200!important;
-                    }
+
+                        
+              - type: custom:decluttering-card
+                template: template_title
+                variables:
+                  - primary: BAD, FLUR
                         
               - type: horizontal-stack
                 cards:
-                  - type: custom:mini-graph-card
-                    name: Badezimmerdecke
-                    animate: true
-                    decimals: 0
-                    entities:
-                      - entity: sensor.schalter_badezimmerdecke_power
-                    tap_action:
-                      action: call-service
-                      service: switch.toggle
-                      service_data:
-                        entity_id: switch.schalter_badezimmerdecke
-                    show:
-                      icon: false
-                      points: false
-                    card_mod:
-                      style: |
-                        .header.flex .name.flex {
-                          {% if states('sensor.schalter_badezimmerdecke_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
-                        }
-                        .states.flex {
-                          {% if states('sensor.schalter_badezimmerdecke_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
-                        }
-                        .ellipsis {
-                          font-weight: 300!important;
-                        }
-                        ha-card {
-                          border-radius: 10px;
-                        }                    
+                  - type: custom:decluttering-card
+                    template: template_power
+                    variables:
+                      - name: Badezimmerdecke
+                      - entity: switch.schalter_badezimmerdecke
+                      - sensor: sensor.schalter_badezimmerdecke_power     
                   - type: custom:button-card
                     template:
                       - base_empty_layout
                   - type: custom:button-card
                     template:
                       - base_empty_layout
-                  - type: custom:mini-graph-card
-                    name: Kühlschrank
-                    animate: true
-                    decimals: 0
-                    entities:
-                      - entity: sensor.steckdose_kuhlschrank_power
-                    show:
-                      icon: false
-                      points: false
-                    card_mod:
-                      style: |
-                        .header.flex .name.flex {
-                          {% if states('sensor.steckdose_kuhlschrank_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
-                        }
-                        .states.flex {
-                          {% if states('sensor.steckdose_kuhlschrank_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
-                        }
-                        .ellipsis {
-                          font-weight: 300!important;
-                        }
-                        ha-card {
-                          border-radius: 10px;
-                        }                    
+                  - type: custom:decluttering-card
+                    template: template_power
+                    variables:
+                      - name: Kühlschrank
+                      - entity: none
+                      - sensor: sensor.steckdose_kuhlschrank_power
                   - type: custom:button-card
                     template:
                       - base_spacing_layout
-                  - type: custom:mini-graph-card
-                    name: Server
-                    animate: true
-                    decimals: 0
-                    entities:
-                      - entity: sensor.steckdose_server_power
-                    show:
-                      icon: false
-                      points: false
-                    card_mod:
-                      style: |
-                        .header.flex .name.flex {
-                          {% if states('sensor.steckdose_server_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
-                        }
-                        .states.flex {
-                          {% if states('sensor.steckdose_server_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
-                        }
-                        .ellipsis {
-                          font-weight: 300!important;
-                        }
-                        ha-card {
-                          border-radius: 10px;
-                        }                    
+                  - type: custom:decluttering-card
+                    template: template_power
+                    variables:
+                      - name: Server
+                      - entity: none
+                      - sensor: sensor.steckdose_server_power
+
+                
   - theme: ios-dark-mode
     title: Energie
     path: energie
@@ -1857,7 +1558,6 @@ views:
           - entity: sensor.wohnung_verbrauch_summe
         show_header_toggle: false
         state_color: false
-
   - theme: ios-dark-mode
     title: Lichter
     path: lichter
@@ -1865,18 +1565,11 @@ views:
     type: sidebar
     badges: []
     cards:
-      - type: custom:mushroom-template-card
-        primary: WOHNZIMMER
-        card_mod:
-          style: |
-            ha-card {
-              background: none;
-              margin: 0 0 -20px -12px;
-              letter-spacing: .05em;
-              --card-primary-font-size: 32px!important;
-              --card-primary-font-weight: 200!important;
-            }
-    
+      - type: custom:decluttering-card
+        template: template_title
+        variables:
+          - primary: WOHNZIMMER
+
       - type: custom:auto-entities
         card:
           type: grid
@@ -1915,18 +1608,10 @@ views:
                         --card-primary-font-weight: 200!important;
                         border-radius: 10px;
                       }
-      - type: custom:mushroom-template-card
-        primary: KÜCHE
-        card_mod:
-          style: |
-            ha-card {
-              background: none;
-              margin: 0 0 -20px -12px;
-              letter-spacing: .05em;
-              --card-primary-font-size: 32px!important;
-              --card-primary-font-weight: 200!important;
-            }
-        
+      - type: custom:decluttering-card
+        template: template_title
+        variables:
+          - primary: KÜCHE
       - type: custom:auto-entities
         card:
           type: grid
@@ -1963,20 +1648,10 @@ views:
                         --card-primary-font-weight: 200!important;
                         border-radius: 10px;
                       }
-
-      - type: custom:mushroom-template-card
-        primary: BAD, FLUR
-        card_mod:
-          style: |
-            ha-card {
-              background: none;
-              margin: 0 0 -20px -12px;
-              letter-spacing: .05em;
-              --card-primary-font-size: 32px!important;
-              --card-primary-font-weight: 200!important;
-            }
-      
-      
+      - type: custom:decluttering-card
+        template: template_title
+        variables:
+          - primary: BAD, FLUR
       - type: custom:auto-entities
         card:
           type: grid
@@ -2231,13 +1906,14 @@ views:
                 ha-card {
                   border-radius: 10px;
                 }
-          - type: custom:sun-card
+          - type: custom:horizon-card
             language: de
             card_mod:
               style: |
                 ha-card {
                   border-radius: 10px;
-                }          
+                }
+                     
       - type: custom:weather-radar-card
         map_style: Dark
         zoom_level: 7
@@ -2341,6 +2017,8 @@ views:
             }     
 button_card_templates:
   base:
+    aspect_ratio: 1/1
+    show_state: false
     variables:
       colorz: |
         [[[ 
