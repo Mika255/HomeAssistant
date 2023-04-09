@@ -111,6 +111,7 @@ views:
           style: |
             ha-card {
               --chip-font-weight: 200!important;
+              --chip-font-size: 12px;
               --chip-box-shadow: none;
               --chip-background: none;
               --chip-border-radius: 10px;
@@ -294,11 +295,11 @@ views:
           .todoist-item .todoist-item-close {
             line-height: 16px!important;
             padding-right: 10px;
-            color: grey;
+            color: var(--disabled-text-color);
           }
           .todoist-item .todoist-item-delete {
             line-height: 16px!important;
-            color: grey;
+            color: var(--disabled-text-color);
           }
           .todoist-item .todoist-item-text {
             font-size: 16px!important;
@@ -633,6 +634,8 @@ views:
             style: |
               ha-card {
                 --chip-icon-size: 16px;
+                --color: var(--disabled-text-color);
+                --chip-font-size: 12px;
                 --chip-font-weight: 200!important;
                 --chip-box-shadow: none;
                 --chip-background: none;
@@ -702,15 +705,19 @@ views:
         cards:
           - type: vertical-stack
             cards:
-              - type: markdown
-                content: ' '
-                title: WOHNZIMMER
+
+              - type: custom:mushroom-template-card
+                primary: WOHNZIMMER
                 card_mod:
                   style: |
                     ha-card {
                       background: none;
-                      margin-bottom: -5%;
+                      margin: 0 0 -20px -12px;
+                      letter-spacing: .05em;
+                      --card-primary-font-size: 32px!important;
+                      --card-primary-font-weight: 200!important;
                     }
+                         
               - type: horizontal-stack
                 cards:
                   - type: custom:simple-thermostat
@@ -817,15 +824,19 @@ views:
                       - base
                       - base_standard_layout
                       - base_heat_holiday_layout
-              - type: markdown
-                content: ' '
-                title: KÜCHE
+
+              - type: custom:mushroom-template-card
+                primary: KÜCHE
                 card_mod:
                   style: |
                     ha-card {
                       background: none;
-                      margin-bottom: -5%;
+                      margin: 0 0 -20px -12px;
+                      letter-spacing: .05em;
+                      --card-primary-font-size: 32px!important;
+                      --card-primary-font-weight: 200!important;
                     }
+
               - type: horizontal-stack
                 cards:
                   - type: custom:simple-thermostat
@@ -932,15 +943,19 @@ views:
                       - base
                       - base_standard_layout
                       - base_heat_holiday_layout
-              - type: markdown
-                content: ' '
-                title: BADEZIMMER
+
+              - type: custom:mushroom-template-card
+                primary: BADEZIMMER
                 card_mod:
                   style: |
                     ha-card {
                       background: none;
-                      margin-bottom: -5%;
+                      margin: 0 0 -20px -12px;
+                      letter-spacing: .05em;
+                      --card-primary-font-size: 32px!important;
+                      --card-primary-font-weight: 200!important;
                     }
+
               - type: horizontal-stack
                 cards:
                   - type: custom:simple-thermostat
@@ -1072,15 +1087,19 @@ views:
         cards:
           - type: vertical-stack
             cards:
-              - type: markdown
-                content: ' '
-                title: WOHNZIMMER
+
+              - type: custom:mushroom-template-card
+                primary: WOHNZIMMER
                 card_mod:
                   style: |
                     ha-card {
                       background: none;
-                      margin-bottom: -5%;
+                      margin: 0 0 -20px -12px;
+                      letter-spacing: .05em;
+                      --card-primary-font-size: 32px!important;
+                      --card-primary-font-weight: 200!important;
                     }
+
               - type: horizontal-stack
                 cards:
                   - type: custom:button-card
@@ -1182,15 +1201,19 @@ views:
                       - base_switch_layout
                       - button_animation
                       - loader
-              - type: markdown
-                content: ' '
-                title: KÜCHE
+
+              - type: custom:mushroom-template-card
+                primary: KÜCHE
                 card_mod:
                   style: |
                     ha-card {
                       background: none;
-                      margin-bottom: -5%;
+                      margin: 0 0 -20px -12px;
+                      letter-spacing: .05em;
+                      --card-primary-font-size: 32px!important;
+                      --card-primary-font-weight: 200!important;
                     }
+              
               - type: horizontal-stack
                 cards:
                   - type: custom:button-card
@@ -1287,15 +1310,19 @@ views:
                       - base_switch_layout
                       - button_animation
                       - loader
-              - type: markdown
-                content: ' '
-                title: BAD, FLUR
+
+              - type: custom:mushroom-template-card
+                primary: BAD, FLUR
                 card_mod:
                   style: |
                     ha-card {
                       background: none;
-                      margin-bottom: -5%;
+                      margin: 0 0 -20px -12px;
+                      letter-spacing: .05em;
+                      --card-primary-font-size: 32px!important;
+                      --card-primary-font-weight: 200!important;
                     }
+                           
               - type: horizontal-stack
                 cards:
                   - type: custom:button-card
@@ -1405,15 +1432,19 @@ views:
         cards:
           - type: vertical-stack
             cards:
-              - type: markdown
-                content: ' '
-                title: WOHNZIMMER
+            
+              - type: custom:mushroom-template-card
+                primary: WOHNZIMMER
                 card_mod:
                   style: |
                     ha-card {
                       background: none;
-                      margin-bottom: -5%;
+                      margin: 0 0 -20px -12px;
+                      letter-spacing: .05em;
+                      --card-primary-font-size: 32px!important;
+                      --card-primary-font-weight: 200!important;
                     }
+                                 
               - type: horizontal-stack
                 cards:
                   - type: custom:mini-graph-card
@@ -1437,6 +1468,9 @@ views:
                         }
                         .states.flex {
                           {% if states('sensor.schalter_wohnzimmerdecke_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
+                        }
+                        .ellipsis {
+                          font-weight: 300!important;
                         }
                         ha-card {
                           border-radius: 10px;
@@ -1466,6 +1500,9 @@ views:
                         .states.flex {
                           {% if states('sensor.steckdose_luftreiniger_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
                         }
+                        .ellipsis {
+                          font-weight: 300!important;
+                        }
                         ha-card {
                           border-radius: 10px;
                         }
@@ -1490,6 +1527,9 @@ views:
                         }
                         .states.flex {
                           {% if states('sensor.steckdose_fernseher_hifi_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
+                        }
+                        .ellipsis {
+                          font-weight: 300!important;
                         }
                         ha-card {
                           border-radius: 10px;
@@ -1519,18 +1559,25 @@ views:
                         .states.flex {
                           {% if states('sensor.steckdose_spielekonsolen_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
                         }
+                        .ellipsis {
+                          font-weight: 300!important;
+                        }
                         ha-card {
                           border-radius: 10px;
                         }  
-              - type: markdown
-                content: ' '
-                title: KÜCHE
+
+              - type: custom:mushroom-template-card
+                primary: KÜCHE
                 card_mod:
                   style: |
                     ha-card {
                       background: none;
-                      margin-bottom: -5%;
+                      margin: 0 0 -20px -12px;
+                      letter-spacing: .05em;
+                      --card-primary-font-size: 32px!important;
+                      --card-primary-font-weight: 200!important;
                     }
+                                     
               - type: horizontal-stack
                 cards:
                   - type: custom:mini-graph-card
@@ -1554,6 +1601,9 @@ views:
                         }
                         .states.flex {
                           {% if states('sensor.schalter_kuchentisch_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
+                        }
+                        .ellipsis {
+                          font-weight: 300!important;
                         }
                         ha-card {
                           border-radius: 10px;
@@ -1580,6 +1630,9 @@ views:
                         .states.flex {
                           {% if states('sensor.steckdose_kuchendecke_zeile_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
                         }
+                        .ellipsis {
+                          font-weight: 300!important;
+                        }
                         ha-card {
                           border-radius: 10px;
                         }                    
@@ -1605,6 +1658,9 @@ views:
                         .states.flex {
                           {% if states('sensor.schalter_kuchendecke_herd_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
                         }
+                        .ellipsis {
+                          font-weight: 300!important;
+                        }
                         ha-card {
                           border-radius: 10px;
                         }                    
@@ -1629,6 +1685,9 @@ views:
                         }
                         .states.flex {
                           {% if states('sensor.steckdose_spulmaschine_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
+                        }
+                        .ellipsis {
+                          font-weight: 300!important;
                         }
                         ha-card {
                           border-radius: 10px;
@@ -1658,18 +1717,25 @@ views:
                         .states.flex {
                           {% if states('sensor.steckdose_waschmaschine_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
                         }
+                        .ellipsis {
+                          font-weight: 300!important;
+                        }
                         ha-card {
                           border-radius: 10px;
-                        }                    
-              - type: markdown
-                content: ' '
-                title: BAD, FLUR
+                        }
+
+              - type: custom:mushroom-template-card
+                primary: BAD, FLUR
                 card_mod:
                   style: |
                     ha-card {
                       background: none;
-                      margin-bottom: -5%;
+                      margin: 0 0 -20px -12px;
+                      letter-spacing: .05em;
+                      --card-primary-font-size: 32px!important;
+                      --card-primary-font-weight: 200!important;
                     }
+                        
               - type: horizontal-stack
                 cards:
                   - type: custom:mini-graph-card
@@ -1693,6 +1759,9 @@ views:
                         }
                         .states.flex {
                           {% if states('sensor.schalter_badezimmerdecke_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
+                        }
+                        .ellipsis {
+                          font-weight: 300!important;
                         }
                         ha-card {
                           border-radius: 10px;
@@ -1720,6 +1789,9 @@ views:
                         .states.flex {
                           {% if states('sensor.steckdose_kuhlschrank_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
                         }
+                        .ellipsis {
+                          font-weight: 300!important;
+                        }
                         ha-card {
                           border-radius: 10px;
                         }                    
@@ -1743,6 +1815,9 @@ views:
                         .states.flex {
                           {% if states('sensor.steckdose_server_power')|float > 5.0 %}color: var(--accent-color);{% endif %}
                         }
+                        .ellipsis {
+                          font-weight: 300!important;
+                        }
                         ha-card {
                           border-radius: 10px;
                         }                    
@@ -1753,12 +1828,6 @@ views:
     type: sidebar
     badges: []
     cards:
-      - type: entities
-        entities:
-          - entity: sensor.stromkasten_verbrauch_gesamt
-          - entity: sensor.wohnung_verbrauch_summe
-        show_header_toggle: false
-        state_color: false
       - type: energy-date-selection
       - type: energy-distribution
         card_mod: null
@@ -1782,6 +1851,13 @@ views:
           ha-card {
             border-radius: 10px;
           }
+      - type: entities
+        entities:
+          - entity: sensor.stromkasten_verbrauch_gesamt
+          - entity: sensor.wohnung_verbrauch_summe
+        show_header_toggle: false
+        state_color: false
+
   - theme: ios-dark-mode
     title: Lichter
     path: lichter
@@ -1789,8 +1865,18 @@ views:
     type: sidebar
     badges: []
     cards:
-      - type: custom:mushroom-title-card
-        title: WOHNZIMMER
+      - type: custom:mushroom-template-card
+        primary: WOHNZIMMER
+        card_mod:
+          style: |
+            ha-card {
+              background: none;
+              margin: 0 0 -20px -12px;
+              letter-spacing: .05em;
+              --card-primary-font-size: 32px!important;
+              --card-primary-font-weight: 200!important;
+            }
+    
       - type: custom:auto-entities
         card:
           type: grid
@@ -1824,10 +1910,23 @@ views:
                   card_mod:
                     style: |
                       ha-card {
+                        letter-spacing: .1em;
+                        --card-primary-font-size: 16.8px!important;
+                        --card-primary-font-weight: 200!important;
                         border-radius: 10px;
                       }
-      - type: custom:mushroom-title-card
-        title: KÜCHE
+      - type: custom:mushroom-template-card
+        primary: KÜCHE
+        card_mod:
+          style: |
+            ha-card {
+              background: none;
+              margin: 0 0 -20px -12px;
+              letter-spacing: .05em;
+              --card-primary-font-size: 32px!important;
+              --card-primary-font-weight: 200!important;
+            }
+        
       - type: custom:auto-entities
         card:
           type: grid
@@ -1859,10 +1958,25 @@ views:
                   card_mod:
                     style: |
                       ha-card {
+                        letter-spacing: .1em;
+                        --card-primary-font-size: 16.8px!important;
+                        --card-primary-font-weight: 200!important;
                         border-radius: 10px;
                       }
-      - type: custom:mushroom-title-card
-        title: BAD, FLUR
+
+      - type: custom:mushroom-template-card
+        primary: BAD, FLUR
+        card_mod:
+          style: |
+            ha-card {
+              background: none;
+              margin: 0 0 -20px -12px;
+              letter-spacing: .05em;
+              --card-primary-font-size: 32px!important;
+              --card-primary-font-weight: 200!important;
+            }
+      
+      
       - type: custom:auto-entities
         card:
           type: grid
@@ -1894,6 +2008,9 @@ views:
                   card_mod:
                     style: |
                       ha-card {
+                        letter-spacing: .1em;
+                        --card-primary-font-size: 16.8px!important;
+                        --card-primary-font-weight: 200!important;
                         border-radius: 10px;
                       }
             - domain: light
@@ -1916,6 +2033,9 @@ views:
                   card_mod:
                     style: |
                       ha-card {
+                        letter-spacing: .1em;
+                        --card-primary-font-size: 16.8px!important;
+                        --card-primary-font-weight: 200!important;
                         border-radius: 10px;
                       }
   - theme: ios-dark-mode
@@ -2261,7 +2381,7 @@ button_card_templates:
         - text-align: left
         - justify-self: start
         - padding: 0px 10px
-        - font-weight: normal
+        - font-weight: 200
         - line-height: 15px
         - bottom: 10%
         - position: absolute
