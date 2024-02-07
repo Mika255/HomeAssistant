@@ -12,7 +12,6 @@ decluttering_templates:
             --card-primary-font-size: 32px!important;
             --card-primary-font-weight: 200!important;
           }
-
   template_power:
     card:
       type: custom:mini-graph-card
@@ -32,10 +31,10 @@ decluttering_templates:
       card_mod:
         style: |
           .header.flex .name.flex {
-            {% if states('[[sensor]]')|float > 5.0 %}color: var(--accent-color);{% endif %}
+            {% if (is_state('[[entity]]', 'on')) or (states('[[sensor]]')|float > 0.1) %}color: var(--accent-color);{% endif %}
           }
           .states.flex {
-            {% if states('[[sensor]]')|float > 5.0 %}color: var(--accent-color);{% endif %}
+            {% if (is_state('[[entity]]', 'on')) or (states('[[sensor]]')|float > 0.1) %}color: var(--accent-color);{% endif %}
           }
           .ellipsis {
             font-weight: 300!important;
@@ -47,8 +46,7 @@ decluttering_templates:
 
 
                         
-
-title: Home
+title: Schulstrasse Home
 kiosk_mode:
   user_settings:
     - users:
@@ -112,7 +110,7 @@ sidebar:
   bottomCard:
     type: weather-forecast
     cardOptions:
-      name: Home
+      name: Schulstr.
       show_forecast: true
       entity: weather.forecast_home
       tap_action:
@@ -704,6 +702,7 @@ views:
               options:
                 type: entity
           exclude:
+            - entity_id: sensor.stromkasten_total_apparent_power
             - entity_id: sensor.steckdose_kuhlschrank_power
             - entity_id: sensor.steckdose_server_power
       - type: custom:auto-entities
@@ -730,7 +729,6 @@ views:
               state: <20
               options:
                 type: entity
-                
   - theme: ios-dark-mode
     title: Heizungen
     path: heizungen
@@ -760,7 +758,6 @@ views:
                 template: template_title
                 variables:
                   - primary: WOHNZIMMER
-                         
               - type: horizontal-stack
                 cards:
                   - type: custom:simple-thermostat
@@ -981,7 +978,6 @@ views:
                 template: template_title
                 variables:
                   - primary: BADEZIMMER
-
               - type: horizontal-stack
                 cards:
                   - type: custom:simple-thermostat
@@ -1117,7 +1113,6 @@ views:
                 template: template_title
                 variables:
                   - primary: WOHNZIMMER
-
               - type: horizontal-stack
                 cards:
                   - type: custom:button-card
@@ -1132,21 +1127,6 @@ views:
                       action: more-info
                       haptic: light
                     entity: light.wohnzimmerdecke
-                    template:
-                      - base
-                      - base_light_layout
-                      - button_animation
-                      - circle
-                      - loader
-                  - type: custom:button-card
-                    name: Ecklampe
-                    tap_action:
-                      action: toggle
-                      haptic: light
-                    hold_action:
-                      action: more-info
-                      haptic: light
-                    entity: light.ecklampe
                     template:
                       - base
                       - base_light_layout
@@ -1189,18 +1169,35 @@ views:
                       - button_animation
                       - loader
                   - type: custom:button-card
+                    entity: media_player.samsung_the_frame_65
+                    name: Fernseher
+                    show_state: true
+                    tap_action:
+                      action: call-service
+                      service: automation.trigger
+                      service_data:
+                        entity_id: automation.wohnzimmer_toggle_tv
+                      haptic: switch
+                    hold_action:
+                      action: more-info
+                      haptic: switch
+                    template:
+                      - base
+                      - base_standard_layout
+                      - base_switch_layout
+                      - button_animation
+                      - loader
+                  - type: custom:button-card
                     template:
                       - base_spacing_layout
                   - type: custom:button-card
-                    entity: media_player.samsung_the_frame_65
-                    name: Fernseher
-                    show_state: true         
+                    entity: automation.wohnzimmer_turn_off_due_to_presence
+                    name: Autom. Wohnz.
                     tap_action:
                       action: call-service
-                      service: media_player.toggle
+                      service: automation.trigger
                       service_data:
-                        entity_id: media_player.samsung_the_frame_65
-                      haptic: switch
+                        entity_id: automation.wohnzimmer_disable_automation
                     hold_action:
                       action: more-info
                       haptic: switch
@@ -1268,8 +1265,8 @@ views:
                       - circle
                       - loader
                   - type: custom:button-card
-                    entity: light.kueche_kuechenwand
-                    name: Küchenwand
+                    name: Küchendecke
+                    entity: switch.schalter_kuche
                     tap_action:
                       action: toggle
                       haptic: switch
@@ -1286,11 +1283,13 @@ views:
                     template:
                       - base_spacing_layout
                   - type: custom:button-card
-                    name: Küchendecke
-                    entity: switch.schalter_kuche
+                    entity: automation.kuche_turn_off_due_to_presence
+                    name: Autom. Küche
                     tap_action:
-                      action: toggle
-                      haptic: switch
+                      action: call-service
+                      service: automation.trigger
+                      service_data:
+                        entity_id: automation.kuche_disable_automation
                     hold_action:
                       action: more-info
                       haptic: switch
@@ -1300,12 +1299,10 @@ views:
                       - base_switch_layout
                       - button_animation
                       - loader
-                      
               - type: custom:decluttering-card
                 template: template_title
                 variables:
                   - primary: BAD, FLUR
-                           
               - type: horizontal-stack
                 cards:
                   - type: custom:button-card
@@ -1342,17 +1339,6 @@ views:
                       - circle
                       - loader
                   - type: custom:button-card
-                    name: Robi
-                    entity: vacuum.robi
-                    template:
-                      - base
-                      - base_standard_layout
-                      - button_animation
-                      - loader
-                  - type: custom:button-card
-                    template:
-                      - base_spacing_layout
-                  - type: custom:button-card
                     name: Guten Morgen
                     icon: mdi:weather-sunny
                     entity: light.all_light_entities
@@ -1380,6 +1366,26 @@ views:
                       - base
                       - base_standard_layout
                       - button_animation
+                  - type: custom:button-card
+                    template:
+                      - base_spacing_layout
+                  - type: custom:button-card
+                    entity: automation.kammer_turn_off_due_to_presence
+                    name: Autom. Kammer
+                    tap_action:
+                      action: call-service
+                      service: automation.trigger
+                      service_data:
+                        entity_id: automation.kammer_disable_automation
+                    hold_action:
+                      action: more-info
+                      haptic: switch
+                    template:
+                      - base
+                      - base_standard_layout
+                      - base_switch_layout
+                      - button_animation
+                      - loader
   - theme: ios-dark-mode
     title: Stromverbrauch
     path: strom
@@ -1409,7 +1415,6 @@ views:
                 template: template_title
                 variables:
                   - primary: WOHNZIMMER
-                                 
               - type: horizontal-stack
                 cards:
                   - type: custom:decluttering-card
@@ -1441,13 +1446,11 @@ views:
                     variables:
                       - name: Konsolen
                       - entity: switch.steckdose_spielekonsolen
-                      - sensor: sensor.steckdose_spielekonsolen_power                      
-                        
+                      - sensor: sensor.steckdose_spielekonsolen_power
               - type: custom:decluttering-card
                 template: template_title
                 variables:
                   - primary: KÜCHE
-                                     
               - type: horizontal-stack
                 cards:
                   - type: custom:decluttering-card
@@ -1483,14 +1486,10 @@ views:
                       - name: Waschmaschine
                       - entity: switch.steckdose_waschmaschine
                       - sensor: sensor.steckdose_waschmaschine_power
-
-
-                        
               - type: custom:decluttering-card
                 template: template_title
                 variables:
                   - primary: BAD, FLUR
-                        
               - type: horizontal-stack
                 cards:
                   - type: custom:decluttering-card
@@ -1498,10 +1497,13 @@ views:
                     variables:
                       - name: Badezimmerdecke
                       - entity: switch.schalter_badezimmerdecke
-                      - sensor: sensor.schalter_badezimmerdecke_power     
-                  - type: custom:button-card
-                    template:
-                      - base_empty_layout
+                      - sensor: sensor.schalter_badezimmerdecke_power
+                  - type: custom:decluttering-card
+                    template: template_power
+                    variables:
+                      - name: Kammerlicht
+                      - entity: switch.schalter_kammerlicht
+                      - sensor: sensor.schalter_kammerlicht_power
                   - type: custom:button-card
                     template:
                       - base_empty_layout
@@ -1520,8 +1522,6 @@ views:
                       - name: Server
                       - entity: none
                       - sensor: sensor.steckdose_server_power
-
-                
   - theme: ios-dark-mode
     title: Energie
     path: energie
@@ -1569,7 +1569,6 @@ views:
         template: template_title
         variables:
           - primary: WOHNZIMMER
-
       - type: custom:auto-entities
         card:
           type: grid
@@ -1595,7 +1594,7 @@ views:
                   name: >-
                     ${
                     states['this.entity_id'].attributes.friendly_name.replace('Wohnzimmer
-                    Hue', '') }
+                    ', '') }
                   fill_container: true
                   show_brightness_control: true
                   use_light_color: true
@@ -1899,7 +1898,7 @@ views:
         cards:
           - type: weather-forecast
             entity: weather.forecast_home
-            name: Home
+            name: Schulstrasse
             show_forecast: true
             card_mod:
               style: |
@@ -2014,7 +2013,44 @@ views:
           style: |
             ha-card {
               border-radius: 10px;
-            }     
+            }
+      - type: custom:apexcharts-card
+        apex_config:
+          chart:
+            height: 400px
+          grid:
+            show: true
+            borderColor: '#333333'
+            strokeDashArray: 8
+        graph_span: 7d
+        header:
+          show: true
+          title: 💧 Pflanzenfeuchte
+          standard_format: true
+          show_states: true
+          colorize_states: true
+        all_series_config:
+          fill_raw: last
+          stroke_width: 1
+          show:
+            legend_value: false
+        yaxis:
+          - min: 0
+            max: 50
+            apex_config:
+              decimalsInFloat: 1
+              tickAmount: 4
+              labels:
+                style:
+                  colors:
+                    - '#999999'
+                  fontSize: 14px
+        series:
+          - entity: sensor.papa_bonsai_soil_moisture
+          - entity: sensor.junior_bonsai_soil_moisture
+          - entity: sensor.palme_soil_moisture
+          - entity: sensor.badezimmerpflanze_papa_moisture
+          - entity: sensor.badezimmerpflanze_junior_moisture
 button_card_templates:
   base:
     aspect_ratio: 1/1
